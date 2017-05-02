@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<include file="Public:layout-css" />
+
+<link href="__Home_CSS__/mapLists.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper" style="background-color: #fff">
+
+		<!-- Main Header -->
+		<include file="Public:header" />
+		<!-- Content Wrapper. Contains page content -->
+		<if condition="empty($shop_list)">
+		<div class="content-wrapper">没有内容可以加载...</div>
+		<else />
+		<div class="content-wrapper" id="product-list-box">
+			<volist name="shop_list" id="vo">
+			<div class="box-footer"
+				style="border-bottom: 1px solid #D7D7D7; border-bottom-right-radius: 0; border-bottom-left-radius: 0">
+				<div class="row" style="height: 71px;">
+					<div class="col-xs-3 text-center">
+						<img src="{$vo.merchantimage}" alt="{$vo.merchantshort}"
+							style="width: 70px; height: 70px; border: #666666 1px solid;">
+					</div>
+					<!-- ./col -->
+					<div class="col-xs-9 text-center"
+						style="text-align: left; padding: 0 5px 0 10px;">
+						<h5>
+							<strong>{$vo.merchantshort}</strong>
+						</h5>
+						<a href="tel:{$vo.ophone}" style="color: #000;"><p
+								style="font-size: 0.9em; margin: 0;">
+								<i class="fa fa-phone" style="color: #908E8E;"></i>&nbsp;&nbsp;{$vo.ophone}
+							</p></a>
+						<p style="font-size: 0.9em; margin: 10px 0 0 0;">{$vo.remark}</p>
+					</div>
+
+				</div>
+				<!-- /.row -->
+			</div>
+			</volist>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper --> <if condition="$is_more eq 1"> <!--<div class="box-footer text-center">
+            <a href="javascript:void(0);" id="getMore" class="uppercase">查看更多记录</a>
+        </div>--> </if> </if>
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+	<include file="Public:layout-js" />
+	<script type="text/javascript" src="__Home_JS__/jquery.tmpl.js"></script>
+	<script type="text/html" id="productTemp">
+    <div class="box-footer" style="border-bottom: 1px solid #D7D7D7;border-bottom-right-radius:0;border-bottom-left-radius:0">
+        <div class="row" style="height: 71px;">
+            <div class="col-xs-3 text-center">
+                <img src="{{= $data.merchantimage}}" alt="{{= $data.merchantshort}}"
+                     style="width: 70px;height: 70px; border: #666666 1px solid;">
+            </div>
+            <div class="col-xs-9 text-center"
+                 style="text-align:left;padding:0 5px 0 10px;">
+                <h5><strong>{{= $data.merchantshort}}</strong></h5>
+                <a href="tel:{{= $data.ophone}}" style="color:#000;"><p style="font-size: 0.9em;margin: 0;"><i class="fa fa-phone" style="color: #908E8E;"></i>&nbsp;&nbsp;{{= $data.ophone}}</p></a>
+                <p style="font-size: 0.9em;margin: 10px 0 0 0;">{{= $data.remark}}</p>
+            </div>
+        </div>
+    </div>
+</script>
+	<script type="text/javascript">
+    $(function(){
+        var page = 2;
+        var product_id = '{$product_id}';
+        var doMore = function () {
+            var _this = $("#getMore");
+            _this.off('click');
+            _this.html('加载中...');
+            var url = "{:U('Home/Map/lists2')}";
+            $.post(url, {product_id:product_id,page: page,method:'ajax'}, function (jsonData) {
+                if (jsonData.state) {
+                    $('#productTemp').tmpl(jsonData.list_data).appendTo('#product-list-box');
+                    page++;
+                } else {
+                    checkMore = 0;
+                    //$.cl.alert(jsonData.msg);
+                }
+                $('#getMore').on('click',function(){doMore()});
+                _this.html('查看更多记录');
+            }, 'json')
+        };
+
+
+        //滚动条距底部的距离
+        var BOTTOM_OFFSET = 0;
+        var checkMore = 1;
+        $(window).scroll(function () {
+            var $currentWindow = $(window);
+            //当前窗口的高度
+            var windowHeight = $currentWindow.height();
+            //console.log("current widow height is " + windowHeight);
+            //当前滚动条从上往下滚动的距离
+            var scrollTop = $currentWindow.scrollTop();
+            //console.log("current scrollOffset is " + scrollTop);
+            //当前文档的高度
+            var docHeight = $(document).height();
+            //console.log("current docHeight is " + docHeight);
+
+            //当 滚动条距底部的距离 + 滚动条滚动的距离 >= 文档的高度 - 窗口的高度
+            //换句话说：（滚动条滚动的距离 + 窗口的高度 = 文档的高度）  这个是基本的公式
+            if ((BOTTOM_OFFSET + scrollTop) >= docHeight - windowHeight) {
+                if(checkMore == 1){
+                    doMore();
+                }
+            }
+        });
+
+        //$('#getMore').on('click',function(){doMore()});
+    });
+</script>
+
+</body>
+</html>

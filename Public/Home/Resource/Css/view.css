@@ -1,0 +1,190 @@
+.users-list > li img {
+    border-radius: 9%;
+}
+
+.users-list > li {
+    width: 50%;
+}
+
+.main-header .sidebar-toggle {
+    font-family: inherit;
+}
+
+.main-header .sidebar-toggle:before {
+    content: "";
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    background-color: #ECF0F5;
+}
+
+.navbar-custom-menu .navbar-nav > li > a {
+    padding-top: 9px;
+    padding-bottom: 7px;
+    text-align: center;
+}
+
+#shareSend{
+display:none;z-index: 2999; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; text-align: right; background: rgba(34, 34, 34, 0.901961);
+}
+
+#shareSendTxt{
+    display:inline-block;margin:0 10px;padding:20px 75px 0 0;text-align:left;font:14px/1.8 Microsoft YaHei, SimHei, helvetica, arial, verdana, tahoma, sans-serif;color:#fff;background:url(../Image/share_weixin_guide.png) no-repeat right 5px;-webkit-background-size:126px 90px;-moz-background-size:126px 90px;-o-background-size:126px 90px;background-size:126px 90px;
+}
+
+/**** modal *****/
+.mask{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display: none;
+}
+.mask.active{
+}
+.mask.active .generate-order-wrapper{
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
+}
+.mask #close-wrapper{
+    position: relative;
+    height: 50%;
+    width: 100%;
+}
+.generate-order-wrapper{
+    background:white;
+    height:50%;
+    position:relative;
+    bottom:0;
+    width:100%;
+    display: -webkit-box;
+    display:-webkit-flex;
+    -webkit-flex-direction:column;
+    -webkit-box-orient: vertical;
+    transform: translate3d(0,100%,0);
+    -webkit-transform: translate3d(0,100%,0);
+    -webkit-transition:all 0.5s;
+    transition:all 0.5s ;
+}
+
+.generate-order-wrapper header{
+    height:100px;
+    -webkit-box-flex: 1; 
+    -webkit-flex:1;
+    overflow-x:auto;
+    -webkit-overflow-scrolling : touch;  
+}
+.generate-order-wrapper header>.top{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+.generate-order-wrapper header>.top>img{
+    float:left;
+    margin-right:10px;
+    height:50px;
+}
+.generate-order-wrapper header>.top>h2{
+    margin: 0;
+    padding:5px 0 5px;
+    font-weight:normal;
+    font-size:14px;
+}
+.generate-order-wrapper header>.top>p{
+    margin:0;
+}
+.generate-order-wrapper header>.top>p>big{
+    color:#FF9500;
+}
+.generate-order-wrapper header>.main{
+    margin:0;
+    padding:0 10px;
+    
+}
+.generate-order-wrapper header>.main dl{
+    display: flex;
+    display:-webkit-box;
+    display: -webkit-flex;
+    margin:0;
+    border-bottom:1px solid #f2f2f2;
+    height:50px;
+    min-height: 50px;
+    align-items: center;
+    -webkit-align-items:center;
+    -webkit-box-align: center;
+    
+}
+.generate-order-wrapper header>.main dl:last-child{
+    border-bottom: 0px none;
+}
+.generate-order-wrapper header>.main .num{
+    
+}
+.generate-order-wrapper header>.main .num button{
+    background: #e1e1e1;
+    border:0px none;
+    color:#888;
+    outline:none 0px;
+    padding:8px 14px;
+    -ms-touch-action: none;
+}
+.generate-order-wrapper header>.main .num>.minus,.generate-order-wrapper header>.main .num>.plus{
+    padding:5px 10px;
+}
+.generate-order-wrapper header>.main .num button[disabled]{
+    background: #f4f4f4;
+    color:#aaa;
+}
+.generate-order-wrapper header>.main .num input[type='num']{
+    width:60px;
+    text-align: center;
+    font-size:16px;
+    font-weight:bold;
+    border:0px none;
+    outline:none 0px;
+}
+.generate-order-wrapper header>.main dt{
+    width:130px;
+    font-weight:normal;
+}
+.generate-order-wrapper header>.main dd{
+    flex:1;
+    -webkit-box-flex: 1; 
+    -webkit-flex:1;
+    text-align: right;
+}
+.generate-order-wrapper header>.main small{
+    font-size:10px;
+}
+
+.generate-order-wrapper #close-button{
+    position: absolute;
+    right:0px;
+    top:0px;
+    padding-right:10px;
+    padding-top:10px;
+    border:none 0px;
+    text-align: right;
+    background: none;
+    outline: none 0px;
+    z-index: 3;
+}
+.generate-order-wrapper footer{
+    width:100%;
+    height:60px;
+    text-align: center;
+    border-top:1px solid #eee;
+    padding:10px;
+}
+.generate-order-wrapper footer button{
+    border:0px none;
+    border-radius: 5px;
+    background:#FF9500;
+    width:60%;
+    height:40px;
+    font-size:14px;
+    color:white;
+    padding:0;
+    outline:none 0px;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>乐天邦</title>
+
+
+<style>
+/*html,body{
+		width: 100%;
+		height: 100%;
+	}*/
+.false-warning {
+	position: absolute;
+	width: 70%;
+	height: 50%;
+	text-align: center;
+	left: 15%;
+	bottom: 30%;
+}
+
+.false-top {
+	width: 100%;
+	height: 10%;
+	background: white;
+}
+
+.false-top img {
+	height: 100%;
+	width: auto;
+	float: right;
+}
+
+.false-bottom {
+	width: 100%;
+	height: 80%;
+	background: white;
+}
+
+.false-bottom img {
+	display: block;
+	height: 80%;
+	width: auto;
+	margin: 0 auto;
+}
+
+.false-bottom span {
+	text-align: center;
+	width: 80%;
+	height: 10%;
+	/*color: #E68012;*/
+	font-weight: bolder;
+	font-size: 20px;
+}
+</style>
+
+
+
+</head>
+<body>
+
+
+
+
+</body>
+</html>

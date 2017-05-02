@@ -1,0 +1,745 @@
+<include FILE="Public:header" />
+		<style type="text/css">
+			*{
+				border: 0;
+				padding: 0;
+				margin: 0;
+				-webkit-tap-highlight-color:rgba(255,0,0,0);
+			}
+			body,html{
+				width: 100%;
+				height: auto;
+				/*background-color: white;*/
+				font-size: 10px;
+				color: dimgray;
+				-moz-user-select: initial;
+				-webkit-user-select: inherit;
+				-ms-user-select: inherit;
+				-khtml-user-select: inherit;
+				user-select: inherit;
+				background: none;
+				
+			}
+			a:hover{
+				color: white;
+			}
+			a:visited {
+			    color: white;
+			}
+			a:link {
+			    color: white;
+			}
+			@media only screen and (max-width: 768px) and (min-width: 100px)
+				html, body {
+				    width: auto;
+				    height: auto;
+				}
+			}
+			#main-container{
+				width: 100%;
+				height: auto;
+			}
+			#main-container-box{
+				height: auto;
+			}
+			.container-top{
+				width: 100%;
+				position: relative;
+				/*padding-top: 10px;*/
+				top: 10px;
+			}
+			.mall-logo{
+				width: 76px;
+				height: 76px;
+				box-sizing: border-box;
+				border: 2px solid;
+				overflow: hidden;
+				border-radius: 38px;
+				position: absolute;
+				left: 50%;
+				margin-left: -40px;
+				top: -47px;
+				z-index: 99;
+			}
+			.mall-logo div{
+				width: 72px;
+				height: 72px;
+				box-sizing: border-box;
+				/*border: 2px solid rgb(80,80,80);*/
+				overflow: hidden;
+				border-radius: 36px;
+				/*position: absolute;*/
+			}
+			.mall-logo div img{
+				/*width: 100%;*/
+				width: 72px;
+				height: 72px;
+			}
+			.container-top p{
+				width: 100%;
+				text-align: center;
+				position: absolute;
+				left: 0;
+				top: -40px;
+			}
+			.front-top{
+				width: 100%;
+				height: 50px;
+				/*background-color: #000;*/
+				position: absolute;
+    			top: 0;
+			}
+			/*.front-bottom{
+				width: 100%;
+				height: 25%;
+				background-color: white;
+				position: absolute;
+				bottom: 0;
+			}*/
+			.orderViewInfo{
+				width: 90%;
+				/*height: 72%;*/
+				/*border: 2px solid #e68012;*/
+				/*position: absolute;*/
+				margin-left: 5%;
+				margin-top: 50px;
+				border-radius: 10px;
+				overflow-x: hidden;
+				/*margin-bottom: 20px;*/
+			}
+			.orderViewInfo-box{
+				width: 100%;
+				/*height: 100%;*/
+				box-sizing: border-box;
+				padding: 5%;
+				background-color: white;
+			}
+			.orderViewInfo-li{
+				width: 100%;
+				height: 24px;
+				position: relative;
+				margin-bottom: 6.6%;
+				/*margin: 15px;*/
+			}
+			#lastInfo-li{
+				width: 100%;
+				position: relative;
+				margin-bottom: 6.6%;
+				overflow: hidden;
+			}
+			#lastInfo-li p{
+				width: 36%;
+				height: 24px;
+				background-color: #e68012;
+				border-radius: 5px;
+				position: absolute;
+			}
+			#lastInfo-li p img{
+				height: 100%;
+				padding-left: 5%;
+			}
+			#lastInfo-li p span{
+				color: white;
+				position: absolute;
+				right: 2%;
+				/*letter-spacing:3px;*/
+				line-height: 24px;
+				font-size: 12px;
+			}
+			#lastInfo-li .product-info-name{
+				width: 60%;
+				height: 24px;
+				line-height: 24px;
+				font-size: 12px;
+				float: right;
+				overflow: hidden;
+			}
+			#front-bottom{
+				width: 130%;
+				height: 30px;
+				background-color: #eee;
+				margin-left: -15%;
+				margin-bottom: 15px;
+			}
+			.orderViewInfo-li p{
+				width: 100px;
+				height: 24px;
+				/*background-color: #e68012;*/
+				border-radius: 5px;
+				position: absolute;
+			}
+			.orderViewInfo-li p img{
+				height: 100%;
+				padding-left: 6px;
+			}
+			.orderViewInfo-li p span{
+				/*color: #333;*/
+				position: absolute;
+				left: 35px;
+				/*letter-spacing:3px;*/
+				line-height: 24px;
+				font-size: 1.4rem;
+			}
+			.orderViewInfo-li .product-info-name{
+				width: 60%;
+				height: 24px;
+				line-height: 24px;
+				font-size: 12px;
+				position: absolute;
+				right: 0;
+				overflow: hidden;
+			}
+			.product-info-name img{
+				width: 150px;
+				height: 150px;
+				position: absolute;
+				left: 0;
+			}
+			.orderViewInfo-li .ovi-btn{
+				font-size: 12px;
+			    position: absolute;
+			    right: -2%;
+			    line-height: 24px;
+			    /*background-color: transparent;*/
+			   padding: 0 5px;
+			   border-radius: 5px;
+			}
+			.ovi-empty{
+				width: 100%;
+				height: 80px;
+				text-align: center;
+				margin-top: 20px;
+			}
+			.orderViewInfo-box-productName{
+				width: 100%;
+				font-size: 16px;
+				font-weight: 600;
+				text-align: center;
+				height: 24px;
+				line-height: 24px;
+				margin-top: 30px;
+				margin-bottom: 5%;
+			}
+			.orderViewInfo-li p{
+				background-color: transparent;
+			}
+			#backHome{
+				width: 60px;
+				height: 60px;
+				border: 2px solid #E68012;
+				border-radius: 30px;
+				background-color: #E68012;
+				position: fixed;
+				bottom: 5%;
+				box-sizing: border-box;
+				text-align: center;
+			}
+			#backHome i,#backHome p{
+				color: white;
+			}
+			.receive-introduce-color a {
+				display: block;
+				/*margin-top: 10px;*/
+				/*background: url(__Home_IMG__/zsh2.0/get-things/name-youhuiquan.png) no-repeat;*/
+				background-size: 86px 100%;
+				padding-left: 3px;
+				line-height: 20px;
+				font-size: 12px;
+				background: none;
+				color: black;
+			}
+			.receive-introduce-color a:hover{
+				color: black;
+			}
+			.receive-introduce-color a:visited {
+			    color: white;
+			}
+			.receive-introduce-color a:link {
+			    color: white;
+			}
+		</style>
+	</head>
+	<body id="main-container-box">
+		<div id="main-container">
+			<div class="container-top">
+				<div class="mall-logo">
+					<div>
+						<img src="{$detail['merchantimage']}"/>
+					</div>
+				</div>
+			</div>
+			<div class="orderViewInfo">
+				<div class="orderViewInfo-box">
+					<p class="orderViewInfo-box-productName">{$detail['name']}</p>
+					<!--<div class="orderViewInfo-li">
+						<p>
+							<img src="../../../../../Public/Home/Default/Image/zsh2.0/ovi/ovi1.png"/>
+							<span>商品名称</span>
+						</p>
+						<span class="product-info-name">{$detail['name']}</span>
+					</div>
+					<div class="orderViewInfo-li">
+						<p>
+							<img src="../../../../../Public/Home/Default/Image/zsh2.0/ovi/ovi2.png"/>
+							<span>商品数量</span>
+						</p>
+						<span class="product-info-name">{$detail['quality']}份</span>
+					</div>-->
+					
+					<div class="orderViewInfo-li">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi4-{$templet}.png"/>
+							<span>当前状态:</span>
+						</p>
+						<span class="product-info-name product-info-name-important" style="font-size: 16px;font-weight: bold;color: dimgray;" id="pay_status">{$detail['pay_status_msg']}</span>
+						<!--<div class="orderViewInfo-btnBox" style="width: 100%;">
+							<button style="width: 40%;padding: 5px 0;">继续支付</button>
+							<button style="width: 40%;padding: 5px 0;margin-left: 20%;">取消订单</button>
+						</div>-->
+					</div>
+					<if condition="!empty($detail['specification'])">
+					<div class="orderViewInfo-li">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi10-{$templet}.png"/>
+							<span>商品规格:</span>
+						</p>
+						<volist name="detail.specification" id='vo'>
+					<span class="product-info-name">{$vo}</span>
+					</volist>
+					</div>
+					
+					</if>
+					
+					
+					<if condition = "$detail['pay_price'] gt 0 && $detail['pay_status'] neq 4">
+					<div class="orderViewInfo-li">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi3-{$templet}.png"/>
+							<span>付款金额:</span>
+						</p>
+						<span class="product-info-name product-info-name-important" style="font-size: 22px;font-weight: bold;font-family: "Times New Roman",Georgia,Serif;">￥{$detail['pay_price']}</span>
+					</div>
+					</if>
+					<div class="orderViewInfo-li" >
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi5-{$templet}.png"/>
+							<span>订单时间:</span>
+						</p>
+						<span class="product-info-name">{$detail['createtime']}</span>
+					</div>
+					<div class="orderViewInfo-li" >
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi11-{$templet}.png"/>
+							<span>订单号:</span>
+						</p>
+						<span class="product-info-name">{$detail['ordenum']}</span>
+					</div>
+					
+					<if condition = "!empty($addrInfo)">
+					<div class="orderViewInfo-li" style="height: auto;">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi9-{$templet}.png"/>
+							<span>地址:</span>
+						</p>
+						<div class="product-info-address" style="width: 60%;margin-left: 40%;line-height: 16px;padding-top: 6px;word-wrap:break-word;">
+							{$addrInfo['name']}&nbsp;{$addrInfo['tel']}
+							<br>
+							{$addrInfo['province']}&nbsp;{$addrInfo['city']}&nbsp;
+							{$addrInfo['address']}
+						</div>
+					</div>
+					</if>
+					
+					<if condition="$detail['message']">
+					<div class="orderViewInfo-li" style="height: auto;">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi15-{$templet}.png"/>
+							<span>留言:</span>
+						</p>
+						<div class="product-info-leaveMsg" style="width: 60%;margin-left: 40%;line-height: 16px;padding-top: 5px;word-wrap:break-word;">
+							{$detail['message']}
+						</div>
+					</div>
+					</if>
+					
+					<if condition="$orderStatus['status'] eq 1">
+                         
+                         <!--<div id="front-bottom"></div>-->
+						<if condition="$detail['productcode']">
+						<div class="orderViewInfo-li">
+							<p>
+								<img src="__Home_IMG__/zsh2.0/ovi/ovi6-{$templet}.png"/>
+								<span>商品券码:</span>
+							</p>
+							
+							<span style="position: absolute;left: 40%;display: inline-block;line-height: 24px;" class="copyself product-info-name">
+								<font id="copy1" class="cps" style="display:inline-block;width: 70%;overflow: hidden;white-space:nowrap;">{$detail['productcode']}</font>&nbsp;&nbsp;
+								<font class="copy1" style="font-size: 14px;color: white; position: absolute;right: 0%;height: 20px;line-height: 20px;">复制</font>
+							</span>
+						</div>
+						</if>
+						
+						
+						<if condition = "$detail['qrcode_url']">
+						<div class="orderViewInfo-li" style="height: 170px;">
+							<p>
+								<img src="__Home_IMG__/zsh2.0/ovi/ovi14-{$templet}.png"/>
+								<span>二维码:</span>
+							</p>
+							<div class="product-info-name" style="height: 150px;left: 50%;top: 20px;width: 150px;margin-left: -75px;"><img src="{$detail['qrcode_url']}" alt="" /></div>
+						</div>
+						</if>
+						<if condition="$detail['url']">
+
+						<div class="orderViewInfo-li">
+							<p>
+								<img src="__Home_IMG__/zsh2.0/ovi/ovi7-{$templet}.png"/>
+								<span>详情链接:</span>
+							</p>
+							<span class="product-info-name cps1" style="right: 10%;width: 50%;white-space:nowrap;text-overflow: ellipsis;" id="copy2">{$detail['url']}</span>
+						</div>
+						</if>
+						
+						<!-------------链接提示语-------------->
+						<if condition="$detail['url']">
+						<php>if ($isTaobao) {</php>
+						<div class="orderViewInfo-li orderViewInfo-li-lj orderViewInfo-click" style="margin-top: 30px;">
+							
+							<button class="noWrap copy2" style="width: 72%;position: absolute;left: 14%;text-align: center;font-size: 18px;font-weight: bold;color: white;padding: 5px;">点击复制上方链接</button>
+							
+						</div>
+						<p style="width: 100%;text-align: center;font-size: 12px;color: #949494;">请前往浏览器中打开连接</p>
+						<php>} else {</php>
+
+						<div class="orderViewInfo-li orderViewInfo-click" style="margin-top: 30px;">
+								<a href="{$detail['url']}">
+									<div class="noWrap" style="width: 68%;position: absolute;left: 14%;text-align: center;font-size: 18px;font-weight: bold;color: white;padding: 5px;">立即使用</div>
+								</a>
+							</div>
+						<php>}</php>
+							
+					    
+						</if>
+                         <!-- 二维码 -->
+						
+							<if condition="$detail['qrcode_url']">
+							<div class="orderViewInfo-li" style="margin-top: -5px;margin-bottom: 5px;">
+								
+								<p style="width: 100%;text-align: center;font-size: 12px;color: #949494;line-height: 24px;">长按二维码立即使用</p>
+							</div>
+							</if>
+						
+						<!-------------立即使用-------------->
+					</if>
+					<!-------------二维码提示语-------------->
+					<if condition="$orderStatus['status'] eq 2">
+					<!-------------继续支付-------------->
+					
+						<div class="orderViewInfo-li orderViewInfo-li-jx" style="margin-top: 30px;" id="payContinue">
+							<a href="{$orderStatus['url']}" style="color: white;" class="leftPayTime-a">
+								<div class="noWrap leftPayTime" style="width: 68%;position: absolute;left: 14%;text-align: center;font-size: 18px;font-weight: bold;color: white;padding: 5px;">
+									继续支付<p id="leftPayTime" style="display: inline;padding: 0;margin: 0;width: auto;font-size: 14px;line-height: 27px;">&nbsp;&nbsp;<a href="{$orderStatus['url']}" id="minute_show">0</a><a  href="{$orderStatus['url']}" >:</a><a href="{$orderStatus['url']}"  id="second_show">0</a></p>
+								</div>
+							</a>
+						</div>
+					    <!------------------取消订单---------------->
+						<div class="orderViewInfo-li orderViewInfo-li-qx">
+							<div class="noWrap noWrap-qx" style="width: 68%;position: absolute;left: 14%;text-align: center;font-size: 18px;font-weight: bold;color: white;padding: 5px;">取消订单</div>
+						</div>
+						<div class="orderViewInfo-li orderViewInfo-li-yqx" style="display: none;">
+							<div class="noWrap noWrap-yqx" style="width: 68%;position: absolute;left: 14%;text-align: center;font-size: 18px;font-weight: bold;color: white;padding: 5px;background-color: #ccc;border-color: #ccc;">订单已取消</div>
+						</div>
+					</if>
+					
+					<!------------------取消订单---------------->
+					
+					<if condition="$detail['pay_status'] eq 4">
+					<div class="orderViewInfo-li orderViewInfo-li-yqx" style="display: block;">
+						<div class="noWrap noWrap-yqx" style="width: 68%;position: absolute;left: 14%;text-align: center;font-size: 18px;font-weight: bold;color: white;padding: 5px;background-color: #ccc;border-color: #ccc;">订单已取消</div>
+					</div>
+					</if>
+
+			
+					<!-------------有效期-------------->
+					<if condition='$detail["ifpay"] eq 0'>
+					<div class="orderViewInfo-li">
+						<div style="font-size: 12px;color: #949494;width: 100%;text-align: center;">
+                        <if condition='!empty($detail["rule"])'>
+                        {$detail['rule']}<br>
+					    </if>
+						有效期：{$detail['time']}</div>
+					</div>
+					</if>
+					<div class="cut-off-line" style="width: 120%;height: 20px;position: relative;margin-left: -10%;margin-bottom: 10px;">
+						<hr style="height:1px;border:none;border-top:1px dashed #ccc;position: absolute;top: 9.5px;width: 100%;"/>
+						<p style="width: 20px;height: 20px;border-radius: 10px;position: absolute;left: 0%;top: 0;"></p>
+						<p style="width: 20px;height: 20px;border-radius: 10px;position: absolute;right: 0%;top: 0;"></p>
+					</div>
+					<div class="orderViewInfo-li product-info-open">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi8-{$templet}.png"/>
+							<span>优惠详情:</span>
+						</p>
+						<div class="product-info-name product-info-info" style="right: 0%;width: 40%;">
+							<span style="position: absolute;right: 30px;">
+								<span style="position: absolute;right: 8px;width: 27px;">展开</span>
+								<img src="__Home_IMG__/zsh2.0/ovi/ovi12-{$templet}.png" style="width: 24px;height:24px;position: absolute;right: 0;"/>
+							</span>
+						</div>
+					</div>
+					<div class="orderViewInfo-li product-info-close" style="display: none;">
+						<p>
+							<img src="__Home_IMG__/zsh2.0/ovi/ovi8-{$templet}.png"/>
+							<span>优惠详情:</span>
+						</p>
+						<div class="product-info-name product-info-info" style="right: 0%;width: 40%;">
+							<span style="position: absolute;right: 30px;">
+								<span style="position: absolute;right: 8px;width: 27px;">收起</span>
+								<img src="__Home_IMG__/zsh2.0/ovi/ovi13-{$templet}.png" style="width: 24px;height:24px;position: absolute;right: 0;"/>
+							</span>
+						</div>
+					</div>
+					<div class="orderViewInfo-li orderViewInfo-li-information" style="height: auto;line-height:20px;display: none;color: #949494;font-size: 12px;">
+					    <div class="receive-introduce-color">
+					    	<a>产品介绍</a>
+					    </div>
+					    <div class="receive-introduce-use">
+					    	{$detail['introduction'] }
+					    </div>
+						
+						 <div class="receive-introduce-color">
+					    	<a style="margin-top: 10px;">使用规则</a>
+					    </div>
+					    <div class="receive-introduce-use">
+					    	{$detail['rules'] }
+					    </div>
+					    <if condition="$detail['times']">
+					    <div class="receive-introduce-color">
+					    	<a style="margin-top: 10px;">有效期</a>
+					    </div>
+					    <div class="receive-introduce-use">
+					    	{$detail['times'] }
+					    </div>
+					    </if>
+					</div>
+				</div>
+			</div>
+			<div class="front-top"></div>
+			<if condition="!in_array($_SESSION['PLATFORM_CODE'], array('MSYHC', 'MSYH', 'CMBPAY'))">
+			
+			<div class="ovi-empty">
+			<a href="{$homeUrl}">
+				<i class="fa fa-home" style="color: white;font-size: 50px;"></i>
+				<p style="color: white;font-size: 20px;margin-top: -8px;">首页</p>
+			</a>
+		</div>
+		</if>
+		</div>
+		
+		
+		<!-----------回到首页悬浮------------->
+		<!--<div id="backHome">
+			<a href="###">
+				<i class="fa fa-home" style=";font-size: 40px;"></i>
+				<p style="font-size: 14px;margin-top: -5px;">首页</p>
+			</a>
+		</div>-->
+	<include FILE="Public:footer" />
+	<script src="__Home_JS__/zsh2.0/jquery-1.9.1.min.js"></script>
+	<script src="__Home_JS__/zsh2.0/clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		var timerFadeOut = null;
+		var timerFadeIn = null;
+	    var u = navigator.userAgent;
+		var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+		//android终端
+		var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+		//ios终端
+		//alert('是否是Android：'+isAndroid);
+		//alert('是否是iOS：'+isiOS);
+		
+		$('.fa-home').click(function(){
+			var url  = "{:U('Home/Ajax/fromLuckydraw2LetianbangLog/location/orderhome')}";
+			$.get(url,function(res){
+		    });
+		});
+		$(".product-info-open").on("click",function (){
+			$(".product-info-close").show();
+			$(".product-info-open").hide();
+			$(".orderViewInfo-li-information").animate({opacity:1},200);
+			$(".orderViewInfo-li-information").slideDown(200);
+		});
+		$(".product-info-close").on("click",function (){
+			$(".product-info-close").hide();
+			$(".product-info-open").show();
+			$(".orderViewInfo-li-information").animate({opacity:"0"},200);
+			$(".orderViewInfo-li-information").fadeOut(100);
+			
+		});
+		
+		//倒计时
+		$(function (){
+			var s = "{$leftPayTime}";
+			var pay_status = "{$detail['pay_status']}";
+			if(pay_status != 1){
+
+				return false;
+			}
+			function getTime(s){
+				var m = parseInt(s/60);
+				s %=60;
+			
+				 if (m <= 9 && m>=0) m = '0' + m;
+				 if (s <= 9 && s>=0) s = '0' + s;
+				 if (m <0) m = '00';
+				 if (s <0) s = '00';
+				 
+				var minute = document.querySelector("#minute_show");
+				var second = document.querySelector("#second_show");
+				minute.innerHTML = m;
+				second.innerHTML = s;
+			}
+			getTime(s);
+			var timer = setInterval(function (){
+				s-=1;
+				getTime(s);
+				if (($("#minute_show").html()=="00") && ($("#second_show").html()=="00")){
+					clearInterval(timer);
+					$("#leftPayTime").hide();
+					$(".leftPayTime").css({"background-color":"#ccc","border-color":"#ccc"});
+					$(".leftPayTime-a").attr("href","###");
+					$(".leftPayTime").html("订单失效");
+					$(".orderViewInfo-li-qx").hide();
+			    }
+			},1000);
+			
+			
+			if (($("#minute_show").html()=="00") && ($("#second_show").html()=="00")){
+				clearInterval(timer);
+				$("#leftPayTime").hide();
+				$(".leftPayTime").css({"background-color":"#ccc"});
+				$(".leftPayTime-a").attr("href","javascript:void(0)");
+				$(".leftPayTime").html("订单失效");
+				$(".orderViewInfo-li-qx").hide();
+		    }
+		});
+		
+		
+		
+		//剪切板操作
+	$('.copyself').click(function(){
+		clearTimeout(timerFadeIn);
+		clearTimeout(timerFadeOut);
+		$('.cps').css('background','none')
+		
+		var ts = $(this).children('font:first-child').attr('id');
+		var ls =$(this).children('font:last-child').attr('class');
+		ts = '#'+ts;
+		var clipboard = new Clipboard(ts, {
+	        text: function() {
+	        	$(ts).css('background-color','#eee')
+	            return $(ts).html();
+	        }
+	   });
+		clipboard.on('success', function(e) {
+		    console.log('success');
+		});
+	
+		clipboard.on('error', function(e) {
+		    console.log('error');
+		});
+		ls = '.'+ls;
+		var clipboardT = new Clipboard(ls, {
+	        text: function() {
+	        	$(ts).css('background-color','#eee')
+	            return $(ts).html();
+	        }
+	   });
+		clipboardT.on('success', function(e) {
+		    console.log('success');
+		});
+	
+		clipboardT.on('error', function(e) {
+		    console.log('error');
+		});
+		$('#cpts').fadeIn(200);
+		var timerFadeOut = setTimeout(function (){
+			$('#cpts').fadeOut(200);
+		},1200);
+	});
+	
+	$('.copy2').click(function(){
+		clearTimeout(timerFadeIn);
+		clearTimeout(timerFadeOut);
+		$('.cps1').css('background','#eee');
+		
+		
+		var clipboard = new Clipboard(".copy2", {
+	        text: function() {
+	        	$("#copy2").css('background-color','#eee')
+	            return $("#copy2").text();
+	        }
+	   });
+		clipboard.on('success', function(e) {
+		    console.log('success');
+		});
+	
+		clipboard.on('error', function(e) {
+		    console.log('error');
+		});
+		
+		$('#cpts').fadeIn(200);
+		var timerFadeIn = setTimeout(function (){
+			$('#cpts').fadeOut(200);
+		},1200);
+		
+	});
+	$(".noWrap-qx").click(function (){
+		$('#alertTips-box').show();
+	});
+	//var isSure = false;
+	$('.alertSure').click(function (){
+		$('#alertTips-box').hide();
+		//取消订单
+		$.ajax({
+
+			url : "{:U('Home/Order/orderCancel')}",
+			data : {orderid : "{$_GET['id']}"},
+			success:function(data){
+
+				if(data.status == 1){
+
+					showMsg("订单已取消");
+					//isSure = true;
+					//if (isSure){
+					$('.orderViewInfo-li-qx').hide();
+					$('.orderViewInfo-li-yqx').show();
+					$("#pay_status").html('订单已取消')
+					$('#payContinue').hide()
+					//}
+				} else {
+
+                   showMsg(data.msg)
+				}
+
+				
+			}
+		})
+		
+	});
+	
+	$('.alertCancel').click(function (){
+		$('#alertTips-box').hide();
+		//isSure = false;
+	});
+	
+	$('.orderViewInfo-click').click(function (){
+		var buttonTitle = $(this).find(".noWrap").html();
+		var product_id ="{$detail['productid']}";
+		var url  = "{:U('Home/Ajax/logOrderControllerButtonClick')}";
+		$.get(url,{buttontitle:buttonTitle, productid:product_id}, function(res){
+		});
+	});
+	</script>
+</html>

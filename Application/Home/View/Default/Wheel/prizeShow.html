@@ -1,0 +1,279 @@
+
+<include FILE="Public:header" />
+<link href="__Home_Bootstrap__/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css">
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+html, body {
+	height: inherit;
+	width: 100%;
+	background: none;
+}
+
+body {
+	-moz-user-select: none; /*火狐*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none;
+	background: url('__Home_IMG__/zsh2.0/get-prize/bg.png') no-repeat;
+	background-size: cover;
+}
+/*.bg-img{
+			    position: fixed;
+			    top: 0%;
+			    left: 0%;
+			    height: 100%;
+			    width: 100%;
+			    z-index: -1;
+			}*/
+.header {
+	width: 75%;
+	margin: auto;
+}
+
+.header img {
+	width: 100%;
+}
+
+.prize-detail {
+	width: 90%;
+	text-align: center;
+	margin: auto;
+	padding-bottom: 2%;
+	background: url("__Home_IMG__/zsh2.0/get-prize/border.png") no-repeat;
+	background-size: cover;
+}
+
+.detail-top {
+	color: #9D399B;
+	font-weight: bold;
+	padding-top: 5%;
+	font-size: 1.2rem;
+}
+
+.title-name {
+	display: inline;
+}
+
+.detail-img {
+	padding-top: 5%;
+	width: 100%;
+}
+
+.detail-img img {
+	width: 85%;
+}
+
+.detail-bottom {
+	width: 100%;
+	padding-top: 2%;
+	margin-bottom: 3%;
+}
+
+.m-left {
+	float: left;
+	width: 35px;
+	height: 35px;
+	color: #9D399B;
+	/*padding-top: 1%;*/
+	margin-left: 8%;
+	font-weight: bold;
+	font-size: 0.8rem;
+}
+
+.g-right {
+	float: right;
+	margin-right: 8%;
+	width: 35px;
+	height: 40px;
+	font-size: 0.9rem;
+	line-height: 21px;
+	font-weight: bolder;
+	color: white;
+	background-color: #EF5C7D;
+}
+
+.p-num {
+	display: inline-block;
+	width: 50%;
+	height: 30px;
+	margin-left: -5%;
+	padding-top: 1.5%;
+	background-size: cover;
+}
+
+.p-input {
+	width: 100%;
+	height: 100%;
+	padding-left: 5%;
+	border: none;
+	/*background: transparent;*/
+	background: url(__Home_IMG__/zsh2.0/get-prize/btn-input.png) no-repeat;
+	background-size: 100% 99%;
+}
+
+.description {
+	width: 80%;
+	margin: auto;
+	color: white;
+	margin-top: 5%;
+	margin-left: 12%;
+	font-size: 0.9rem;
+	padding-bottom: 2%;
+}
+
+.description h3 {
+	margin-left: -9%;
+	color: #9D399B;
+}
+
+.description ol {
+	margin-left: -9%;
+	margin-right: -6%;
+}
+
+.btn-left {
+	float: left;
+	margin-top: -4%;
+	margin-left: 2%;
+}
+
+.btn-right {
+	float: right;
+	margin-top: -1%;
+	margin-right: 2%;
+}
+
+.reality-bg {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 10;
+}
+
+.reality {
+	position: fixed;
+	top: 15%;
+	left: 13%;
+	width: 74%;
+	background: white;
+	border-radius: 5px;
+}
+
+.reality h3 {
+	text-align: center;
+	color: #EC4242;
+	margin-top: 7%;
+	margin-bottom: 4%;
+}
+
+.reality p {
+	text-indent: 2em;
+	width: 85%;
+	font-size: 0.8rem;
+	text-align: left;
+	/* padding: 22px; */
+	margin-left: 7%;
+	margin-top: 1%;
+	color: gray;
+	margin-bottom: 3%;
+}
+
+.m-tips {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 10;
+}
+
+.m-tips img {
+	display: block;
+	width: 60%;
+	margin: auto;
+	margin-top: 50%;
+}
+</style>
+</head>
+<body>
+	<!--<img class="bg-img" src="__Home_IMG__/zsh2.0/get-prize/bg.png">-->
+	<div class="header">
+		<img src="__Home_IMG__/zsh2.0/get-prize/title.png">
+	</div>
+	<div class="prize-detail" data-product_id="{$info.id}">
+		<div class="detail-top">
+			<p>您的奖品是</p>
+			<p class="title-name">
+				<img class="btn-left"
+					src='__Home_IMG__/zsh2.0/get-prize/btn-left.png'>
+				{$info.name} <img class="btn-right"
+					src='__Home_IMG__/zsh2.0/get-prize/btn-right.png'>
+			</p>
+		</div>
+		<div class="detail-img">
+			<img src="{$info.detail_picture}">
+		</div>
+		<div class="detail-bottom"></div>
+	</div>
+	<div class="description">
+		<h3>使用规则</h3>
+		<ol>{$info.rules}
+		</ol>
+	</div>
+	<!--免责声明-->
+	<div class="reality-bg">
+		<div class="reality">
+			<h3>免责声明</h3>
+			<p>本活动平台由乐天邦提供，特此声明并保证:</p>
+			<p>平台所提供商品、赠品及其广告、商品、赠品之包装，均无违反《消费者权益保护法》及其它相关法律法规。</p>
+			<p>客户所输入的个人资料如手机号码完全基于客户自愿的条件下，仅用于抽奖及领取优惠券、优惠商户核销，除此以外不对客户数据进行任何形式的第三方收集及传输、不用于其他商业用途。</p>
+			<p>客户如对活动奖品、服务有疑问，可联系乐天邦客服热线：021-62457922。</p>
+		</div>
+	</div>
+	<div class="m-tips">
+		<img src="__Home_IMG__/zsh2.0/get-prize/success.png" />
+	</div>
+</body>
+<script src="__Home_JS__/zsh2.0/jquery-1.9.1.min.js"
+	type="text/javascript"></script>
+<script>
+	wx.ready(function () {
+	wx.hideMenuItems({
+	    menuList: [
+		'menuItem:share:appMessage',
+		'menuItem:share:timeline',
+		'menuItem:share:qq',
+		'menuItem:share:weiboApp',
+		'menuItem:favorite',
+		'menuItem:share:facebook',
+		'menuItem:share:QZone',
+		'menuItem:copyUrl',
+		'menuItem:originPage',
+		'menuItem:openWithQQBrowser',
+		'menuItem:openWithSafari',
+		'menuItem:share:email',
+		] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+	});
+	})
+	function do_url(url) {
+		if (url) {
+				location.href=url;
+		} else {
+				location.reload();
+		}
+	}
+
+	</script>
+<include FILE="Public:footer" />

@@ -1,0 +1,589 @@
+<?php
+namespace Home\Model;
+
+use Think\Model;
+
+class PlatformProductModel extends Model
+{
+
+    private $redis;
+    private $province, $city;
+
+    public function __construct()
+    {
+        if (online_redis_server)
+            $this->redis = new \Vendor\Redis\DefaultRedis();
+        parent::__construct();
+        $this->tablePrefix = C('DB_PREFIX');
+        
+    }
+
+    public function get_user_district($user_ip)
+    {        
+        $this->redis->databaseSelect('Ip');
+         if ($this->redis->existsRedis("Ip:" . $user_ip)) {
+             $res = $this->redis->hget("Ip:" . $user_ip);
+             $special_map_arr = ['闽' => '福建'];
+             foreach ($special_map_arr as $k => $v) {
+                 //特殊替换
+                 if ($k == $res['province']) $res['province'] = $v;
+             }
+         } else {
+            //设置file_get_contents 超时时间
+            $opts = array(
+                'http' => array(
+                    'method' => "GET",
+                    'timeout' => 3,
+                )
+            );
+            //从百度ip获取
+            $res_baidu = json_decode(file_get_contents("https://api.map.baidu.com/location/ip?ip=" . $user_ip . "&ak=E9FAeIguIYQe6M0NcYxEUpMb", false, stream_context_create($opts)), true);
+            if (!($res_baidu['content']['address_detail']['province'] && $res_baidu['content']['address_detail']['city'])) {
+                $res = array('province' => '', 'city' => '');
+            } else {
+                $res['province'] = $res_baidu['content']['address_detail']['province'];
+                $res['city'] = $res_baidu['content']['address_detail']['city'];
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * @Description:地址筛选产品列表
+     * @User:jysdhr
+     * @param $product_list 待筛选产品
+     * @return mixed
+     */
+    public function sift_product_list_by_location($product_list){
+        if (online_redis_server) {
+            $user_ip = get_client_ip(0, true);
+            $res = $this->get_user_district($user_ip);
+            $this->province = $res['province'];
+            $this->city = $res['city'];
+        }
+        //筛选product_list
+        foreach ($product_list as $key => $val) {
+            //如果geo_location 为空，直接跳出循环
+            if (empty($val['geo_location'])) continue;
+            $district_arr = explode(',', $val['geo_location']);
+            //每次如果验证不通过，就记录一次。
+            $i = 0;
+            foreach ($district_arr as $k => $v) {
+                if (FALSE === strpos($v, '/')) {
+                    //只有省限制
+                    if (FALSE !== mb_strpos($v, $this->province) || FALSE !== mb_strpos($this->province, $v)) {
+                        continue;
+                    }
+                } else {
+                    //有省市限制
+                    $tem_arr = explode('/', $v);//[0]省 [1] 市
+                    if (FALSE !== mb_strpos($tem_arr[0], $this->province) || FALSE !== mb_strpos($this->province, $tem_arr[0])) {
+                        //市限制
+                        if (FALSE !== mb_strpos($tem_arr[1], $this->city) || FALSE !== mb_strpos($this->city, $tem_arr[1])) {
+                            continue;
+                        }
+                    }
+                }
+                $i ++;
+            }
+            //比对删除
+            if (count($district_arr) == $i) unset($product_list[$key]);
+        }
+        return $product_list;
+    }
+    public function getProductList($type = 1, $start = 0, $num = 10000, $key = "", $category_id = "", $order_by = "", $select_type = 1)
+    {
+        $platform_id = intval($_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $tablePrefix = C('DB_PREFIX');
+        switch ($order_by) {
+            case 'priceinc':
+                $order = " price_value ASC";
+                break;
+            case 'pricedesc':
+                $order = " price_value DESC";
+                break;
+            case 'saleinc':
+                $order = $tablePrefix . "product.saleallquantity  ASC";
+                break;
+            case 'saledesc':
+                $order = $tablePrefix . "product.saleallquantity  DESC";
+                break;
+            case 'dateinc':
+                $order = $tablePrefix . "product.start ASC";
+                break;
+            case 'datedesc':
+                $order = $tablePrefix . "product.start DESC";
+                break;
+            // case 'popularityinc':
+            //     $order = $tablePrefix . "product.pointallnum ASC";
+            //     break;
+            // case 'popularitydesc':
+            //     $order = $tablePrefix . "product.pointallnum ASC";
+            //     break;
+            default:
+                $order = $tablePrefix . "platform_product.sort desc" ;
+                break;
+        }
+        if(!empty($key)){
+            switch ($select_type) {
+                case '1':
+                    $where .= " and " . $tablePrefix . "product.name like '%" . $key . "%' "; 
+                    break;
+                case '2':
+                    $where .= " and " . $tablePrefix . "product.description like '%" . $key . "%'  "; 
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+            
+            
+        }
+        if(!empty($category_id)){
+           $where .= " and " . $tablePrefix . "product.category_id =" . $category_id;
+        }
+        $where = $tablePrefix . 'platform_product.type = ' . $type . ' and ' . $tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id;
+        $product_list = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+            ->field($tablePrefix . 'product.*,' . $tablePrefix . 'platform_product.type,' . $tablePrefix . 'platform_product.salequantity, (' . $tablePrefix . 'product.price + ' . $tablePrefix . 'product.coupon_value ) as price_value')
+            ->where($where)
+            ->order($order)
+            ->limit($start, $num)
+            ->cache(true, 60)
+            ->select(); // 只做商品的展示，实际下单或者下载时会验证商品是否售完。
+        return $this->sift_product_list_by_location($product_list);
+    }
+
+    public function getPostProduct($start = 0, $num)
+    {
+        $platform_id = intval($_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $tablePrefix = C('DB_PREFIX');
+        $product_list = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+            ->field($tablePrefix . 'product.*,' . $tablePrefix . 'platform_product.type,' . $tablePrefix . 'platform_product.salequantity')
+            ->where($tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id)
+            ->limit($start, $num)
+            ->cache(true, 15)
+            ->select();
+        return $product_list;
+    }
+
+    public function searchProductLists($keywords, $type = '', $start, $num)
+    {
+        $platform_id = intval($_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $tablePrefix = C('DB_PREFIX');
+        $where = $tablePrefix . "product.name like '%" . $keywords . "%'";
+        if (!empty($type)) {
+            $where .= "and type=" . $type;
+        }
+        $product_list = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+            ->field($tablePrefix . 'product.*,' . $tablePrefix . 'platform_product.type,' . $tablePrefix . 'platform_product.salequantity')
+            ->where($tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id . ' and ' . $where)
+            ->limit($start, $num)
+            ->select();
+        return $product_list;
+    }
+
+    public function getProductInfo($id)
+    {
+
+        $tablePrefix = C('DB_PREFIX');
+        $platform_id = $_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id'];
+
+        //强制做转换， 以避免2017-01-09 01:38:31 出现的一个奇怪的查询语句：
+        //SELECT tb_product.*,tb_platform_product.type,tb_platform_product.salequantity FROM `tb_platform_product` INNER JOIN tb_product on tb_platform_product.product_id=tb_product.id WHERE ( tb_product.id = 227) AND SLEEP(5) AND (1206=1206 and tb_platform_product.platform_id =12 ) LIMIT 1
+        $id = intval($id);
+        $platform_id = intval($platform_id);
+
+        $where = $tablePrefix . 'product.id = ' . $id . ' and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id;
+        $product_list = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+            ->field($tablePrefix . 'product.*,' . $tablePrefix . 'platform_product.type,' . $tablePrefix . 'platform_product.salequantity')
+            ->where($where)
+            ->find();
+        return $product_list;
+    }
+
+    /*
+     * 是否有可领取券码
+     * $realtime = true, 表示必须实时查询数据库，用在支付。其他情况下，可以设缓存
+     * @return 0下架，1正常，-1售完，-2过期
+     */
+    public function checkProductExist($product_id, $realtime = FALSE, $platform_id = 0)
+    {
+        if ($platform_id == 0) {
+
+            $platform_id = $_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id'];
+        }
+        $platform_id = intval($platform_id);
+        $product_id = intval($product_id);
+        //获取当前平台的性质(抽奖平台在platform_product表中限制数量)
+        //（了天榜平台在product表中限制数量）
+        $platform_kind = getPlatformConfig();
+        //$sql = sprintf("select c.APP_MODE from tb_platform as m left join tb_platform_config as c on m.code = c.PLATFORM_CODE where m.id = %d limit 1",$platform_id);
+        //$platform_kind = M()->query($sql);
+        if ($platform_kind['APP_MODE'] == 2 || 5 == $platform_kind['APP_MODE']){
+            $search_table = 'platform_product';
+            $search_field = 'salequantity';
+        } else{
+            $search_table = 'product';
+            $search_field = 'saleallquantity';
+        }
+
+        if ($product_id && $platform_id) {
+            $tablePrefix = C('DB_PREFIX');
+            if ($realtime == TRUE) {
+                $product_info = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+                    ->field($tablePrefix . 'product.start,' . $tablePrefix . 'product.end,' . $tablePrefix . 'product.verification,' . $tablePrefix .$search_table .'.total,' . $tablePrefix .$search_table .'.'.$search_field .',' . $tablePrefix . 'platform_product.onlinetime,' . $tablePrefix . 'platform_product.offlinetime')
+                    ->where($tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id . ' and ' . $tablePrefix . 'platform_product.product_id=' . $product_id)
+                    ->find();
+            } else {
+                $product_info = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+                    ->field($tablePrefix . 'product.start,' . $tablePrefix . 'product.end,' . $tablePrefix . 'product.verification,' . $tablePrefix . $search_table . '.total,' . $tablePrefix . $search_table. '.'.$search_field .','. $tablePrefix . 'platform_product.onlinetime,' . $tablePrefix . 'platform_product.offlinetime')
+                    ->where($tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id . ' and ' . $tablePrefix . 'platform_product.product_id=' . $product_id)
+                    ->limit(1)
+                    ->cache(true, 60)
+                    ->find(); // 1分钟的缓存，仅用于首页显示。在用户下单购买或者下载优惠券时，不能使用缓存。
+            }
+            // 未找到商品
+            if (empty($product_info)) {
+                return 0;
+            }
+
+            // 检查商品是否在上架期内
+            $online_time = strtotime($product_info['onlinetime']);
+            $offline_time = strtotime($product_info['offlinetime']);
+            if ($online_time > time() || $offline_time < time()) {
+                return 0;
+            }
+
+//             检查商品是否已经售完(检测当卡平台奖品是否发完)
+            $can_sale = $product_info['total'] - $product_info[$search_field];
+            if ($can_sale <= 0) {
+                return -1;
+            }
+
+            // 检查商品的券码是否售完
+            if ($product_info['verification'] == 1) {
+                $ProductCodeModel = D('ProductCode');
+                if ($realtime == TRUE) {
+                    $code_info = $ProductCodeModel->where(array(
+                        'productid' => $product_id,
+                        'status' => 0
+                    ))->find();
+                } else {
+                    $code_info = $ProductCodeModel->where(array(
+                        'productid' => $product_id,
+                        'status' => 0
+                    ))
+                        ->limit(1)
+                        ->cache(true, 60)
+                        ->find();
+                }
+                if (empty($code_info)) {
+                    return -1;
+                }
+            }
+
+            // 检查商品是否在有效期内
+            $start_time = strtotime($product_info['start']);
+            $end_time = strtotime($product_info['end']);
+            if ($start_time > time() || $end_time < time()) {
+                return -2;
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /*
+     * 是否有可领取券码
+     * $realtime = true, 表示必须实时查询数据库，用在支付。其他情况下，可以设缓存
+     * @return 0下架，1正常，-1售完，-2过期
+     */
+    public function checkProductExistNew($product_id, $realtime = FALSE, $quantity = 0)
+    {
+        $platform_id = intval($_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $product_id = intval($product_id);
+
+        //获取当前平台的性质(抽奖平台在platform_product表中限制数量)
+        //（了天榜平台在product表中限制数量）
+        $platform_kind = getPlatformConfig();
+        if ($platform_kind['APP_MODE'] == 2 || 5 == $platform_kind['APP_MODE']){
+            $search_table = 'platform_product';
+            $search_field = 'salequantity';
+        } else{
+            $search_table = 'product';
+            $search_field = 'saleallquantity';
+        }
+
+        if ($product_id && $platform_id) {
+            $tablePrefix = C('DB_PREFIX');
+            if ($realtime == TRUE) {
+                $product_info = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+                    ->field($tablePrefix . 'product.start,' . $tablePrefix . 'product.end,' . $tablePrefix . 'product.verification,' . $tablePrefix . $search_table.'.total,' . $tablePrefix .$search_table. '.'.$search_field.',' . $tablePrefix . 'platform_product.onlinetime,' . $tablePrefix . 'platform_product.offlinetime')
+                    ->where($tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id . ' and ' . $tablePrefix . 'platform_product.product_id=' . $product_id)
+                    ->find();
+            } else {
+                $product_info = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+                    ->field($tablePrefix . 'product.start,' . $tablePrefix . 'product.end,' . $tablePrefix . 'product.verification,' . $tablePrefix . $search_table. '.total,' . $tablePrefix .$search_table. '.'.$search_field.',' . $tablePrefix . 'platform_product.onlinetime,' . $tablePrefix . 'platform_product.offlinetime')
+                    ->where($tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id . ' and ' . $tablePrefix . 'platform_product.product_id=' . $product_id)
+                    ->limit(1)
+                    ->cache(true, 60)
+                    ->find(); // 1分钟的缓存，仅用于首页显示。在用户下单购买或者下载优惠券时，不能使用缓存。
+            }
+            // 未找到商品
+            if (empty($product_info)) {
+                return array(
+                    'state' => 0
+                );
+            }
+
+            // 检查商品是否在上架期内
+            $online_time = strtotime($product_info['onlinetime']);
+            $offline_time = strtotime($product_info['offlinetime']);
+            if ($online_time > time() || $offline_time < time()) {
+                return array(
+                    'state' => 0
+                );
+            }
+
+            // 检查商品是否已经售完
+            $can_sale = $product_info['total'] - $product_info['saleallquantity'];
+
+            if (online_redis_server) {
+
+                $this->redis->databaseSelect('order');
+                $waitPayList = $this->redis->keys('waitPayPtid' . $platform_id . 'Productid' . $product_id . '*'); // 获取被锁定的列表
+                if (!empty($waitPayList)) {
+
+                    foreach ($waitPayList as $key => $val) {
+
+                        $can_sale -= $this->redis->get($val);
+                    }
+                }
+            }
+            if ($can_sale <= 0) {
+                return array(
+                    'state' => -1
+                );
+            }
+
+            if ($quantity - $can_sale > 0) {
+
+                return array(
+                    'state' => 2,
+                    'quantity' => $can_sale
+                ); // quantity 还能购买份数
+            }
+            // 检查商品的券码是否售完
+            if ($product_info['verification'] == 1) {
+                $ProductCodeModel = D('ProductCode');
+                if ($realtime == TRUE) {
+                    $code_info = $ProductCodeModel->where(array(
+                        'productid' => $product_id,
+                        'status' => 0
+                    ))->find();
+                } else {
+                    $code_info = $ProductCodeModel->where(array(
+                        'productid' => $product_id,
+                        'status' => 0
+                    ))
+                        ->limit(1)
+                        ->cache(true, 60)
+                        ->find();
+                }
+                if (empty($code_info)) {
+                    return array(
+                        'state' => -1
+                    );
+                }
+            }
+
+            // 检查商品是否在有效期内
+            $start_time = strtotime($product_info['start']);
+            $end_time = strtotime($product_info['end']);
+            if ($start_time > time() || $end_time < time()) {
+                return array(
+                    'state' => -2
+                );
+            }
+            return array(
+                'state' => 1
+            );
+        } else {
+            return array(
+                'state' => 0
+            );
+        }
+    }
+
+    /**
+     * [removal 生成抽奖列表]
+     * @ckhero
+     * @DateTime 2016-06-15
+     *
+     * @return [type] [description]
+     */
+    public function getLotteryList($type, $cityid = 0)
+    {
+        $platform_id = intval($_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $tablePrefix = C('DB_PREFIX');
+        if ($cityid != 0) {
+            $where = $tablePrefix . 'platform_product.type = ' . $type . ' and ' . $tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id . ' and (' . $tablePrefix . 'product.cityid =' . $cityid . ' or ' . $tablePrefix . 'product.cityid = 0)';
+        } else {
+            $where = $tablePrefix . 'platform_product.type = ' . $type . ' and ' . $tablePrefix . 'product.status=1 and ' . $tablePrefix . 'platform_product.status=1 and ' . $tablePrefix . 'platform_product.platform_id =' . $platform_id;
+        }
+        $product_list = $this->join($tablePrefix . 'product on ' . $tablePrefix . 'platform_product.product_id=' . $tablePrefix . 'product.id')
+            ->field($tablePrefix . 'product.*,' . $tablePrefix . 'platform_product.type,' . $tablePrefix . 'platform_product.salequantity,' . $tablePrefix . 'platform_product.id as pid,' . $tablePrefix . 'platform_product.onlinetime,' . $tablePrefix . 'platform_product.offlinetime,' . $tablePrefix . 'platform_product.total as num,' . $tablePrefix . 'platform_product.salequantity as donum ,' . $tablePrefix . 'platform_product.percent as originalPercent')
+            ->where($where)
+            ->order($tablePrefix . 'platform_product.sort desc')
+            ->select();
+        foreach ($product_list as $key => $val) {
+
+            $res[$val['id']][$key] = $val;
+        }
+        $lottery_list = array();
+        foreach ($res as $key => $val) {
+
+            if (count($val) > 1) { // 同一个prouct 有多个platform_product
+
+                foreach ($val as $k => $v) {
+
+                    $date = day($v['onlinetime'], $v['offlinetime'], 1);
+                    if ($date == 1 && strtotime($v['offlinetime']) > time() && strtotime($v['onlinetime']) < time()) { // 避免一日活动不在活动时间内就上线了
+
+                        $mark = $k + 1;
+                    }
+                }
+
+                if ($mark > 0) { // 有一天的活动
+
+                    $lottery_list[$mark - 1] = $val[$mark - 1];
+                } else { // 没有合适一日活动的时候所有活动都在列表里，由后面的程序控制不在活动期间内的活动不上线
+
+                    foreach ($val as $k => $v) {
+
+                        $lottery_list[$k] = $v;
+                    }
+                }
+            } else {
+
+                foreach ($val as $k => $v) {
+
+                    $lottery_list[$k] = $val[$k];
+                }
+            }
+        }
+        ksort($lottery_list);
+        return $lottery_list;
+    }
+
+    /**
+     * [checkLotteryExist 检查商品是否可被抽取]
+     * @ckhero
+     * @DateTime 2016-06-13
+     *
+     * @param [type] $lottery_id
+     *            [抽奖id]
+     * @return [type] [1正常 2活动还没开始 3活动结束 4 活动暂停 5商品数量超过]
+     */
+    public function checkLotteryExist($lottery_id)
+    {
+        $info = $this->where(array(
+            'id' => $lottery_id
+        ))->find();
+        $time = date('Y-m-d H:i:s');
+        if ($info['onlinetime'] > $time) {
+
+            return 2;
+        }
+        if ($info['offlinetime'] < $time) {
+
+            return 3;
+        }
+
+        if ($info['status'] != '1') {
+
+            return 4;
+        }
+
+        if (($info['salequantity'] + 1) > $info['total']) {
+
+            return 5;
+        }
+        return 1;
+    }
+
+    /**
+     * create by gk
+     * [productInfoOrderByPopularInc 优惠券信息按照收藏数升序排序]
+     * @param  [array] $product_info [优惠券信息]
+     * @return [array]               [排序好的优惠券信息]
+     */
+    public function productInfoOrderByPopularInc($product_info){
+        $arr_length = count($product_info);
+        for ($i=0; $i < $arr_length-1; $i++) { 
+            for ($k=0; $k < $arr_length-1-$i; $k++) { 
+                $tmp = $product_info[$k+1];
+                if($product_info[$k]['point'] > $product_info[$k+1]['point']){
+                    $product_info[$k+1] = $product_info[$k];
+                    $product_info[$k] = $tmp;
+                }  
+            }
+            
+            
+        }
+        return $product_info;
+    }
+
+
+    /**
+     * create by gk
+     * [productInfoOrderByPopularDesc 优惠券信息按照收藏数降序排序]
+     * @param  [array] $product_info [优惠券信息]
+     * @return [array]               [排序好的优惠券信息]
+     */
+    
+    public function productInfoOrderByPopularDesc($product_info){
+        $arr_length = count($product_info);
+        for ($i=0; $i < $arr_length-1; $i++) { 
+            for ($k=$arr_length-1; $k > $i; $k--) { 
+                $tmp = $product_info[$k-1];
+                if($product_info[$k]['point'] > $product_info[$k-1]['point']){
+                    $product_info[$k-1] = $product_info[$k];
+                    $product_info[$k] = $tmp;
+                }  
+            }
+            
+            
+        }
+        return $product_info;
+    }
+
+    /**
+     * [getProductAllSaleQuantity 获取所有的销售数量]
+     * @return [type] [description]
+     */
+    public function getProductAllSaleQuantity(){
+        $where = "status = 1";
+        $product_info = $this->table($this->tablePrefix . "product")
+                    ->field($this->tablePrefix . 'product.id, ' . $this->tablePrefix . 'product.saleallquantity')
+                    ->where($where)
+                    ->select(); 
+        return $product_info;          
+    }
+    
+    /**
+     * [getproductPointByUserProduct 获取该平台所有产品id]
+     * @return [type] [description]
+     */
+    public function getproductcollectByUserProduct(){
+        $platform_id = intval($_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $where = $this->tablePrefix . 'platform_product.type = 1 and ' . $this->tablePrefix . 'product.status=1 and ' . $this->tablePrefix . 'platform_product.status=1 and ' . $this->tablePrefix . 'platform_product.platform_id =' . $platform_id;
+        $product_list = $this->join($this->tablePrefix . 'product on ' . $this->tablePrefix . 'platform_product.product_id=' . $this->tablePrefix . 'product.id')
+            ->field($this->tablePrefix . 'product.id')
+            ->where($where)
+            ->select(); 
+        return $product_list;
+    }
+}

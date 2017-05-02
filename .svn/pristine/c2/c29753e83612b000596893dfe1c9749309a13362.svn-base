@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+<include file="Public:layout-css" />
+<link href="__Home_CSS__/order.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper" style="background-color: #fff">
+
+		<!-- Main Header -->
+		<include file="Public:header" />
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<section class="box-header with-border"
+				style="border-bottom: 1px solid #d2d6de; padding-bottom: 5px;">
+				<h3 class="box-title" style="display: block;">订单记录</h3>
+			</section>
+
+			<section class="content" style="padding: 6px;">
+				<!-- PRODUCT LIST -->
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">优惠券</h3>
+
+						<div class="box-tools pull-right"></div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<ul class="products-list product-list-in-box"
+							id="product-list-box">
+							<volist name="product_list" id="vo"> <if
+								condition="($vo['product_exist'] eq 0) OR ($vo['product_exist'] eq -2)">
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0; position: relative;">
+									<img src="__Home_IMG__/active_end.png" alt="已结束"
+										style="width: 192px; position: absolute; top: 0; left: 0; z-index: 100;">
+									<img style="width: 192px;" src="{$vo.home_picture}"
+										alt="{$vo.name}">
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="javascript:void(0);" class="product-title">{$vo.name}</a>
+									<if condition="!empty($vo['productcode'])"> <span
+										style="display: block; white-space: normal;"
+										class="product-description">券码&nbsp;&nbsp;{$vo.productcode}</span>
+									<else /> <span style="display: block; white-space: normal;"
+										class="product-description">{$vo.remark}</span> </if>
+									<span class="product-description"> <i
+										class="fa fa-clock-o"></i>{$vo.createtime}
+									</span> <span class="product-description">
+										有效期&nbsp;&nbsp;{$vo['start_str']}至{$vo['end_str']} </span>
+								</div>
+							</li>
+							<elseif condition="($vo['product_exist'] eq -1)" />
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0; position: relative;">
+									<img src="__Home_IMG__/sale_out.png" alt="已售完"
+										style="width: 192px; position: absolute; top: 0; left: 0; z-index: 100;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"><img
+										style="width: 192px;" src="{$vo.home_picture}"
+										alt="{$vo.name}"></a>
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"
+										class="product-title">{$vo.name}</a>
+									<if condition="!empty($vo['productcode'])"> <span
+										style="display: block; white-space: normal;"
+										class="product-description">券码&nbsp;&nbsp;{$vo.productcode}</span>
+									<else /> <span style="display: block; white-space: normal;"
+										class="product-description">{$vo.remark}</span> </if>
+									<span class="product-description"> <i
+										class="fa fa-clock-o"></i>{$vo.createtime}
+									</span> <span class="product-description">
+										有效期&nbsp;&nbsp;{$vo['start_str']}至{$vo['end_str']} </span>
+								</div>
+							</li>
+							<else /> <if
+								condition="($vo['ifpay'] gt 0) AND ($vo['price'] gt 0)">
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0;">
+									<a href="{$vo.url}"><img style="width: 192px;"
+										src="{$vo.home_picture}" alt="{$vo.name}"></a>
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="{$vo.url}" class="product-title">{$vo.name}{$vo.pay_status_desc}</a>
+									<span class="product-description">
+										购买数量：{$vo.quality}个&nbsp;&nbsp; 单价：<span class="orange">{$vo.price|number_format=2}</span>元
+									</span> <span class="product-description">
+										购买日期：{$vo['createtime']} </span>
+								</div>
+							</li>
+							<else />
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"><img
+										style="width: 192px;" src="{$vo.home_picture}"
+										alt="{$vo.name}"></a>
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"
+										class="product-title">{$vo.name}</a>
+									<if condition="!empty($vo['productcode'])"> <span
+										style="display: block; white-space: normal;"
+										class="product-description">券码&nbsp;&nbsp;{$vo.productcode}</span>
+									<else /> <span style="display: block; white-space: normal;"
+										class="product-description">{$vo.remark}</span> </if>
+									<span class="product-description"> <i
+										class="fa fa-clock-o"></i>{$vo.createtime}
+									</span> <span class="product-description">
+										有效期&nbsp;&nbsp;{$vo['start_str']}至{$vo['end_str']} </span>
+								</div>
+							</li>
+							</if> </if> </volist>
+							<!-- /.item -->
+						</ul>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer text-center">
+						<a href="javascript:void(0);" id="getMore" class="uppercase">查看更多记录</a>
+					</div>
+					<!-- /.box-footer -->
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+
+	<include file="Public:layout-js" />
+	<script type="text/javascript" src="__Home_JS__/jquery.tmpl.js"></script>
+	<script type="text/html" id="productTemp">
+    <li class="item">
+        {{if $data.product_exist == 0 || $data.product_exist == -2}}
+        <div class="product-info text-center" style="width:48%;margin-left: 0;position: relative;">
+            <img src="__Home_IMG__/active_end.png" alt="已结束"
+                 style="width:192px;position: absolute;top:0;left:0;z-index: 100;">
+            <a href="{{= $data.url}}"><img style="width:192px;" src="{{= $data.home_picture}}"
+                                           alt="{{= $data.name}}"></a>
+        </div>
+        <div class="product-info" style="line-height:2rem;margin-left: 0;">
+            <a href="javascript:void(0);"
+               class="product-title">{{= $data.name}}</a>
+            {{if $data.productcode}}
+            <span style="display:block;white-space:normal;"
+                  class="product-description">券码&nbsp;&nbsp;{{= $data.productcode}}</span>
+            {{else}}
+            <span style="display:block;white-space:normal;"
+                  class="product-description">{{= $data.remark}}</span>
+            {{/if}}
+            <span class="product-description">
+                <i class="fa fa-clock-o"></i>{{= $data.createtime}}
+            </span>
+            <span class="product-description">
+                有效期&nbsp;&nbsp;{{= $data.start_str}}至{{= $data.end_str}}
+            </span>
+        </div>
+    </li>
+    {{else $data.product_exist == -1}}
+    <div class="product-info text-center" style="width:48%;margin-left: 0;position: relative;">
+        <img src="__Home_IMG__/sale_out.png" alt="已售完"
+             style="width:192px;position: absolute;top:0;left:0;z-index: 100;">
+        <a href="{{= $data.url}}"><img style="width:192px;" src="{{= $data.home_picture}}"
+                                       alt="{{= $data.name}}"></a>
+    </div>
+    <div class="product-info" style="line-height:2rem;margin-left: 0;">
+        <a href="{{= $data.url}}"
+           class="product-title">{{= $data.name}}</a>
+        {{if $data.productcode}}
+        <span style="display:block;white-space:normal;"
+              class="product-description">券码&nbsp;&nbsp;{{= $data.productcode}}</span>
+        {{else}}
+        <span style="display:block;white-space:normal;"
+              class="product-description">{{= $data.remark}}</span>
+        {{/if}}
+        <span class="product-description">
+            <i class="fa fa-clock-o"></i>{{= $data.createtime}}
+        </span>
+        <span class="product-description">
+            有效期&nbsp;&nbsp;{{= $data.start_str}}至{{= $data.end_str}}
+        </span>
+    </div>
+</li>
+{{else}}
+{{if $data.price>0&&$data.ifpay}}
+<div class="product-info" style="margin-left: 0;">
+    <a href="{{= $data.url}}"><img style="width:192px;" src="{{= $data.home_picture}}"
+                                   alt="{{= $data.name}}"></a>
+</div>
+<div class="product-info" style="line-height:2rem;margin-left: 0;">
+    <a href="{{= $data.url}}"
+           class="product-title">{{= $data.name}}{{= $data.pay_status_desc}}</a>
+    <span class="product-description">
+        购买数量：{{= $data.quality}}个&nbsp;&nbsp;
+        单价：<span class="orange">{{= $data.price}}</span>元
+    </span>
+    <span class="product-description">
+        购买日期：{{= $data.createtime}}
+    </span>
+</div>
+{{else}}
+<div class="product-info text-center" style="width:48%;margin-left: 0;">
+    <a href="{{= $data.url}}"><img style="width:192px;" src="{{= $data.home_picture}}"
+                                   alt="{{= $data.name}}"></a>
+</div>
+<div class="product-info" style="line-height:2rem;margin-left: 0;">
+    <a href="{{= $data.url}}"
+       class="product-title">{{= $data.name}}</a>
+    {{if $data.productcode}}
+    <span style="display:block;white-space:normal;"
+          class="product-description">券码&nbsp;&nbsp;{{= $data.productcode}}</span>
+    {{else}}
+    <span style="display:block;white-space:normal;"
+          class="product-description">{{= $data.remark}}</span>
+    {{/if}}
+    <span class="product-description">
+        <i class="fa fa-clock-o"></i>{{= $data.createtime}}
+    </span>
+    <span class="product-description">
+        有效期&nbsp;&nbsp;{{= $data.start_str}}至{{= $data.end_str}}
+    </span>
+</div>
+{{/if}}
+</li>
+{{/if}}
+</script>
+	<script type="text/javascript">
+$(function () {
+    var page=2;
+
+    var doMore=function () {
+        var _this=$("#getMore");
+        _this.off('click');
+        _this.html('加载中...');
+        var url="{:U('Home/Member/order')}";
+        $.post(url, {page: page, method: 'ajax'}, function (jsonData) {
+            if (jsonData.state) {
+                $('#productTemp').tmpl(jsonData.list_data).appendTo('#product-list-box');
+                page++;
+            } else {
+                $.cl.alert(jsonData.msg);
+            }
+            $('#getMore').on('click', function () {
+                doMore()
+            });
+            _this.html('查看更多记录');
+        }, 'json')
+    }
+
+    $('#getMore').on('click', function () {
+        doMore()
+    });
+});
+</script>
+</body>
+</html>

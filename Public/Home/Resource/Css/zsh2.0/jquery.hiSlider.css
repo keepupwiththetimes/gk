@@ -1,0 +1,62 @@
+/* jquery.hiSlider.css */
+.hiSlider-pages,
+.hiSlider-title{
+    position: absolute;
+    z-index: 3;
+}
+
+.hiSlider-btn-prev,
+.hiSlider-btn-next{
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    height: 30px;
+    width: 30px;
+    /*background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAeCAMAAABHRo19AAABC1BMVEUAAABUcr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9Ucr9decOMoNSTptdVc8BUcr9Ucr/T2+9Ucr9Ucr9th8n///9eesP5+v3z9ftUcr9beML///9kf8Xx9Ppthsisu+BUcr9ZdsFbeMJUcr+Vp9hUcr9Ucr9Ucr9Ucr/m6vXi5/TL1OzM1ezf5fPc4vKCmNB+lM9Ucr9Ucr/U3O9Ucr/Q2O2er9uistzX3vDX3vD///9Ucr9ifsX7/P7n7Pbg5vTc4vKktN2fsNtlgMb19/zq7vfk6fVpg8f4+fzQ2O6vveHW3fDEz+nBzOiarNlWdMGzweNyi8rSguXLAAAAQXRSTlMA4t7l6ZBSAu0VwpWLgFpLDgr+/fv59PObmxH+9vPy8vDv7u3az8i9uKqkn4Z5XgX39/Ty39zW08vKtquojo21tGU7u7oAAAJvSURBVDjLjZVnV+JAFIYnlZJQpIMCglRp9q678xJAqYKA/v9fsiSQMcFkd98vuXOe85yTzJ3JJSxhOX0vJBLCXVoOkx85CEl+7viY80uhgx/QFxABdA8PuwC8TZ+dZgICgCTHJQFwrYydBkXEox+9mabNeh+xCMS2jQqIlytXeS1X+t2oxcHJFuhRgNiYsoxXgNJhVAJuzxg8StUB1cPoKbLv1JbFFI8dRguXNlh8EZE2bQknPbqX8RcUd5rioe6+CAUr1RYjw56ivaVZg44GmtUWIRv7zOGCWvKGufF8h+gz6PaL5nilljyD1/c8gBu7O+xvqxWaOo1tV4OuzS7W0dp0n8e5o0t7ayEc5tYT6mg/gT8gIZT3XTNRyDKilDraRzWEiIqKi0uXUCQsqYvdgEqquHZx6QR+PybUxX5AlfDJvItLRxGej4yoi11K8MQrzHarOYYTao029XqnGrWm38XnrswJ3o2c260+0e3/S54MMd+Vs43MJ0omeUV38PfX7g/xZtb5JE+qeKBONtswF5deo0pUNKiLvYSkYOni0gpUEkLtyMlmh8TFpWWE9OP5RB3tyZoLh4V1z9k9148naaFedLRjCBDSxMrRpTc6JRkez9RqsyvJ6VdSNK+k3b3Q6SYyxJS1uwOjO70sgjptYzo2+rawdrxX2FAjKnhmM3oCaUsVfI3dKfGkIb4UbfSygFPPlnYeMV3Y3fesTk1bBeqp746d3QISox0FWFl/zDFA2VAWmUO81vhVymn5q0o5DiFILGmLiMTMkRCNQwzuDZQW9z1QhEDGTn1N7/cwEgO+/x5lbAze6WPw3joG/wBKKUuZ27yM7gAAAABJRU5ErkJggg==') no-repeat;*/
+    margin-top: -15px;
+    /*text-indent: -200px;*/
+    overflow: hidden;
+    opacity: .6;
+    filter:alpha(opacity:60);
+}
+.hiSlider-btn-prev{
+    left: 10px;
+}
+.hiSlider-btn-next{
+    right: 10px;
+    background-position: -30px 0;
+}
+.hiSlider-btn-prev:hover,
+.hiSlider-btn-next:hover{
+    opacity: 1;
+    filter:alpha(opacity:100);
+}
+.hiSlider-title{
+    bottom: 0;
+    width: 100%;
+    padding: 6px 0;
+    color: #fff;
+    text-indent: 10px;
+    background: rgba(0,0,0,.6);
+    z-index: 2;
+    font: 14px/2 "Microsoft YaHei", "Arial", "Tahoma"
+}
+.hiSlider-pages{
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+}
+.hiSlider-pages a{
+    height: 12px;
+    width: 12px;
+    margin: 0 6px;
+    display: inline-block;
+    overflow: hidden;
+    text-indent: -100px;
+    font-size: 0;
+    border-radius: 50%;
+    background: #ddd;
+}
+.hiSlider-pages a.active{
+    background: #5472BF;
+}

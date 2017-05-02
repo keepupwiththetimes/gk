@@ -1,0 +1,849 @@
+<include FILE="Public:header"/>
+<link rel="stylesheet" type="text/css" href="__Home_CSS__/zsh2.0/swiper.min.css"/>
+<style type="text/css">
+    .dropload-up,.dropload-down{
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        font-size: 12px;
+        /* 开启硬件加速 */
+        -webkit-transform:translateZ(0);
+        transform:translateZ(0);
+    }
+    .dropload-down{
+        height: 0px;
+    }
+    .dropload-refresh,.dropload-update,.dropload-load,.dropload-noData{
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+    }
+    .dropload-load .loading{
+        display: inline-block;
+        height: 15px;
+        width: 15px;
+        border-radius: 100%;
+        margin: 6px;
+        border: 2px solid #666;
+        border-bottom-color: transparent;
+        vertical-align: middle;
+        -webkit-animation: rotate 0.75s linear infinite;
+        animation: rotate 0.75s linear infinite;
+    }
+    @-webkit-keyframes rotate {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        50% {
+            -webkit-transform: rotate(180deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(180deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    .newhome ,#tabs-container,.swiper-wrapper,.swiper-slide,.content-slide,.news-list,.news-list li,.goodsinfo{
+        width: 100%;
+        background-color: white;
+    }
+    .newhome p,.newhome span{
+        font-family: 黑体;
+    }
+
+    .tabs {
+        margin-top: 20px;
+        width: 100%;
+        overflow-x: scroll;
+        white-space: nowrap;
+        position: relative;
+        top: 1.5px;
+        z-index: 2;
+    }
+
+    .tabs span {
+        display: inline-block;
+        font-size: 1.125em;
+        font-weight: normal;
+        text-align: center;
+        line-height: 38px;
+        margin-left: 30px;
+        color: black;
+    }
+
+    .tabs span:last-child {
+        margin-right: 30px;
+    }
+
+    .news-list {
+        padding: 0 10px;
+    }
+
+    .news-list li {
+        overflow: hidden;
+        /*border-bottom: 1px solid lightgrey;*/
+        font-weight: normal;
+        padding-top: 2%;
+    }
+    .news-list li:first-child{
+    	padding: 0;
+    }
+    .goodsinfo{
+    	border-bottom: 1px solid lightgrey;
+    	padding-bottom: 2%;
+
+    }
+
+    .swiper-container {
+        display: none;
+    }
+
+    .searchborder {
+        text-align: center;
+        width: 100%;
+        padding-bottom: 5%;
+    }
+
+    .searchborder input {
+        margin-top: 4%;
+        width: 64%;
+        height: 24px;
+        padding-left: 3%;
+        border: none;
+        background-color: #EEEEEE;
+        border-radius: 3px;
+    }
+
+    .searchborder button {
+        border: none;
+        color: white;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 3px;
+        line-height: 24px;
+    }
+
+    .goodssort {
+        text-align: center;
+        border-top: 1px solid lightgrey;
+        position: relative;
+        border-bottom: 10px solid rgba(0,0,0,0.04);
+        margin-bottom: 2%;
+        z-index: 1;
+    }
+    .goodspic{
+        display: inline-block;
+        width: 42%;
+        position: relative;
+    }
+    .goodspic img{
+        width: 100%;
+    }
+    .goodstext{
+        display: inline-block;
+        width: 52%;
+        margin-left: 2%;
+        vertical-align: top;
+    }
+
+    .goodssort span{
+        display: inline-block;
+        width: 18%;
+        line-height: 40px;
+        height: 40px;
+    }
+
+    .fa-caret-up {
+        position: relative;
+        top: -4px;
+    }
+    .fa-caret-down{
+        position: relative;
+        left: -8px;
+        top: 2px;
+    }
+    .nametext,.pricetext{
+        display: block;
+    }
+    .goodsgroupname{
+        width: 85%;
+        padding-left: 10px;
+    }
+
+    .collect{
+        display: inline-block;
+        margin-top: 10%;
+    }
+    .pricetext{
+        margin-top: 1%;
+    }
+    .pricetext font{
+        padding-left: 3%;
+    }
+    .gobuy,.goget{
+        display: inline-block;
+        position: relative;
+        left: 20%;
+        color: white;
+        line-height: 22px;
+        height: 22px;
+        width: 85%;
+        padding-left: 5%;
+        padding-right: 5%;
+        border-radius: 3px;
+    }
+    .goover,.gocheck,.gosellout{
+        display: inline-block;
+        position: relative;
+        left: 20%;
+        color: white;
+        line-height: 22px;
+        height: 22px;
+        width: 85%;
+        background-color:gray;
+        padding-left: 5%;
+        padding-right: 5%;
+        border-radius: 3px;	
+    }
+    .goodstext>a:last-child{
+    	display: inline-block;
+	    width: 40%;
+	    text-align: center;
+	    position: relative;
+	    left: 44%;
+    }
+	.searchdetail{
+		width: 100%;
+    	border-top: 1px solid #eee;
+	}
+	ul{
+		margin: 0;
+		padding: 0;
+	}
+	.footer-main-footer{
+		background-color: white;
+    	padding-top: 7%;
+	}
+	  .sale-out {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .active_end {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+        .gray {
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+        filter: grayscale(100%);
+        filter: gray;
+    }
+    .noProductTip{
+    	text-align: center;
+    	margin-top: 8%;
+    }
+</style>
+<body>
+<div class="newhome">
+    <div class="searchborder">
+    	<form action="" method="" onsubmit="return false;">
+	    	<input type="search" placeholder="搜索">
+	        <button id="searchbtn">搜索</button>
+    	</form>
+    </div>
+    <div class="searchdetail">
+    </div>
+    <div class="goodssort">
+    	<span class="goodsall">全部</span>
+        <span class="ranksell">销量<!--<i class="fa fa-caret-up"></i><i class="fa fa-caret-down">--></i></span>
+        <span class="rankprice">券值<i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>
+        <span class="ranktime">时间<i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>
+        <span class="rankcollect">人气<!--<i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i>--></span>
+    </div>
+    <div id="tabs-container" class="swiper-container" style="display: block;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="content-slide">
+                    <ul class="news-list">
+                    </ul>
+                    <div class="noProductTip" style="display: none;"><p>您搜索的商品不存在</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer-main-footer">
+    <span>乐天邦</span>版权所有&nbsp;•
+    <div class="footer-declaration">
+			<span><a
+                    href="javascript:detail('{:U('Home/Index/disclaimer',array('platcode'=>$platformCode))}')">免责声明</a></span>
+    </div>
+    <div class="customer"><span class="tel-phone">客服:021-62662177&nbsp;</span><span
+            class="work-time">工作日9:30-17:30</span></div>
+</footer>
+</body>
+<script src="__Home_JS__/zsh2.0/dropload.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	
+	if (window.sessionStorage.getItem("isCollect")) {
+        var ckarr = JSON.parse(window.sessionStorage.getItem("isCollect"));
+//			console.log(ckarr);
+    } else {
+        var ckarr = {};
+    }
+
+	
+    function getdata(key,category,order,page){
+        var dataurl ='__CONTROLLER__/getProductInfoByOption/';
+        var timestrap = new Date();
+            dataurl = dataurl+"?timestrap="+timestrap.getTime().toString();
+        var datainfo = {
+            key:key,
+            category_id:category,
+            order_by:order,
+            page:page
+        };
+        $.post(dataurl,datainfo, function(response){
+                    console.log(response);
+                    $('.news-list').html('');
+                    var strinfo = '';
+                    var endimg = '<img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" onerror="javascript:this.src='+'__Home_IMG__/zsh2.0/home/wait.png'+';" class="active_end"/>';
+                    var saleoutimg = '<img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" onerror="javascript:this.src='+'__Home_IMG__/zsh2.0/home/wait.png'+';" class="sale-out"/>';
+                    //处理数据
+                    var strprice = '';
+                    var strcollect = '';
+                    var strnocollect='';
+                    if (JSON.parse(response) == '0') {
+                    	$('.noProductTip').show();
+                    }
+                    $.each(JSON.parse(response),function(index,v){
+                    	
+                    	$('.noProductTip').hide();
+                       	
+                       		strinfo += '<li><div class="goodsgroupname"><p>'+v['category_name'] +'</p></div>';
+	                       
+	                    	strprice = '<div class="goodstext"><a = href="'+v['url']+'"><span class="nametext">'+v['name'] +'</span><span class="pricetext">价值<font>¥'+v['price']+'</font>元</span></a>';
+	                     
+	                     if(v['iscollect']==1){
+						        strcollect ='<span class="collect" id ="collect'+v['id']+'" onclick = "collect('+v['id']+',this)"><i class="fa fa-heart icon animated " style="position: relative;"> <span class="fa fa-heart icon animated hide1" style="position: absolute; top: 0; left: 0;"></span> </i></span>';
+						    }else {
+						        strnocollect ='<span class="collect" id ="collect'+v['id']+'" onclick = "collect('+v['id']+',this)"><i class="fa fa-heart-o icon animated "style="position: relative;"> <span class="fa fa-heart icon animated hide1" style="position: absolute; top: 0; left: 0;"></span> </i></span>';
+						    }  
+	                        
+                        if(v['ifpay']==1){
+                        	
+	                        strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/></div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }	
+                        
+                            strinfo +='<a href ="'+v['url']+'"><span class="gobuy">购买</span></a></div></div></li>';
+                        }else if(v['ifpay']==2){
+                        	strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img class="gray" src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/>'+endimg+'</div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }
+                        
+                        	strinfo +='<a href ="'+v['url']+'"><span class="goover">已结束</span></a></div></div></li>';
+                        }else if(v['ifpay']==3){
+	                        strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img class="gray" src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/>'+saleoutimg+'</div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }	
+                                                	
+                        	
+                        	strinfo +='<a href ="'+v['url']+'"><span class="gosellout">已售完</span></a></div></div></li>';
+                        }else if(v['ifpay']==4){
+                        	strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/></div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }	
+                                                	
+                       	
+                        	strinfo +='<a href ="'+v['url']+'"><span class="gocheck">查看</span></a></div></div></li>';
+                        }
+                        else {
+                       		 strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/></div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }                                             	
+                        	
+                            strinfo +='<a href ="'+v['url']+'"><span class="goget">领取</span></a></div></div></li>';
+                        }
+
+                    });
+                    $('.news-list').html(strinfo);
+                }
+        );
+    }
+    var ordersell = "Saleinc";//销量升序
+    var orderprice = "pricedesc";//价格升序
+    var ordertime = "saledesc";//时间升序
+    var ordercollect = "datedesc";//人气升序
+    var selectcase = 5;
+    var page =1;
+    
+    
+    
+    //初始化
+    getdata("","",'',1);
+    
+    //新版首页2017.04.12
+    //create by gk 2017-4-17
+    $("#searchbtn").click(function(){
+    	if ($('#searchbtn').html()=="取消") {
+	    	$('.searchdetail').hide();
+	    	$('#searchbtn').html('搜索');
+		   $('.searchborder input').val('');
+		   return;
+    	} 
+    	if ($('.searchborder input').val()=="") {
+    	 $('.searchdetail').hide();
+		   $('.searchborder input').val('');
+		   return;
+    	}
+		
+		var key = $('.searchborder input').val();
+        var category_id = "";
+        var order_by = '';
+        var page = 1;
+        selectcase = 5;
+        $('.searchdetail').hide();
+        getdata(key,category_id,order_by,page);
+		
+    });
+    
+    $('.searchborder input').focus(function(){
+    	$('#searchbtn').html('取消');
+    	var bdheight = $('body').css('height');
+    		bdheight = parseInt(bdheight)
+    	var seheight = $('.searchborder').css('height');
+    		seheight = bdheight - parseInt(seheight);
+    		$('.searchdetail').css('height',seheight);
+    		$('.searchdetail').show();
+    	
+    });
+    
+//  $('.searchborder input').bind('search',function(){
+//
+//  	var key = $('.searchborder input').val();
+//      var category_id = "";
+//      var order_by = '';
+//      var page = 1;
+//      selectcase = 5;
+//      $('.searchdetail').hide();
+//      document.activeElement.blur();
+//      getdata(key,category_id,order_by,page);
+//  });
+    
+    $('.searchborder input').keydown(function(e){
+    	if (e.keyCode === 13) {
+	    	var key = $('.searchborder input').val();
+	        var category_id = "";
+	        var order_by = '';
+	        var page = 1;
+	        selectcase = 5;
+	        $('.searchdetail').hide();
+	        document.activeElement.blur();
+	        getdata(key,category_id,order_by,page);
+//	        $('.searchborder input').val('');
+	        $('#searchbtn').html('搜索');
+	        
+    	}
+    });
+    
+    //点击销量排序
+    $('.ranksell').click(function(){
+
+        var key = $('.searchborder input').val();
+        var category_id = "";
+        var page = 1;
+        selectcase = 1;
+//      if(ordersell == "Saleinc"){
+            ordersell = "saledesc";
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$(this).siblings().children().css('color','gray');
+    		$('.ranksell>.fa-caret-down').css('color',themecolor);
+    		$('.ranksell>.fa-caret-up').css('color','gray');
+//      }else {
+//          ordersell = "Saleinc" ;
+//          var themecolor = $('.goodsgroupname p').css('color');
+//          var themecolor = $('.goodsgroupname p').css('color');
+//  		$(this).siblings().css('color','gray');
+//  		$(this).siblings().children().css('color','gray');
+//  		$(this).css('color',themecolor);
+//  		$('.ranksell>.fa-caret-down').css('color','gray');  
+//  		$('.ranksell>.fa-caret-up').css('color',themecolor);
+//      }
+        getdata(key,category_id,ordersell,page);
+
+    });
+    //点击价格排序
+    $('.rankprice').click(function(){
+        var key = $('.searchborder input').val();
+        var category_id = "";
+        var page = 1;
+        selectcase = 2;
+        if(orderprice == "priceinc"){
+            orderprice = "pricedesc";
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$(this).siblings().children().css('color','gray');
+    		$('.rankprice>.fa-caret-down').css('color',themecolor);
+    		$('.rankprice>.fa-caret-up').css('color','gray');
+        }else {
+            orderprice = "priceinc" ;
+            var themecolor = $('.goodsgroupname p').css('color');
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).siblings().children().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$('.rankprice>.fa-caret-down').css('color','gray');  
+    		$('.rankprice>.fa-caret-up').css('color',themecolor);
+        }
+        getdata(key,category_id,orderprice,page);
+
+    });
+    //点击时间排序
+    $('.ranktime').click(function(){
+        var key = $('.searchborder input').val();
+        var category_id = "";
+        var page = 1;
+        selectcase = 3;
+        if(ordertime == "dateinc"){
+            ordertime = "datedesc";
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).siblings().children().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$('.ranktime>.fa-caret-down').css('color',themecolor);
+    		$('.ranktime>.fa-caret-up').css('color','gray');
+        }else {
+            ordertime = "dateinc" ;
+            var themecolor = $('.goodsgroupname p').css('color');
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).siblings().children().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$('.ranktime>.fa-caret-down').css('color','gray');  
+    		$('.ranktime>.fa-caret-up').css('color',themecolor);
+        }
+        getdata(key,category_id,ordertime,page);
+
+    });
+    //点击人气排序
+    $('.rankcollect').click(function(){
+        var key = $('.searchborder input').val();
+        var category_id = "";
+        var page = 1;
+        selectcase = 4;
+//      if(ordercollect == "popularityinc"){
+//          ordercollect = "popularity";
+//          var themecolor = $('.goodsgroupname p').css('color');
+//  		$(this).siblings().css('color','gray');
+//  		$(this).siblings().children().css('color','gray');
+//  		$(this).css('color',themecolor);
+//  		$('.rankcollect>.fa-caret-down').css('color',themecolor);
+//  		$('.rankcollect>.fa-caret-up').css('color','gray');
+//      }else {
+            ordercollect = "popularitydesc" ;
+            var themecolor = $('.goodsgroupname p').css('color');
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).siblings().children().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$('.rankcollect>.fa-caret-down').css('color','gray');  
+    		$('.rankcollect>.fa-caret-up').css('color',themecolor);
+//      }
+        getdata(key,category_id,ordercollect,page);
+
+    });
+    //点击全部
+    $('.goodsall').click(function(){
+        var key = '';
+        var category_id = "";
+        var page = 1;
+        selectcase = 5;
+//      if(ordercollect == "popularityinc"){
+//          ordercollect = "popularity";
+            ordercollect = "";
+            var themecolor = $('.goodsgroupname p').css('color');
+    		$(this).siblings().css('color','gray');
+    		$(this).siblings().children().css('color','gray');
+    		$(this).css('color',themecolor);
+    		$('.rankcollect>.fa-caret-down').css('color',themecolor);
+    		$('.rankcollect>.fa-caret-up').css('color','gray');
+//      }else {
+//          ordercollect = "popularityinc" ;
+//          var themecolor = $('.goodsgroupname p').css('color');
+//          var themecolor = $('.goodsgroupname p').css('color');
+//  		$(this).siblings().css('color','gray');
+//  		$(this).siblings().children().css('color','gray');
+//  		$(this).css('color',themecolor);
+//  		$('.rankcollect>.fa-caret-down').css('color','gray');  
+//  		$('.rankcollect>.fa-caret-up').css('color',themecolor);
+//      }
+        getdata(key,category_id,ordercollect,page);
+
+    });
+
+
+    // dropload
+    var dropload = $('body').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown : {
+            domClass   : 'dropload-down',
+            domRefresh : '',
+            domLoad    : '',
+            domNoData  : ''
+        },
+        loadUpFn : function(me){
+            var key = $('.searchborder input').val();
+            var category_id = "";
+            var page = 1;
+            var sortroot = "";
+            if (selectcase ==1){
+                sortroot = ordersell;
+            }
+            if (selectcase ==2){
+                sortroot = orderprice;
+            }
+            if (selectcase ==3){
+                sortroot = ordertime;
+            }
+            if (selectcase ==4){
+                sortroot = ordercollect;
+            }
+            if (selectcase ==5) {
+            	sortroot ="";
+            }
+            // 为了测试，延迟1秒加载
+            setTimeout(function(){
+                getdata(key,category_id,sortroot,page);
+                // 每次数据加载完，必须重置
+                dropload.resetload();
+            },1000);
+        },
+        loadDownFn : function(me){
+            page++;
+            var key = $('.searchborder input').val();
+            var category_id = "";
+            var sortroot = "";
+            if (selectcase ==1){
+                sortroot = ordersell;
+            }
+            if (selectcase ==2){
+                sortroot = orderprice;
+            }
+            if (selectcase ==3){
+                sortroot = ordertime;
+            }
+            if (selectcase ==4){
+                sortroot = ordercollect;
+            }
+            if (selectcase ==5) {
+            	sortroot =="";
+            }
+            var dataurl ='__CONTROLLER__/getProductInfoByOption/';
+            var timestrap = new Date();
+            	dataurl = dataurl+"?timestrap="+timestrap.getTime().toString();
+            var datainfo = {
+                key:key,
+                category_id:category_id,
+                order_by:sortroot,
+                page:page
+            };
+            $.post(dataurl,datainfo, function(response){
+                    var strinfo = '';
+                        //处理数据
+                    var endimg = '<img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" onerror="javascript:this.src='+'__Home_IMG__/zsh2.0/home/wait.png'+';" class="active_end"/>';
+                    var saleoutimg = '<img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" onerror="javascript:this.src='+'__Home_IMG__/zsh2.0/home/wait.png'+';" class="sale-out"/>';
+                    //处理数据
+                    var strprice = '';
+                    var strcollect = '';
+                    var strnocollect='';
+                    if (JSON.parse(response) == '0') {
+                    }
+                    $.each(JSON.parse(response),function(index,v){
+                       		 strinfo += '<li><div class="goodsgroupname"><p>'+v['category_name'] +'</p></div>';
+	                       
+	                    	strprice = '<div class="goodstext"><a = href="'+v['url']+'"><span class="nametext">'+v['name'] +'</span><span class="pricetext">价值<font>¥'+v['price']+'</font>元</span></a>';
+	                     
+	                     if(v['iscollect']==1){
+						        strcollect ='<span class="collect" id ="collect'+v['id']+'" onclick = "collect('+v['id']+',this)"><i class="fa fa-heart icon animated " style="position: relative;"> <span class="fa fa-heart icon animated hide1" style="position: absolute; top: 0; left: 0;"></span> </i></span>';
+						    }else {
+						        strnocollect ='<span class="collect" id ="collect'+v['id']+'" onclick = "collect('+v['id']+',this)"><i class="fa fa-heart-o icon animated "style="position: relative;"> <span class="fa fa-heart icon animated hide1" style="position: absolute; top: 0; left: 0;"></span> </i></span>';
+						    }  
+	                        
+                        if(v['ifpay']==1){
+                        	
+	                        strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/></div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }	
+                        
+                            strinfo +='<a href ="'+v['url']+'"><span class="gobuy">购买</span></a></div></div></li>';
+                        }else if(v['ifpay']==2){
+                        	strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img class="gray" src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/>'+endimg+'</div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }
+                        
+                        	
+                        	strinfo +='<a href ="'+v['url']+'"><span class="goover">已结束</span></a></div></div></li>';
+                        }else if(v['ifpay']==3){
+	                        strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img class ="gray" src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/>'+saleoutimg+'</div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }	
+                                                	
+                        	
+                        	strinfo +='<a href ="'+v['url']+'"><span class="gosellout">已售完</span></a></div></div></li>';
+                        }else if(v['ifpay']==4){
+                        	strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/></div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }	
+                                                	
+                       	
+                        	strinfo +='<a href ="'+v['url']+'"><span class="gocheck">查看</span></a></div></div></li>';
+                        }
+                        else {
+                       		 strinfo += '<div class="goodsinfo"><a href = "'+v['url']+'"><div class="goodspic"><img src="'+ v['home_picture'] + '"onerror="javascript:this.src="__Home_IMG__/zsh2.0/home/wait.png;"/></div></a>';
+							
+							strinfo += strprice;
+						    
+						    if(v['iscollect']==1){
+						        strinfo +=strcollect;
+						    }else {
+						        strinfo +=strnocollect;
+						    }                                             	
+                        	
+                            strinfo +='<a href ="'+v['url']+'"><span class="goget">领取</span></a></div></div></li>';
+                        }
+
+                    });
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function(){
+                            $('.news-list').append(strinfo);
+                            // 每次数据加载完，必须重置
+                            dropload.resetload();
+                        },1000);
+                    }
+            );
+        }
+    });
+
+    function collect(i, s) {
+
+        var url = "{:U('Home/Member/doCollect')}";
+        var data = {product_id: i};
+        var e = $('#collect' + i);
+        $.post(url, data, function (jsonData) {
+            var data = eval(jsonData);
+            if (data.state == 1) {
+
+                $(s).children('i').removeClass('fa-heart-o');
+                $(s).children('i').addClass('fa-heart');
+                $(s).children('i').children("span").removeClass("hide1 fa-heart-o");
+                $(s).children('i').children("span").addClass('fly inline fa-heart');
+                ckarr['#collect' + i] = 'shoucang';
+            } else if (data.state == 0) {
+//
+            } else if (data.state == 2) {
+//
+            } else if (data.state == 3) {
+
+                $(s).children('i').removeClass('fa-heart');
+                $(s).children('i').addClass('fa-heart-o');
+                $(s).children('i').children("span").removeClass("fa-heart fly");
+                $(s).children('i').children("span").addClass('fa-heart-o hide1');
+//
+                ckarr['#collect' + i] = 'quxiao';
+            } else if (data.state == 4) {
+
+                login()
+            } else if (jsonData.state == -1) {
+                var url = "{:U('Home/User/login')}";
+                location.href = url;
+            }
+//			  console.log(ckarr);
+            window.sessionStorage.setItem('isCollect', JSON.stringify(ckarr))
+            window.sessionStorage.removeItem("test");
+            window.sessionStorage.removeItem("test1");
+            window.sessionStorage.removeItem("test2");
+//			  console.log( window.sessionStorage.getItem("isCollect"))
+        }, 'json');
+        return false;
+    }
+</script>
+</html>

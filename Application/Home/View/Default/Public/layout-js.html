@@ -1,0 +1,53 @@
+<script src="__Home_JS_STATIC__/html5shiv.min.js"></script>
+<script src="__Home_JS_STATIC__/respond.min.js"></script>
+<!-- REQUIRED JS SCRIPTS -->
+<!-- jQuery 2.1.4 -->
+<script src="__Home_Plug__/jQuery/jquery.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="__Home_Bootstrap__/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- AdminLTE App -->
+<!--<script src="__Home_JS__/app.min.js" type="text/javascript"></script>-->
+<script src="__Home_Plug__/cloudLayer/Js/jquery.cloudLayer.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#doLogin').click(function () {
+            var url = "{:U('Home/Member/login')}";
+            var data = $('#loginForm').serialize();
+            $.post(url, data, function (dataJson) {
+                if (dataJson.state) {
+                    $.cl.alert(dataJson.msg,true,function(){
+                        if("undefined" == typeof isDOGet){
+                            do_reload();
+                        }else {
+                            if (isDOGet != 1) {
+                                do_reload();
+                            } else {
+                                $('#doGet').click();
+                            }
+                        }
+                    });
+                } else {
+                    $.cl.alert(dataJson.msg);
+                }
+            }, 'json');
+        });
+
+        $('#doLogout').click(function () {
+            var url = "{:U('Home/Member/logout')}";
+            var data = {};
+            $.post(url, data, function (dataJson) {
+                if (dataJson.state) {
+                    location.reload();
+                }
+            }, 'json');
+        });
+
+        $('#showLogin').click(function(){
+			$("#login-dropdown").dropdown('toggle');
+        });
+    });
+
+    function do_reload(){
+        location.reload();
+    }
+</script>

@@ -1,0 +1,818 @@
+<include FILE="Public:header"/>
+<link rel="stylesheet" type="text/css" href="__Home_CSS__/zsh2.0/animate.min.css"/>
+<style type="text/css">
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+    }
+
+    .w-content {
+        width: 90%;
+        height: 74%;
+        position: absolute;
+        top: 16.6%;
+        left: 5%;
+        text-align: center;
+    }
+
+    .w-top {
+        width: 94%;
+        height: 65%;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 15px;
+        position: relative;
+        left: 3%;
+    }
+
+    .w-header p {
+        margin-top: 4%;
+    }
+
+    .head-img {
+        width: 28%;
+        position: absolute;
+        top: -9.6%;
+        left: 34.8%;
+    }
+
+    .head-img img {
+        width: 100%;
+        border-radius: 50%;
+        border: 4px solid whitesmoke;
+    }
+
+    .w-name-left {
+        font-family: '黑体';
+        font-size: 0.9rem;
+        color: white;
+        position: absolute;
+        width: 150%;
+        padding-top: 3%;
+        left: -31%;
+        top: 100%;
+    }
+
+    .w-message {
+        position: absolute;
+        width: 100%;
+        top: 48%;
+    }
+
+    .w-message p:nth-child(1) {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+        color: black;
+    }
+
+    .w-message strong {
+        color: #FD4C23;
+    }
+
+    .w-message p:nth-child(2) {
+        color: #5f5555;
+        line-height: 5px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+        color: grey;
+        margin-top: 3%;
+    }
+
+    .time-left {
+        padding-top: 2px;
+        font-size: 0.7rem;
+        width: 100%;
+    }
+
+    .time-right {
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        top: 70%;
+    }
+
+    .time-right span {
+        display: block;
+        color: #5f5555;
+    }
+
+    .time-right p {
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 0.7rem;
+        width: 100%;
+        color: #333333;
+    }
+
+    .time-left span {
+        display: inline-block;
+        color: #333333;
+        width: 47%;
+    }
+
+    .time-left span:nth-child(1) {
+        text-align: right;
+    }
+
+    .time-left span:nth-child(2) {
+        text-align: left;
+        padding-left: 1%;
+    }
+
+    .sign-name {
+        line-height: 12px;
+        border-right: 1px solid rgba(0, 0, 0, 0.2);
+        padding-right: 2%;
+    }
+
+    .u-name span {
+        display: block;
+        color: #505050;
+    }
+
+    .w-bottom {
+        width: 100%;
+        height: 26%;
+    }
+
+    .w-bottom button {
+        display: block;
+        margin: auto;
+        width: 60%;
+        height: 34px;
+        margin-top: 9%;
+        border: none;
+        border-radius: 20px;
+        color: white;
+        font-size: 18px;
+        letter-spacing: 2px;
+    }
+
+    .check-today {
+        background-color: #2486FF;
+    }
+
+    .click-prize {
+        background-color: #FD4C23;
+    }
+
+    .main-bg {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+    }
+
+    #ltb {
+        position: absolute;
+        text-align: center;
+        left: 0;
+        bottom: 5%;
+        width: 100%;
+        font-size: 0.8rem;
+        color: #666666;
+    }
+
+    .lv {
+        position: relative;
+    }
+
+    .lv span {
+        float: left;
+        display: inline-block;
+        width: 18px;
+        font-size: 0.6rem;
+        position: absolute;
+        top: 4px;
+        font-family: arial;
+    }
+
+    .lv span:nth-child(1) {
+        left: 10%;
+    }
+
+    .lv span:nth-child(2) {
+        left: 17%;
+    }
+
+    .lv span:nth-child(3) {
+        left: 26%;
+    }
+
+    .lv span:nth-child(4) {
+        left: 36%;
+    }
+
+    .lv span:nth-child(5) {
+        left: 47.5%;
+    }
+
+    .lv span:nth-child(6) {
+        left: 57%;
+    }
+
+    .lv span:nth-child(7) {
+        left: 70%;
+    }
+
+    .lv span:nth-child(8) {
+        left: 84%;
+    }
+
+    .pg {
+        width: 80%;
+        height: 18px;
+        background: rgba(228, 233, 233, 0.9);
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        margin: auto;
+        margin-top: 2%;
+        border-radius: 4px;
+    }
+
+    .p-co {
+        display: block;
+        height: 6px;
+        border-radius: 4px;
+        position: relative;
+        top: 0px;
+        left: 1%;
+    }
+
+    .p-cog {
+        display: block;
+        height: 6px;
+        width: 96%;
+        background-color: white;
+        border-radius: 4px;
+        position: relative;
+        top: 6px;
+        left: 1%;
+    }
+
+    .p-dot {
+        position: relative;
+        top: -7px;
+    }
+
+    .p-dot span {
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+        top: -0.35px;
+        text-align: center;
+    }
+
+    .p-dot span:nth-child(1) {
+        left: 1%;
+    }
+
+    .p-dot span:nth-child(2) {
+        left: 10%;
+    }
+
+    .p-dot span:nth-child(3) {
+        left: 21%;
+    }
+
+    .p-dot span:nth-child(4) {
+        left: 33%;
+    }
+
+    .p-dot span:nth-child(5) {
+        left: 48%;
+    }
+
+    .p-dot span:nth-child(6) {
+        left: 60%;
+    }
+
+    .p-dot span:nth-child(7) {
+        left: 76%;
+    }
+
+    .p-dot span:nth-child(8) {
+        left: 93.5%;
+    }
+
+    .p-dot i {
+        display: block;
+        width: 50%;
+        height: 50%;
+        background-color: rgb(233, 233, 233);
+        border-radius: 50%;
+        margin: 25%;
+        /*margin-top: 30%;*/
+    }
+
+    #s-day {
+        display: inline-block;
+        font-size: 0.8rem;
+        position: absolute;
+        font-weight: bolder;
+        line-height: 13px;
+        font-family: "黑体";
+        left: 1.8%;
+        height: 14px;
+        width: 14px;
+        border-radius: 50%;
+        top: -3px;
+        color: darkgray;
+        background-color: white;
+    }
+
+    #s-day img {
+        width: 38%;
+        margin: 25%;
+        margin-top: 37%;
+        opacity: 0.8;
+    }
+
+    #ss-day, .tr1, .tr-rd {
+        color: #fd4c23;
+        font-family: arial;
+    }
+
+    .lvvv {
+        display: inline-block;
+        height: 20px;
+        line-height: 15px;
+        width: 20px;
+        border: 1px solid #FF3E23;
+        border-radius: 50%;
+    }
+
+    .lm {
+        display: inline-block;
+        margin: 10%;
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        background-color: #FF3E23;
+        color: white;
+    }
+
+    .lm i {
+        font-size: 1.1rem;
+        font-family: Gabriola;
+    }
+
+    .lm font {
+        font-size: 0.5rem;
+    }
+
+    #htht {
+        position: absolute;
+        width: 32.7%;
+        left: 33.77%;
+        background: linear-gradient(rgba(255, 255, 255, 0.8) 33%, rgba(255, 255, 255, 0) 34%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .ztt, .lm {
+        font-family: arial;
+    }
+
+    #ztt {
+        color: #fd4c23;
+    }
+
+    .lvm {
+        background-color: #FF3E23;
+        display: inline-block;
+        line-height: 20px;
+        padding-left: 5%;
+        padding-right: 5%;
+        border-radius: 9px;
+    }
+
+    .nc-name {
+        display: inline-block;
+        font-family: 黑体;
+        font-size: 0.85rem;
+        position: relative;
+        left: -21%;
+        overflow: hidden;
+        width: 150%;
+        white-space: nowrap;
+    }
+    .sign_bg{
+    	width: 100%;
+    	height: 100%;
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	background-color: rgba(0,0,0,0.5);
+    	display: none;
+    }
+	#signSuccess{
+		width: 100%;
+		height: 100%;
+		/*display: none;*/
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 999999999;
+	}
+	#signSuccess img{
+		width: 100%;
+		position: absolute;
+		top: 0%;
+	}
+	
+	#signSuccess .closeThis{
+		width: 30px;
+	    position: absolute;
+	    top: 17%;
+	    right: 8%;
+	    z-index: 99999999999;
+	}
+	
+</style>
+<script>
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$sign_package.appId}', // 必填，公众号的唯一标识
+        timestamp: '{$sign_package.timestamp}', // 必填，生成签名的时间戳
+        nonceStr: '{$sign_package.nonceStr}', // 必填，生成签名的随机串
+        signature: '{$sign_package.signature}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'hideMenuItems', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'onOpenAddress']// 必填，需要使用的JS接口列表
+    });
+
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: '{$SHARE["title"]}', // 分享标题
+            link: '{$SHARE["link"]}', // 分享链接
+            imgUrl: '{$SHARE["imgUrl"]}', // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                var url = "{:U('Home/Ajax/shareLog/type/1')}";
+                var data = '{$SHARE["product_id"]}';
+                $.post(url, {product_id: data});
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+        wx.onMenuShareAppMessage({
+            title: '{$SHARE["title"]}', // 分享标题
+            desc: '{$SHARE["desc"]}', // 分享描述
+            link: '{$SHARE["link"]}', // 分享链接
+            imgUrl: '{$SHARE["imgUrl"]}', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                var url = "{:U('Home/Ajax/shareLog/type/2')}";
+                var data = "{$SHARE['product_id']}";
+                $.post(url, {product_id: data});
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    });
+    
+    	function nofind(){
+			var img=event.srcElement;
+			img.src="__Home_IMG__/zsh2.0/zhWelcome/header-prize.png";
+			img.onerror=null; //控制不要一直跳动
+
+		};
+    
+</script>
+</head>
+<body>
+<img class="main-bg" src="__Home_IMG__/zsh2.0/zhWelcome/welcome-bg.png">
+<div class="w-content">
+    <!--头部-->
+    <div class="w-top">
+        <!--头像-->
+        <div id="htht"></div>
+        <div class="head-img">
+            <img id="head_img" onerror="nofind()"/>
+            <span class="nc-name" id="username">{$data.username}</span>
+            <span class="w-name-left"><span class="lvvv"><span class="lm"><i>v</i><font></font></span></span>&nbsp;<span
+                    class='lvm'>{$data['title']}</span></span>
+        </div>
+
+        <!--签到人数-->
+        <div class="w-message">
+            <p>今天第<font class="ztt" id="ztt">&nbsp;{$data['usertoday']}&nbsp;</font>位签到</p>
+            <!--打卡时间-->
+            <div class="time-left">
+                <span class="sign-name">打卡时间&nbsp;<font class="ztt">{$data['signtime']}</font>&nbsp;&nbsp;</span>
+                <span class="join-p">&nbsp;&nbsp;<font class="ztt">{$data['usertotal']}</font>人正在参与</span>
+            </div>
+
+        </div>
+
+        <div class="time-right">
+            <p><font>您已累计签到&nbsp;<font class="ss-day" id="ss-day">{$data['signtotal']}</font>&nbsp;天,&nbsp;距离</font>&nbsp;<font
+                    class="tr1"></font>&nbsp;级还差&nbsp;<font class="tr-rd"></font>&nbsp;天</p>
+
+            <div class="pg">
+                <div class="p-cog"></div>
+                <div class="p-co"></div>
+                <div class="p-dot">
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span><i></i></span>
+                    <span id="s-day"><img src="__Home_IMG__/zsh2.0/zhWelcome/zwicon.png"/></span>
+                </div>
+            </div>
+            <div class="lv">
+                <span>V1</span>
+                <span>V2</span>
+                <span>V3</span>
+                <span>V4</span>
+                <span>V5</span>
+                <span>V6</span>
+                <span>V7</span>
+                <span>V8</span>
+            </div>
+        </div>
+
+    </div>
+    <!--底部-->
+    <div class="w-bottom">
+        <a style="text-decoration:none;" href="{:U('Home/Wheel/index/platcode/ZHCJ')}">
+            <button class="click-prize">戳此抽奖</button>
+        </a>
+        <a style="text-decoration:none;" href="{:U('Home/Wheel/signPicture/daily/1/platcode/ZHCJ')}">
+            <button class="check-today">查看今日签</button>
+        </a>
+    </div>
+</div>
+<div id="ltb"><p>-&nbsp;乐天邦&nbsp;-</p></div>
+<div class="sign_bg">
+	<div id="signSuccess">
+		<img class="closeThis" src="__Home_IMG__/zsh2.0/order/close.png"/>
+		<img src="__Home_IMG__/zsh2.0/order/sign.png" alt="" class="signIn"/>
+	</div>
+</div>
+	
+
+<!-- 邵晓凌：现在去掉这段代码，是因为prefetch后会生产大量的访问日签图片的记录，但是其实用户并没有真实的去访问此页面
+<link rel="prefetch" href="{:U('Home/Wheel/signPicture/daily/1/platcode/ZHCJ')}"/>
+ -->
+<script src="__Home_JS_STATIC__/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="__Home_JS__/zsh2.0/zw-script.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	/*
+	 * 签到成功弹窗start
+	 * */
+	var ifSignSuccess = "{$ifSignSuccess }";
+	if (ifSignSuccess == "1"){
+		if (!window.sessionStorage.getItem("zkkStorage1")){
+			$(".sign_bg").show();
+			$("#signSuccess").attr("class","animated zoomIn");
+			window.sessionStorage.setItem("zkkStorage1","1");
+		}
+	}
+	
+	$("#signSuccess").click(function (){
+		clearTimeout(timer);
+		$("#signSuccess").attr("class","animated zoomOut");
+		$(".sign_bg").fadeOut(300);
+	});
+	
+	var timer = setTimeout(function (){
+		clearTimeout(timer);
+		$("#signSuccess").attr("class","animated zoomOut");
+		$(".sign_bg").fadeOut(300);
+	},2500);
+	
+	$(".closeThis").click(function (){
+		clearTimeout(timer);
+		$("#signSuccess").attr("class","animated zoomOut");
+		$(".sign_bg").fadeOut(300);
+	});
+	/*
+	 * 签到成功弹窗end
+	 * */
+	
+	
+	
+    var hhe = $('.head-img').css('width');
+    var hgt = $('#htht').css('width');
+    hgk = parseInt(hgt) * 0.318;
+    hgts = parseInt(hgt) * 0.56;
+    hgd = parseInt(hgt) * 0.52;
+    $('#htht').css('height', hgt);
+    $('#htht').css('top', -hgk);
+    $('#htht').css('border-top-left-radius', hgd);
+    $('#htht').css('border-top-right-radius', hgd);
+    $('#htht').css('border-bottom-left-radius', 0);
+    $('#htht').css('border-bottom-right-radius', 0);
+
+
+    //保留4位数字的平均数
+    function avg(big, small, count) {
+        var sd = (big - small) / count;
+        return sd.toFixed(4);
+    }
+
+    //当前签到天数
+    var d = $('#ss-day').html();
+    d = parseInt(d);
+    //		d=385;
+    var dl;
+    var pl;
+    //		$('.p-cog').css('background','linear-gradient(to right, rgb(38,169,215), rgb(123,200,58))');
+    //		第几天标签的位置
+    if (d < 3) {
+        var sdu = d;
+        d = d - 0;
+        dl = avg(9, 1, 3);
+        dl = d * dl + 1;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(11, 0, 3);
+        pl = pl * d;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 3 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(1)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(45,172,203))');
+        $('.tr1').html('2');
+        $('.lm font').html('1');
+    } else if (d >= 3 && d < 7) {
+        var sdu = d;
+        d = d - 3;
+        dl = avg(21, 9, 4);
+        dl = d * dl + 9;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(22, 11, 4);
+        pl = pl * d + 11;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 7 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(2)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(56,176,184))');
+        $('.tr1').html('3');
+        $('.lm font').html('2');
+    } else if (d >= 7 && d < 10) {
+        var sdu = d;
+        d = d - 7;
+        dl = avg(32, 21, 3);
+        dl = d * dl + 21;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(34, 22, 3);
+        pl = pl * d + 22;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 10 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(3)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-dot span:nth-child(3)').css('background', 'linear-gradient(to right, rgb(52,174,191), rgb(56,176,184))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(67,180,164))');
+        $('.tr1').html('4');
+        $('.lm font').html('3');
+    } else if (d >= 10 && d < 30) {
+        var sdu = d;
+        d = d - 10;
+        dl = avg(47, 32, 20);
+        dl = d * dl + 32;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(47, 34, 20);
+        pl = pl * d + 34;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 30 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(4)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-dot span:nth-child(3)').css('background', 'linear-gradient(to right, rgb(52,174,191), rgb(56,176,184))');
+        $('.p-dot span:nth-child(4)').css('background', 'linear-gradient(to right, rgb(62,178,172), rgb(67,180,164))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(84,187,131))');
+        $('.tr1').html('5');
+        $('.lm font').html('4');
+    } else if (d >= 30 && d < 90) {
+        var sdu = d;
+        d = d - 30;
+        dl = avg(60, 47, 60);
+        dl = d * dl + 47;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(60, 47, 60);
+        pl = pl * d + 47;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 90 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(5)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-dot span:nth-child(3)').css('background', 'linear-gradient(to right, rgb(52,174,191), rgb(56,176,184))');
+        $('.p-dot span:nth-child(4)').css('background', 'linear-gradient(to right, rgb(62,178,172), rgb(67,180,164))');
+        $('.p-dot span:nth-child(5)').css('background', 'linear-gradient(to right, rgb(79,185,141), rgb(84,187,131))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(96,192,109))');
+        $('.tr1').html('6');
+        $('.lm font').html('5');
+    } else if (d >= 90 && d < 180) {
+        var sdu = d;
+        d = d - 90;
+        dl = avg(74, 60, 90);
+        dl = d * dl + 60;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(75, 60, 90);
+        pl = pl * d + 60;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 180 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(6)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-dot span:nth-child(3)').css('background', 'linear-gradient(to right, rgb(52,174,191), rgb(56,176,184))');
+        $('.p-dot span:nth-child(4)').css('background', 'linear-gradient(to right, rgb(62,178,172), rgb(67,180,164))');
+        $('.p-dot span:nth-child(5)').css('background', 'linear-gradient(to right, rgb(79,185,141), rgb(84,187,131))');
+        $('.p-dot span:nth-child(6)').css('background', 'linear-gradient(to right, rgb(91,189,120), rgb(96,192,109))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(114,199,77))');
+        $('.tr1').html('7');
+        $('.lm font').html('6');
+    } else if (d >= 180 && d < 365) {
+        var sdu = d;
+        d = d - 180;
+        dl = avg(94, 75, 185);
+        dl = d * dl + 75;
+        $('#s-day').css('left', dl.toString() + '%');
+        pl = avg(95, 75, 185);
+        pl = pl * d + 75;
+        $('.p-co').css('width', pl.toString() + '%');
+        var du = 365 - sdu;
+        $('.tr-rd').html(du);
+        $('.lv span:nth-child(7)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-dot span:nth-child(3)').css('background', 'linear-gradient(to right, rgb(52,174,191), rgb(56,176,184))');
+        $('.p-dot span:nth-child(4)').css('background', 'linear-gradient(to right, rgb(62,178,172), rgb(67,180,164))');
+        $('.p-dot span:nth-child(5)').css('background', 'linear-gradient(to right, rgb(79,185,141), rgb(84,187,131))');
+        $('.p-dot span:nth-child(6)').css('background', 'linear-gradient(to right, rgb(91,189,120), rgb(96,192,109))');
+        $('.p-dot span:nth-child(7)').css('background', 'linear-gradient(to right, rgb(110,197,84), rgb(114,199,77))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(123,200,58))');
+        $('.tr1').html('8');
+        $('.lm font').html('7');
+    } else if (d >= 365) {
+        $('#s-day').css('left', '93%');
+        $('.p-co').css('width', '95%');
+        $('.time-right p').html('您已签到&nbsp;<font class = "tr-rd"></font> &nbsp' + '天')
+        $('.tr-rd').html(d);
+        $('.lv span:nth-child(8)').css('color', 'rgb(106,153,50)');
+        $('.p-dot span:nth-child(1)').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(40,169,213))');
+        $('.p-dot span:nth-child(2)').css('background', 'linear-gradient(to right, rgb(42,170,208), rgb(45,172,203))');
+        $('.p-dot span:nth-child(3)').css('background', 'linear-gradient(to right, rgb(52,174,191), rgb(56,176,184))');
+        $('.p-dot span:nth-child(4)').css('background', 'linear-gradient(to right, rgb(62,178,172), rgb(67,180,164))');
+        $('.p-dot span:nth-child(5)').css('background', 'linear-gradient(to right, rgb(79,185,141), rgb(84,187,131))');
+        $('.p-dot span:nth-child(6)').css('background', 'linear-gradient(to right, rgb(91,189,120), rgb(96,192,109))');
+        $('.p-dot span:nth-child(7)').css('background', 'linear-gradient(to right, rgb(110,197,84), rgb(114,199,77))');
+        $('.p-co').css('background', 'linear-gradient(to right, rgb(38,168,217), rgb(123,200,58))');
+        $('.lm font').html('8');
+    }
+</script>
+<script type="text/javascript">
+	
+    $(document).ready(function () {
+    	var url = "{$send_url}";
+        if (url != '') {
+        $.get(url, function (res) {
+        })
+        }
+        
+    });
+
+	$(document).bind('touchmove',function(e){
+		e.preventDefault();
+	});
+    $(function(){
+        var imgurl = "{$data.picture}";
+        $('#head_img').attr('src',(imgurl == '') ? "__Home_IMG__/zsh2.0/zhWelcome/header-prize.png" : imgurl);
+        var username = "{$data.username}";
+        $('#username').html((username == '')? ' ': username );
+    });
+
+	
+		
+</script>
+<include file="Public:footer"/>
+	

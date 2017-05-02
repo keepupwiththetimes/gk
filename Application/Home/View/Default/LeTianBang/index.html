@@ -1,0 +1,585 @@
+<include file="LeTianBang:header" mark='index' />
+<div id="containerBox">
+	<div class="header">
+		<a href="javascript:void(0)" id="address" class="fa fa-cog"></a>
+		<div class="headerLogin">
+			<div class="headerImg">
+				<if
+					condition='!empty($_SESSION[$_SESSION["PLATFORM_CODE"]]["headimgurl"]) && !empty($_SESSION[$_SESSION["PLATFORM_CODE"]]["tel"])'>
+				<img src="{$_SESSION[$_SESSION["
+					PLATFORM_CODE"]]["headimgurl"]}" alt="" /> <else /> <img
+					src="__LETIANBANG__/images/header.png" alt="" /> </if>
+
+			</div>
+			<a href="{:U('LeTianBang/login')}" id="index-login"> <!--登录--> <if
+					condition='!empty($_SESSION[$_SESSION["PLATFORM_CODE"]]["tel"])'>
+				{$_SESSION[$_SESSION["PLATFORM_CODE"]]["tel"]} <else /> 请登录 </if> <img
+				class="registration" alt="" src="__LETIANBANG__/images/qiandao.png" />
+			</a> <a href="{:U('LeTianBang/login')}"><i
+				class="fa fa-chevron-right"></i></a>
+		</div>
+		<div class="box-menu">
+			<if condition="$selfBefore"> <span id="menu-right"> <a
+				href="###">猜你喜欢</a>
+			</span>
+			<p></p>
+			<span id="menu-left"> <a href="###" class="active1">我的优惠券</a>
+			</span> <else /> <span id="menu-left"> <a href="###" class="active1">猜你喜欢</a>
+			</span>
+			<p></p>
+			<span id="menu-right"> <a href="###">我的优惠券</a>
+			</span> </if>
+		</div>
+	</div>
+	<div id="search-container">
+		<input type="text" name="search-text" id="search-text" value="" /> <img
+			src="__LETIANBANG__/images/search.png" alt="" />
+	</div>
+	<div id="main-box">
+		<p class="container-none">暂未购买任何优惠券</p>
+		<p class="search-none">未搜索到您想要的优惠券信息</p>
+		<if condition='$selfBefore'>
+		<div id="all-box" class="box-box">
+			<else />
+			<div id="all-box" class="box-box show">
+		</if>
+
+		<if condition='count($allList) gt 0'> <volist name='allList'
+			id='v'>
+		<div class="list">
+			<a class="list-left" href="javascript:detail('{$v['url']}')"> <if
+					condition="$v['status'] eq 0 or $v['status'] eq 2"> <img
+					src="{$v['pic']}" onerror="javascript:this.src='';" class="gray" />
+				<p class="gray">
+					<span>{$v['platformCode']}</span>
+				</p>
+				<!-- 								     <img src="__LETIANBANG__/images/active_end.png" alt="" class="active-end"/> -->
+				<else /> <img src="{$v['pic']}" onerror="javascript:this.src='';" />
+				<p>
+					<span>{$v['platformCode']}</span>
+				</p>
+				</if>
+			</a>
+			<div class="list-right">
+				<p class="title">{$v['name']}</p>
+				<p class="time">时间:{$v['start']}-{$v['end']}</p>
+				<if condition="$v['verification'] eq 1"> <!-- <p class="number">
+										<span>券码:<font contentEditable=true id="active{$v['id']}{$v['productCode']}">{$v['productCode']}</font></span>
+			                            <button class="btn fa fa-files-o" data-clipboard-action="copy" data-clipboard-target="#active{$v['id']}{$v['productCode']}"></button>
+			                            <<i class="btn fa fa-files-o" data-clipboard-action="copy" data-clipboard-target="#active1" ></i>
+									</p> --> </if>
+				<if condition="!empty($v['platformCode'])"> <!-- <p class="public">公众号:{$v['platformCode']}</p> -->
+				</if>
+			</div>
+			<div class="bottom">
+				<a href="javascript:detail('{$v['url']}')" class="bottom-left">查看详情></a>
+				<if condition='$v["status"] eq 0'> <a
+					href="javascript:buy('unsale',1)" class="bottom-right gray">{$v['buyType']}</a>
+				<else /> <a
+					href="javascript:buy({$v['id']},{$v['ptid']},{$v['price']},'{$v['buyUrl']}')"
+					class="bottom-right">{$v['buyType']}</a> </if>
+			</div>
+		</div>
+		<hr />
+		</volist> <if condition="count($allList) gt 4"> <img
+			src="__LETIANBANG__/images/more-border.png" alt=""
+			class="more-border" id="all" />
+		<p class='getMore all' onclick="getMore('all',5)">更多</p>
+		</if> <else />
+		<p class="container-none" style="display: block">暂未购买任何优惠券</p>
+		</if>
+	</div>
+	<if condition='$selfBefore'>
+	<div id="mine-box" class="box-box show">
+		<else />
+		<div id="mine-box" class="box-box">
+	</if>
+	<if condition='count($selfProductList) gt 0'> <volist
+		name='selfProductList' id='v'>
+	<div class="list">
+		<a class="list-left" href="javascript:detail('{$v['url']}')"> <if
+				condition="$v['status'] eq 0 or $v['status'] eq 2"> <img
+				src="{$v['pic']}" onerror="javascript:this.src='';" class="gray" />
+			<p class="gray">
+				<span>{$v['platformCode']}</span>
+			</p>
+			<!-- <img src="__LETIANBANG__/images/active_end.png" alt="" class="active-end"/> -->
+			<else /> <img src="{$v['pic']}" onerror="javascript:this.src='';" />
+			<p>
+				<span>{$v['platformCode']}</span>
+			</p>
+			</if>
+		</a>
+		<div class="list-right">
+			<p class="title">{$v['name']}</p>
+			<p class="time">时间:{$v['start']}-{$v['end']}</p>
+			<if condition="$v['verification'] eq 1">
+			<p class="number">
+				<span>券码:<font contentEditable=true
+					id="active{$v['id']}{$v['productCode']}">{$v['productCode']}</font></span>
+				<button class="btn fa fa-files-o" data-clipboard-action="copy"
+					data-clipboard-target="#active{$v['id']}{$v['productCode']}"></button>
+				<!--<i class="btn fa fa-files-o" data-clipboard-action="copy" data-clipboard-target="#active1" ></i>-->
+			</p>
+			</if>
+			<!-- <p class="public">公众号:{$v['platformCode']}</p> -->
+		</div>
+		<div class="bottom">
+			<a href="javascript:detail('{$v['url']}')" class="bottom-left">查看详情></a>
+			<if condition='$v["status"] eq 0'> <a
+				href="javascript:buy('unsale',1)" class="bottom-right gray">{$v['buyType']}</a>
+			<else /> <if condition='$v["buyType"] eq "立即使用"'> <a
+				href="javascript:detail('{$v['buyUrl']}')" class="bottom-right">{$v['buyType']}</a>
+			<else /> <a
+				href="javascript:buy({$v['id']},{$v['ptid']},{$v['price']},'{$v['buyUrl']}')"
+				class="bottom-right">{$v['buyType']}</a> </if> </if>
+		</div>
+	</div>
+	<hr />
+	</volist> <if condition="count($selfProductList) gt 4"> <img
+		src="__LETIANBANG__/images/more-border.png" alt="" class="more-border"
+		id="self" />
+	<p class='getMore self' onclick="getMore('self',5)">更多</p>
+	</if> <else />
+	<p class="container-none" style="display: block">暂未购买任何优惠券</p>
+	</if>
+
+</div>
+
+<div id="search-box" class="search-box">
+
+	<img src="__LETIANBANG__/images/more-border.png" alt=""
+		class="more-border" />
+	<p class="getMore search">更多</p>
+</div>
+<div class="empty"></div>
+</div>
+</div>
+<!--href="#top"-->
+<a href="javascript:scrollTo(0,0)" title="回到顶部" data-am-smooth-scroll
+	class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
+
+<div id="logout">
+	<div class="logout-box">
+		<div class="text">更换账户登录</div>
+		<div class="number">
+			<p class="phone-number">
+				&nbsp;&nbsp;&nbsp;手机号码&nbsp;&nbsp;&nbsp; <input type="tel" name=""
+					oninput="checkN(this.id)" id="mobile" maxlength="11" value=""
+					placeholder="输入您的手机号" />
+			</p>
+			<p class="check-number">
+				<input type="tel" name="" id="checkNumber" oninput="checkM()"
+					value="" placeholder="请输入短信验证码" /> <span id="btn-check">获取验证码</span>
+			</p>
+		</div>
+		<span class="submitBtn">确认登录</span> <span class="closeLogin">X</span>
+	</div>
+</div>
+</body>
+<include file="LeTianBang:footer" />
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+
+
+		//---------------------------判断手机--------------------------------------
+		var u = navigator.userAgent; 
+		var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+		//android终端 
+		var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+		//ios终端 
+		//alert('是否是Android：'+isAndroid); 
+		//alert('是否是iOS：'+isiOS);
+		if (isAndroid){
+			$(".fa-files-o").hide();
+		}
+	
+	
+		//-------------------------复制功能实现-------------------------------------
+		var clipboard = new Clipboard('.btn');
+	    clipboard.on('success', function(e) {
+	        console.log(e);
+	    });
+	    clipboard.on('error', function(e) {
+	        console.log(e);
+	    });
+	    
+	    
+	    //---------------------------加载更多--------------------------------------
+//	    $(".getMore").click(function(){
+////	    	swal("乐天邦提醒您", "没有更多内容可加载");
+//			 $(".getMore").html("正在加载!");
+//			 $(".getMore").css({
+//			 	position:"absolute",
+//			 	left:"50%",
+//			 	marginLeft:"-35px"
+//			 });
+//	    });
+        function getMoreLoad(className,status){
+
+        	if(status =='show'){
+
+        		$("."+className).html('正在加载...');
+        		 $("."+className).css({
+				 	position:"absolute",
+				 	left:"50%",
+				 	marginLeft:"-35px"
+				 });
+        	}else{
+
+
+        		 $("."+className).html('更多');
+        		 $("."+className).css({
+        		 	'left' : '',
+        		 	'marginLeft':'',
+        		 	'position':''
+				 });
+        	}
+        }
+	    var num = 5;
+	    var isClick = false;
+	    function getMore(type,start){
+            
+	    	if(!isClick){
+	    		getMoreLoad(type,'show')
+                isClick = true
+	    		$.ajax({
+
+	               url:"{:U('LeTianBang/getMore')}",
+	               data:{type:type,start:start},
+	               success:function(data){
+                     isClick =  false
+	                 if(data['status']==0){
+
+	                 	$("."+type).attr('onclick','getMore("'+type+'",'+(start+5)+')');
+	                 	var html  = htmlList(data['list'])
+	                 	if(start==0){
+                            html += '<img src="__LETIANBANG__/images/more-border.png" alt="" class="more-border" id="all"/>';
+					        html += '<p class="getMore all" onclick="getMore(\''+type+'\','+(start+5)+')">更多</p>'
+	                 		$("#"+type+"-box").html(html)
+	                 	}else{
+
+	                 		$("#"+type).before(html)
+	                 	}
+	                 }else{
+
+                        $("."+type).css('color','gray')
+                        swal("乐天邦提醒您",'已经加载完全')
+                         $("."+type).attr('onclick','swal(\"乐天邦提醒您\",\'已经加载完全\')')
+	                 	
+                       
+	                 }
+$('.list-left img').attr('onerror','nofindOne()');//优惠券图片缺失
+	                 getMoreLoad(type,'hide')
+	               }
+		    	})
+	    	}
+	    }
+	    
+	    
+	    //-------------------------优惠券图片缺失------------------------------------
+	    $('.list-left img').attr('onerror','nofindOne()');//优惠券图片缺失
+		function nofindOne(){
+			var img=event.srcElement;
+			img.src="__LETIANBANG__/images/wait.png";
+			img.onerror=null; //控制不要一直跳动
+		};
+		
+
+		//-------------------------优惠券设定高度-------------------------------------
+		if(window.name!='detail'){
+
+		if($("#all-box").attr('class')=='box-box'){
+
+			var cheapW = $('#mine-box .list-left').css('width');
+		}else{
+
+			var cheapW = $('#all-box .list-left').css('width');
+		}
+			console.log($("#all-box").attr('class'))
+	    var cheapH = parseInt(cheapW)*0.6;
+	    $('.list-left').css('height',cheapH.toString());
+	    $('.thumbnail img:nth-child(1)').css('height',cheapH.toString());
+		}
+		
+		
+		
+		//-----------------------------搜索------------------------------------------
+		// $(" #search-box img").click(function (){
+		// 	search()
+
+		// });
+		
+		function search(start,key){
+			if(!start){
+
+				start = 0 ;
+			}
+			if(!isClick){
+                isClick = true
+                getMoreLoad('search','show')
+                if(!key){
+
+                	var key = $("#search-text").val();
+                }
+                if(!key){
+                   
+                   isClick = false;
+                   swal('乐天邦提醒您','搜索内容不能为空')
+
+             		var html = '<p class="search-none" style="display:block">搜索内容不能为空</p>'
+                    $("#search-box").html(html);
+                   return false
+                }
+	    		$.ajax({
+
+	               url:"{:U('LeTianBang/search')}",
+	               data:{key:key,submit:'submit',start:start},
+	               success:function(data){
+                     isClick =  false
+	                 if(data['status']==0){
+
+	                 	//$("."+type).attr('onclick','getMore("'+type+'",'+(start+5)+')');
+	                 	
+	                 	if(start==0){
+
+	                 		var html  = htmlList(data['list'])
+	                 		html += '<img src="__LETIANBANG__/images/more-border.png" alt="" class="more-border" id="search"/>';
+					        html += '<p class="getMore search" id="search-gray" onclick="test('+(start+5)+',\''+key+'\')">更多</p>'
+	                 		$("#search-box").html(html)
+
+	                 	}else{
+
+	                 		var html  = htmlList(data['list'])
+	                 		$("#search").before(html);
+	                 		$(".search").attr('onclick','test('+(start+5)+',\''+key+'\')')
+	                 	}
+	                 	$('.list-left img').attr('onerror','nofindOne()');//优惠券图片缺失
+	                 }else{
+                      
+                      if(start == 0){
+
+                      	var html = '<p class="search-none" style="display:block">未搜索到您想要的优惠券信息</p>'
+                           $("#search-box").html(html);
+                      }else{
+                      	$("#search-gray").css('color','gray')
+	                 	swal("乐天邦提醒您",'已经加载完全')
+	                 	// $(".search").attr('onclick','swal(\"乐天邦提醒您\",\'已经加载完全\')')
+                      }
+                       
+	                 }
+	                 
+	                 getMoreLoad('search','hide')
+	               }
+		    	})
+	    	}
+		}
+
+		function test(a,b){
+
+			search(a,b)
+		}
+	//----------------------------tab切换-----------------------------------------
+		var spans = document.querySelectorAll(".box-menu a");
+		var divs = document.querySelectorAll(".box-box");
+		for (var i=0;i<spans.length;i++){
+			spans[i].index = i;//自定义属性
+			spans[i].onclick = function(){
+//				alert(this.index);
+				$("#search-box").hide();
+				for(var i=0;i<divs.length;i++){
+					divs[i].className="box-box";
+					spans[i].className="";
+				}
+				divs[this.index].className = "box-box show";
+				this.className = "active1";
+			}
+		}
+		
+		
+		//-----------------------------搜索------------------------------------------
+		$(" #search-container img").click(function (){
+//			alert("搜索");
+			for (var i=0;i<spans.length;i++){
+				divs[i].className="box-box";
+				spans[i].className="";
+			}
+			search()
+			$("#search-box").show();
+
+		});
+		
+		//---------------------------返回顶部-------------------------------------
+		$(document).scroll(function(){ 
+			var  scrollTop =  $(document).scrollTop()
+			bodyHeight = $(window).height(); 
+			if(scrollTop > bodyHeight){ 
+				$('#amz-go-top').show(300);
+			}else{
+				$('#amz-go-top').hide(300);
+			} 
+			if (scrollTop ==0 ){
+				$('#amz-go-top').hide(300);
+			}
+		});
+		
+		//------------------------切换账户-----------------------------------------
+
+		
+		//关闭登录弹窗
+		// $(".bottom-right").click(function (){
+		// 	$("#logout").show();
+		// });
+		$(".closeLogin").click(function (){
+			$("#logout").hide();
+		});
+		 function htmlList(list){
+            
+            var str = ""; 
+		 	$.each(list,function(index,v){
+  
+					str += '<div class="list">'
+					str += '<a class="list-left" style="height:'+cheapH+'px" href="javascript:detail(\''+v["url"]+'\')">'
+					if(v['status'] == 0){
+
+						str += '<img src="'+v['pic']+'" onerror="javascript:this.src=\'\';" class="gray"/>'
+						//str += '<img src="__LETIANBANG__/images/active_end.png" alt="" class="active-end"/>'
+						str += '<p class="gray"><span>'+v["platformCode"]+'</span></p>'
+					}else{
+                        
+                        str += '<img src="'+v['pic']+'" onerror="javascript:this.src=\'\';"/>'
+                        str += '<p><span>'+v["platformCode"]+'</span></p>'
+					}
+                    str += '</a>'
+                    str += '<div class="list-right">'
+					str += '<p class="title">'+v["name"]+'</p>'
+					str += '<p class="time">时间:'+v["start"]+'-'+v["end"]+'</p>'		
+					if(v['verification'] == 1 && v["productCode"]){
+
+						str += '<p class="number">'
+						str += '<span>券码:<font contentEditable=true id="active'+v["id"]+v["productCode"]+'">'+v["productCode"]+'</font></span>'
+						str += '<button class="btn fa fa-files-o" data-clipboard-action="copy" data-clipboard-target="#active'+v["id"]+v["productCode"]+'"></button>'
+						str += '</p>'
+					}
+					// if(v["platformCode"]){
+
+					// 	str += '<p class="public">公众号:'+v["platformCode"]+'</p>'	
+					// }		
+					str += '</div>'	
+					str += '<div class="bottom">'	
+					str += '<a href="javascript:detail(\''+v["url"]+'\')"class="bottom-left">查看详情></a>'
+					if(v['status'] == 0){
+
+						str += '<a href="javascript:buy(\'unsale\',1)" class="bottom-right gray">'+v['buyType']+'</a>'
+					}else{
+                        console.log(v["buyType"])
+                        if(v["buyType"] !='立即使用'){
+
+                        	str += '<a href="javascript:buy('+v['id']+','+v['ptid']+','+v['price']+',\''+v["buyUrl"]+'\')" class="bottom-right">'+v['buyType']+'</a>'
+                        }else{
+
+                        	str += '<a href="javascript:detail(\''+v["buyUrl"]+'\')" class="bottom-right">'+v['buyType']+'</a>'
+                        }
+						
+					}
+					
+					str += '</div></div><hr />'
+		 	})
+        
+          return str
+		 }
+
+		 function buy(id,ptid,price,url2){
+            if(id == 'unsale'){
+
+            	 swal("乐天邦提醒您",'产品已下架','');
+            	 return false
+            }
+
+		 	$.ajax({
+
+		 		url:"{:U('Home/LeTianBang/doOrder')}",
+		 		data:{product_id: id, quality: '1', pay_price: price,ptid:ptid},
+		 		type:'post',
+		 		success:function(data){
+
+                    //var data = eval('('+data+')')
+                    if(data.state==4){
+
+                    	detail(url2);
+		 			}else if (data.state==2) {
+                    var url=("{:U('/Home/Order/pay',array('id'=>'suffix_id'))}");
+                        window.location=url.replace(/suffix_id/g, data.order_id);
+                        //$('.loading-bg').hide();
+                        //console.log(url.replace(/suffix_id/g, data.order_id));
+
+                } else if (data.state==-1) {  //未登录
+                    //$("#login-dropdown").dropdown('toggle');
+                     window.location="{:U('LeTianBang/login')}"
+                    // $('#container-content').hide();
+                   // $("#logout").show()
+                } else {
+                	// var msg = data['msg'].replace(/个人中心/,'我的优惠券')
+                	//     msg = msg.replace(/我的订单/,'我的优惠券')
+                	
+                   swal("乐天邦提醒您",data['msg'],'');
+                   if(data.return_url){
+
+                   	 setTimeout(function(){
+
+                   	 	window.location=data.return_url
+                   	 },3000)
+                   }
+                  
+                   //$('.loading-bg').hide();
+                }
+		 		}
+		 	})
+		 }
+
+function detail(url){
+
+	window.name='detail'
+	window.localStorage.detail = $("body").html()
+	window.location = url;
+}
+//微信页面回退防止刷新
+document.addEventListener("DOMContentLoaded", function () { unloadCache(); }, false);
+function unloadCache(){
+
+	if(window.name=='detail' && window.localStorage.detail){
+
+		$("body").html(window.localStorage.detail)
+		window.name = 'detail2';
+	}
+}
+	</script>
+
+
+<script type="text/javascript">
+
+
+
+
+    window.eType = document.hasOwnProperty("ontouchstart") || window.hasOwnProperty("ontouchstart") ? "touchstart" : "click";
+  
+    var stores={$stores|json_encode};
+    wx.ready(function () {
+        //获取用户地址
+        $("#address").on(eType,function () {
+            wx.openAddress({
+                success: function (res) {
+                    
+                },
+                cancel: function () {
+                    // 用户取消拉出地址
+                }
+            });
+        });
+    });
+
+   
+</script>
+</html>

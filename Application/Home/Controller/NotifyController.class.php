@@ -1,0 +1,589 @@
+<?php
+namespace Home\Controller;
+
+use Think\Controller;
+use Common\Api\WxApi;
+use Common\Api\Wxpay\UnifiedOrder_pub;
+
+/*
+ * ****************************
+ *
+ * 回调控制器
+ * @since 2016-06-08
+ *
+ * ****************************
+ */
+class NotifyController extends Controller
+{
+
+    private $redis;
+
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->platform_config = getPlatformConfig($_SESSION['PLATFORM_CODE']);
+        $this->assign('templet', $this->platform_config['templet']);
+        // if(empty($this->page_title)){
+        //     $this->assign('page_title', '乐天邦 - 您的专享优惠');
+        // }
+        if (online_redis_server)
+            $this->redis = new \Vendor\Redis\DefaultRedis();
+    }
+
+    public function wxPay()
+    {
+        $xml = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : '';
+        if (empty($xml)) {
+            $xml = file_get_contents('php://input', 'r');
+        }
+        
+        // 存储微信的回调
+        $wxApi = new WxApi(C('APP_ID'), C('APP_SECRET'));
+        $wxApi->saveData($xml);
+        $out_trade_no_arr = explode('_', $wxApi->data['out_trade_no']);
+        $out_trade_no = isset($out_trade_no_arr[0]) ? $out_trade_no_arr[0] : '';
+        
+        doLogNoSession('Notify/Wxpay', '支付成功时活动已结束', $orderInfo['productid'], $out_trade_no, 111, 10, 'test');
+        
+        // 写入回调数据日志
+        $PayLogModel = D('PayLog');
+        $log_data = array();
+        $log_data['ordernum'] = isset($out_trade_no) ? $out_trade_no : '';
+        $log_data['content'] = $xml;
+        $log_data['createtime'] = $log_data['updatetime'] = date('Y-m-d H:i:s');
+        $PayLogModel->data($log_data)->add();
+        
+        // 验证签名，并回应微信。
+        // 对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
+        // 微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
+        // 尽可能提高通知的成功率，但微信不保证通知最终能成功。
+        if ($wxApi->checkSign() == FALSE) {
+            $wxApi->setReturnParameter("return_code", "FAIL"); // 返回状态码
+            $wxApi->setReturnParameter("return_msg", "签名失败"); // 返回信息
+        } else {
+            if ($wxApi->data["return_code"] != "FAIL") {
+                // 返回成功，操作业务流程
+                $OrderModel = D('order');
+                $ordenum = isset($out_trade_no) ? $out_trade_no : '';
+                $transaction_no = isset($wxApi->data['transaction_id']) ? $wxApi->data['transaction_id'] : '';
+                $pay_account = isset($wxApi->data['openid']) ? $wxApi->data['openid'] : '';
+                $now = date('Y-m-d H:i:s');
+                $orderInfo = M('order')->table('tb_order o,tb_order_product p')
+                    ->field('p.producttypeid as type_id,p.productid,p.ptid,p.ptname,p.producttypeid as type_id,p.quality,p.id,o.ptuserid,o.ordenum as trade_sn,o.tel')
+                    ->where("o.ordenum='%s' and o.id=p.orderid", array(
+                    $ordenum
+                ))
+                    ->find();
+                $pay_status = 2;
+                
+                if ($orderInfo['type_id'] == 4) {
+                    
+                    // $oneCoinProduct = M('product')->where(array('id'=>$orderInfo['productid']))->find();
+                    $oneCoinProduct = M('product')->where("id=%d", $orderInfo['productid'])->find();
+                    if (strtotime($oneCoinProduct['end']) < time()) {
+                        
+                        $pay_status = 5;
+                        doLogNoSession('Notify/Wxpay', '支付成功时活动已结束', $orderInfo['productid'], json_encode($wxApi->data), $orderInfo['ptuserid'], $orderInfo['ptid'], $orderInfo['ptname']);
+                    }
+                }
+                
+                // $result = $OrderModel->where(array('ordenum' => $ordenum, 'pay_status' => '1', 'pay_type' => '1'))->
+                $result = $OrderModel->where("ordenum='%s' and pay_status=1 and pay_type=1", $ordenum)
+                    ->lock(true)
+                    ->data(array(
+                    'pay_status' => $pay_status,
+                    'transaction_no' => $transaction_no,
+                    'pay_account' => $pay_account,
+                    'pay_time' => $now,
+                    'updatetime' => $now
+                ))
+                    ->save();
+                // dlog('Notify/Wxpay','支付成功','',json_encode($wxApi->data));
+                if (! empty($result)) {
+                    
+                    // 更新用户表
+                    
+                    // 一元购增加记录
+                    // $info = M('order')->field('b.producttypeid as type_id,a.ordenum as trade_sn,a.ptuserid,a.ptid,a.ptname,b.productid,b.quality,a.tel,b.id')->table('tb_order a,tb_order_product b')->where("a.transaction_no='".$transaction_no."' and a.id =b.orderid")->find();
+                    $this->redis->databaseSelect('order');
+                    // M('product')->where(array('id' => $orderInfo['productid'], 'total' => array('gt', 0)))->setInc('saleallquantity', $orderInfo['quality']); //更新product里的数据
+                    M('product')->where("id=%d and total>0", $orderInfo['productid'])->setInc('saleallquantity', $orderInfo['quality']); // 更新product里的数据
+                    
+                    if ($orderInfo['type_id'] == 4) { // 一元购
+                        
+                        if (online_redis_server) {
+                            
+                            $this->redis->del('waitPayProductid' . $orderInfo['productid'] . 'Tradesn:' . $ordenum); // 删除锁定数据
+                        }
+                        if (strtotime($oneCoinProduct['end']) > time()) { // 活动没结束的时候 生成中奖码
+                            
+                            doLogNoSession('Notify/Wxpay', '支付成功', $orderInfo['productid'], json_encode($wxApi->data), $orderInfo['ptuserid'], $orderInfo['ptid'], $orderInfo['ptname']);
+                            D('OneCoin')->setRecord($orderInfo);
+                        }
+                    } else {
+                        
+                        if (online_redis_server) {
+                            
+                            // M('platform_product')->where(array('platform_id' => $orderInfo['ptid'], 'product_id' => $orderInfo['productid'], 'total' => array('gt', 0)))->setInc('salequantity', $orderInfo['quality']);
+                            M('platform_product')->where("platform_id=%d and product_id=%d and total>0", array(
+                                $orderInfo['ptid'],
+                                $orderInfo['productid']
+                            ))->setInc('salequantity', $orderInfo['quality']);
+                            $this->redis->del('waitPayPtid' . $orderInfo['ptid'] . 'Productid' . $orderInfo['productid'] . 'Tradesn:' . $ordenum); // 删除锁定数据
+                        }
+                        
+                        doLogNoSession('Notify/Wxpay/loganalysis', '支付成功', $orderInfo['productid'], json_encode($wxApi->data), $orderInfo['ptuserid'], $orderInfo['ptid'], $orderInfo['ptname']);
+                        // $productinfo = M('product')->where('id='.$orderInfo['productid'])->cache(true, 300)->find();
+                        $productinfo = M('product')->where('id=%d', $orderInfo['productid'])
+                            ->cache(true, 300)
+                            ->find();
+                        // $customer = M('customer')->where(array('code'=>$_SESSION['PLATFORM_CODE']))->find();
+                        $customer = M('customer')->where("code='%s'", $_SESSION['PLATFORM_CODE'])->find();
+                        $msg = str_replace('{channel}', $customer['name'], $productinfo['smstpl']);
+                        // $msg = str_replace('{couponcode}', $product_code['couponcode'], $msg);
+                        //
+                        if ($productinfo['issms'] == 1) {
+                            
+                            $msg = send_msg($orderInfo['tel'], $msg);
+                            
+                            // M('order_product')->where(array('id'=>$orderInfo['id']))->data(array('smsreturnvalue' => $msg))->save();
+                            M('order_product')->where("id=%d", $orderInfo['id'])
+                                ->data(array(
+                                'smsreturnvalue' => $msg
+                            ))
+                                ->save();
+                        }
+                    }
+                    $wxApi->setReturnParameter("return_code", "SUCCESS"); // 设置返回码
+                } else {
+                    $wxApi->setReturnParameter("return_code", "FAIL"); // 返回状态码
+                    $wxApi->setReturnParameter("return_msg", "订单不存在"); // 返回信息
+                }
+            }
+        }
+        $returnXml = $wxApi->returnXml();
+        exit($returnXml);
+    }
+
+    /**
+     * [doOrderOneCoin 一元购发奖品]
+     * @ckhero
+     * @DateTime 2016-07-14
+     * 
+     * @param string $product_id
+     *            [优惠券id]
+     * @param string $list
+     *            [未中奖用户列表]
+     * @return [type] [description]
+     */
+    public function doOrderOneCoin($product_id = '', $list = '')
+    {
+        // TODO， 2016-10-20: 数据库的语句没有修改。如果上线一元购的话需要修改以防注入
+        $quality = 1;
+        $pay_price = 0;
+        $pay_type = 0;
+        $addr_id = 0;
+        $type_id = 1;
+        $ProductModel = M('Product');
+        $PlatformModel = M('Platform');
+        $ProductCodeModel = M('ProductCode');
+        $CustomerModel = M('Customer');
+        $OrderModel = D('order');
+        $product_info = $ProductModel->where(array(
+            'id' => $product_id
+        ))->find();
+        $start_time = strtotime($product_info['start']);
+        $end_time = strtotime($product_info['end']);
+        // 判断是否过期
+        
+        if ($start_time > time() || $end_time < time()) {
+            
+            doLogNoSession('Notify/doOrderOneCoin', '优惠券已过期', $product_id, '', $list[0]['ptuserid'], $list[0]['ptid'], $list[0]['ptname']);
+            // doLog('Member/doOrderOneCoin', $this->oneCoin."-优惠券已过期", $product_id);
+            return false;
+        }
+        
+        // 判断是否是优惠券
+        if ($product_info['verification'] != 1) {
+            
+            doLogNoSession('Notify/doOrderOneCoin', '该商品不是优惠券', $product_id, '', $list[0]['ptuserid'], $list[0]['ptid'], $list[0]['ptname']);
+            // doLog('Member/doOrderOneCoin', $this->oneCoin."-该商品不是优惠券", $product_id);
+            return false;
+        }
+        foreach ($list as $key => $val) {
+            
+            // 判断是否已发放
+            // $is_get = $this->checkOrder($product_id,$val['ptuserid'],$val['ptid']);
+            // if(!$is_get){ //已发放;
+            
+            // continue;
+            // }
+            
+            // 判断商品库存
+            // $PlatformProductModel = D('PlatformProduct');
+            // $isExist = $PlatformProductModel->checkProductExist($product_id);
+            // if ($isExist!=1) {
+            if ($product_info['total'] - $product_info['saleallquantity'] < 1) {
+                
+                doLogNoSession('Notify/doOrderOneCoin', '库存不足', $product_id, '', $list[0]['ptuserid'], $list[0]['ptid'], $list[0]['ptname']);
+                // doLog('Member/doOrderOneCoin', $this->oneCoin."-库存不足", $product_id);
+                return false;
+            }
+            
+            $platform_info = $PlatformModel->where(array(
+                'id' => $val['ptid']
+            ))
+                ->cache(3600)
+                ->find();
+            $product_code = $ProductCodeModel->where(array(
+                'productid' => $product_id,
+                'status' => 0
+            ))
+                ->lock(true)
+                ->find();
+            
+            $customer_info = $CustomerModel->where(array(
+                'id' => $val['ptid']
+            ))
+                ->cache(3600)
+                ->find();
+            
+            if (empty($product_code)) {
+                
+                doLogNoSession('Notify/doOrderOneCoin', '优惠券不足', $product_id, '', $list[0]['ptuserid'], $list[0]['ptid'], $list[0]['ptname']);
+                // doLog('Member/doOrderOneCoin', $this->oneCoin."-优惠券不足", $product_id);
+                return false;
+                continue;
+            }
+            
+            $state5 = $ProductCodeModel->where(array(
+                'id' => $product_code['id'],
+                'status' => '0'
+            ))
+                ->lock(true)
+                ->data(array(
+                'status' => 1,
+                'updatetime' => date('Y-m-d H:i:s')
+            ))
+                ->save();
+            
+            if ($state5) {
+                
+                // 订单表里生成订单记录
+                $data = array();
+                $data['ordenum'] = date('YmdHis') . createNonceStr(4, '1234567890');
+                $data['tel'] = $val['tel'];
+                $data['ptuserid'] = $val['ptuserid'];
+                $data['pay_status'] = 0;
+                $data['pay_type'] = $pay_type;
+                $data['pay_price'] = $pay_price;
+                $data['pay_account'] = '';
+                $data['transaction_no'] = '';
+                $data['pay_time'] = '1900-01-01 00:00:00';
+                $data['addr_id'] = $addr_id;
+                $data['ptid'] = $platform_info['id'];
+                $data['ptname'] = $platform_info['name'];
+                $data['remark'] = '';
+                $data['updatetime'] = date('Y-m-d H:i:s');
+                $data['ordertime'] = date('Y-m-d H:i:s');
+                $data['createtime'] = date('Y-m-d H:i:s');
+                $data['updatetime'] = date('Y-m-d H:i:s');
+                $id = $OrderModel->data($data)->add();
+                // 订单商品表里生成订单记录
+                $OrderProductModel = D('OrderProduct');
+                $product_data = array();
+                $product_data['orderid'] = $id;
+                $product_data['productid'] = $product_id;
+                $product_data['productname'] = $product_info['name'];
+                $product_data['producttypeid'] = $product_info['type_id'];
+                $product_data['ptid'] = $platform_info['id'];
+                $product_data['ptname'] = $platform_info['name'];
+                // $product_data['smsreturnvalue'] = '';
+                $product_data['status'] = $product_info['ifpay'];
+                $product_data['quality'] = $quality;
+                $product_data['productcodeid'] = $product_code['id'];
+                $product_data['productcode'] = $product_code['couponcode'];
+                $product_data['createtime'] = date('Y-m-d H:i:s');
+                $product_data['updatetime'] = date('Y-m-d H:i:s');
+                $product_data['tel'] = $val['tel'];
+                $od_id = $OrderProductModel->data($product_data)->add();
+                // 检验订单是否正常生成否则撤销操作
+                if (! $id || ! $od_id) {
+                    
+                    if ($id) {
+                        $OrderModel->where(array(
+                            'id' => $id
+                        ))->delete();
+                    }
+                    if ($od_id) {
+                        $OrderProductModel->where(array(
+                            'id' => $od_id
+                        ))->delete();
+                    }
+                    if ($product_info['verification'] == 1 && $state5) {
+                        $ProductCodeModel->where(array(
+                            'id' => $product_code['id'],
+                            'status' => '1'
+                        ))
+                            ->lock(true)
+                            ->data(array(
+                            'status' => 0,
+                            'updatetime' => date('Y-m-d H:i:s')
+                        ))
+                            ->save();
+                    }
+                    doLogNoSession('Notify/doOrderOneCoin', '订单失败', $product_id, '', $val['ptuserid'], $val['ptid'], $val['ptname']);
+                    // doLog('Member/doOrderOneCoin', $this->oneCoin."-订单失败-userid:".$val['ptuserid'], $product_id);
+                    continue;
+                }
+                
+                $ProductModel->where(array(
+                    'id' => $product_id,
+                    'total' => array(
+                        'gt',
+                        0
+                    )
+                ))->setInc('saleallquantity', $quality);
+                
+                // 发送短信，并将返回值保存到订单表
+                $return_sms = NULL;
+                if ($product_info['issms'] == 1) {
+                    $msg = str_replace('{channel}', $customer_info['name'], $product_info['smstpl']);
+                    $msg = str_replace('{couponcode}', $product_code['couponcode'], $msg);
+                    $return_sms = send_msg($val['tel'], $msg);
+                    // $return_sms = null;
+                    $return['msg'] = $return_sms;
+                    $coupon['code'] = $product_data['productcode'];
+                    doLogNoSession('Notify/doOrderOneCoin', "短信返回结果", $product_id, json_encode($return), $val['ptuserid'], $val['ptid'], $val['ptname']);
+                    doLogNoSession('Notify/doOrderOneCoin', "成功", $product_id, json_encode($coupon), $val['ptuserid'], $val['ptid'], $val['ptname']);
+                    // doLog('Member/doOrderOneCoin', $this->oneCoin."-短信返回结果", $product_id,json_encode($return));
+                    // doLog('Member/doOrderOneCoin', $this->oneCoin."-成功", $product_id,json_encode($coupon));
+                }
+                
+                $OrderProductModel->where(array(
+                    'id' => $od_id
+                ))
+                    ->data(array(
+                    'smsreturnvalue' => $return_sms
+                ))
+                    ->save();
+            }
+        }
+        
+        return true;
+    }
+
+    public function notify()
+    {
+        //$str = I('get.payresult');
+        $payType = I('get.payType', 'weixin');
+        if ($payType == 'cmbc') {
+            
+            $pay_type = 3;
+        } else if ($payType == 'weixin') {
+                
+            $pay_type = 1;
+        } else if ($payType == 'ali') {
+                
+            $pay_type = 2;
+        }
+        $payment = new \Common\Pay\PayFactory($payType, C($payType . 'Pay'));
+        $res = $payment->notify();
+
+        //返回结果
+        echo $this->handleOrder($res, $pay_type, $payment);
+    }
+
+    public function payReturn()
+    {
+
+        //$str = I('get.payresult');
+        $payType = I('get.payType', 'weixin');
+        if ($payType == 'cmbc') {
+            
+            $pay_type = 3;
+        } else if ($payType == 'weixin') {
+                
+            $pay_type = 1;
+        } else if ($payType == 'ali') {
+                
+            $pay_type = 2;
+        }
+        $payment = new \Common\Pay\PayFactory($payType, C($payType . 'Pay'));
+        $res = $payment->payReturn();
+         doLogNoSession('Notify/Error', '前端跳转页面显示失败', '', json_encode($res).";PaytYPE:".$pay_type.";payment:".$payment, '', '', '');
+        if($payType == 'cmbc') { 
+
+            $this->handleOrder($res, $pay_type, $payment);
+        }
+        $tablePrefix = C('DB_PREFIX');
+        $orderInfo = M('order')->alias('o')
+                ->field('p.producttypeid as type_id,p.productid,p.ptid,p.ptname,p.producttypeid as type_id,p.quality, p.id as pid, p.productname, o.ptuserid,o.ordenum as trade_sn, o.pay_price, o.createtime, o.tel, o.pay_status,o.id as orderid, m.*')
+                 ->join($tablePrefix."order_product as p on o.id=p.orderid")
+                 ->join($tablePrefix."user_mailing_addr as m on o.addr_id=m.id")
+                ->where("o.ordenum='%s'", $res['data']['ordenum'])
+                ->find();
+        if(empty($this->page_title)){
+            $this->assign('page_title', '乐天邦 - 支付结果');
+            if ( strcasecmp($_SESSION['PLATFORM_CODE'], 'MSYHC') == 0 )
+                $this->assign('page_title', '支付结果');
+        }
+        if($orderInfo['pay_status'] == 2 && $res['status'] == 1) {
+             
+            $orderInfo['createtime'] = date('Y-m-d', strtotime($orderInfo['createtime']));
+            //支付状态
+            if($orderInfo['pay_status'] == 2) {
+
+                $orderInfo['pay_status'] = L('_PAY_OK_');
+            } elseif($orderInfo['pay_status'] == 4) {
+
+                $orderInfo['pay_status'] = L('_PAY_FAIL_');
+            } else {
+
+                $orderInfo['pay_status'] = L('_UN_PAY_');
+            }
+            $this->assign('orderInfo', $orderInfo);
+            $this->assign('orderid',$orderInfo['orderid']);
+            $this->display('Order:payok');
+        }else{
+            
+            $this->assign('orderid',$orderInfo['orderid']);
+            $this->display('Order:payfail');
+        }
+    }
+
+    /**
+     * [handleOrder 处理订单]
+     * @ckhero
+     * @DateTime 2017-01-20
+     * @param    [type]     $res      [处理好的回调数据]
+     * @param    [type]     $pay_type [支付类型 1 微信; 2 支付宝; 3民生银行]
+     * @return   [type]               [description]
+     */
+    private function handleOrder($res, $pay_type, $payment)
+    {
+        $payResult = $res['data'];
+        extract($payResult);
+        // 写入回调数据日志
+        $PayLogModel = D('PayLog');
+        $log_data = array();
+        $log_data['ordernum'] = isset($ordenum) ? $ordenum : '';
+        $log_data['content'] = $xml;
+        $log_data['createtime'] = $log_data['updatetime'] = date('Y-m-d H:i:s');
+        $PayLogModel->data($log_data)->add();
+        // $payResult["return_code"] = $res['status'];
+        if ($res['status'] == 1) {
+            // 返回成功，操作业务流程
+            $OrderModel = D('order');
+            // $ordenum = $res['msg']['out_trade_no'];
+            // $transaction_no = isset($payResult['transaction_id']) ?$payResult['transaction_id']:'' ;
+            // $pay_account = isset($payResult['openid']) ?$payResult['openid']:'' ;
+            $now = date('Y-m-d H:i:s');
+            $orderInfo = M('order')->table('tb_order o,tb_order_product p')
+                ->field('p.producttypeid as type_id,p.productid,p.ptid,p.ptname,p.producttypeid as type_id,p.quality,p.id,o.ptuserid,o.ordenum as trade_sn,o.tel, o.pay_status, o.addr_id, o.id')
+                ->where("o.ordenum='%s' and o.id=p.orderid", array(
+                $ordenum
+            ))
+                ->find();
+            if($orderInfo['pay_status'] == 2){
+
+                $payment->setReturnParameter("return_code", "SUCCESS"); // 设置返回码
+                $returnXml = $payment->sendReturnMsg();
+                return $returnXml;
+            }
+            $pay_status = 2;
+            
+            if ($orderInfo['type_id'] == 4) {
+                
+                $oneCoinProduct = M('product')->where(array(
+                    'id' => $orderInfo['productid']
+                ))->find();
+                if (strtotime($oneCoinProduct['end']) < time()) {
+                    
+                    $pay_status = 5;
+                    doLogNoSession('Notify/Wxpay', '支付成功时活动已结束', $orderInfo['productid'], json_encode($payResult), $orderInfo['ptuserid'], $orderInfo['ptid'], $orderInfo['ptname']);
+                }
+            }
+            
+            $result = $OrderModel->where(array('ordenum' => $ordenum,'pay_status' => '1','pay_type' => $pay_type))
+                                 ->lock(true)
+                                 ->data(array('pay_status' => $pay_status,'transaction_no' => $transaction_no,'pay_account' => $pay_account,'pay_time' => $now,'updatetime' => $now))
+                                 ->save();
+
+            // dlog('Notify/Wxpay','支付成功','',json_encode($payResult));
+            if (! empty($result)) {
+                //更新订单地址
+                $addrDetail = M('user_mailing_addr')->field('name, tel, province, city, address')->where("id = %d", $orderInfo['addr_id'])->find();
+                M('order_extra')->add(array('order_id' => $orderInfo['id'], 'addr_detail' => json_encode($addrDetail)));
+                // 更新用户表
+                
+                // 一元购增加记录
+                // $info = M('order')->field('b.producttypeid as type_id,a.ordenum as trade_sn,a.ptuserid,a.ptid,a.ptname,b.productid,b.quality,a.tel,b.id')->table('tb_order a,tb_order_product b')->where("a.transaction_no='".$transaction_no."' and a.id =b.orderid")->find();
+                $this->redis->databaseSelect('order');
+                M('product')->where(array('id' => $orderInfo['productid'],'total' => array('gt',0)))->setInc('saleallquantity', $orderInfo['quality']); // 更新product里的数据
+                
+                setProductDownloadOrPurchaseNuminRedis($orderInfo['productid'], $this->redisLog);
+                
+                if ($orderInfo['type_id'] == 4) { // 一元购
+                    
+                    if (online_redis_server) {
+                        
+                        $this->redis->del('waitPayProductid' . $orderInfo['productid'] . 'Tradesn:' . $ordenum); // 删除锁定数据
+                    }
+                    if (strtotime($oneCoinProduct['end']) > time()) { // 活动没结束的时候 生成中奖码
+                        
+                        doLogNoSession('Notify/Wxpay', '支付成功', $orderInfo['productid'], json_encode($payResult), $orderInfo['ptuserid'], $orderInfo['ptid'], $orderInfo['ptname']);
+                        D('OneCoin')->setRecord($orderInfo);
+                    }
+                } else {
+                    
+                    if (online_redis_server) {
+                        
+                        M('platform_product')->where(array(
+                            'platform_id' => $orderInfo['ptid'],
+                            'product_id' => $orderInfo['productid'],
+                            'total' => array(
+                                'gt',
+                                0
+                            )
+                        ))->setInc('salequantity', $orderInfo['quality']);
+                        $this->redis->del('waitPayPtid' . $orderInfo['ptid'] . 'Productid' . $orderInfo['productid'] . 'Tradesn:' . $ordenum); // 删除锁定数据
+                    }
+                    
+                    doLogNoSession('Notify/Wxpay/loganalysis', '支付成功', $orderInfo['productid'], json_encode($payResult), $orderInfo['ptuserid'], $orderInfo['ptid'], $orderInfo['ptname']);
+                    $productinfo = M('product')->where('id=' . $orderInfo['productid'])
+                        ->cache(true, 300)
+                        ->find();
+                    $customer = M('customer')->where(array(
+                        'code' => $_SESSION['PLATFORM_CODE']
+                    ))->find();
+                    $msg = str_replace('{channel}', $customer['name'], $productinfo['smstpl']);
+                    // $msg = str_replace('{couponcode}', $product_code['couponcode'], $msg);
+                    //
+                    if ($productinfo['issms'] == 1) {
+                        
+                        $msg = send_msg($orderInfo['tel'], $msg);
+                        
+                        M('order_product')->where(array(
+                            'id' => $orderInfo['id']
+                        ))
+                            ->data(array(
+                            'smsreturnvalue' => $msg
+                        ))
+                            ->save();
+                    }
+                }
+                $payment->setReturnParameter("return_code", "SUCCESS"); // 设置返回码
+            } else {
+                $payment->setReturnParameter("return_code", "FAIL"); // 返回状态码
+                $payment->setReturnParameter("return_msg", "订单不存在"); // 返回信息
+            }
+        }else{
+
+            $payment->setReturnParameter("return_code", "FAIL"); // 返回状态码
+        }
+        
+        return $returnXml = $payment->sendReturnMsg();
+    }
+}

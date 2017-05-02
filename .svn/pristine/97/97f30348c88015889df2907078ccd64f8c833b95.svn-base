@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<include file="Public:layout-css" />
+<link href="__Home_CSS__/collect.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper" style="background-color: #fff">
+		<!-- Main Header -->
+		<include file="Public:header" />
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<section class="box-header with-border"
+				style="border-bottom: 1px solid #d2d6de; padding-bottom: 5px;">
+				<h3 class="box-title" style="display: block;">我的收藏</h3>
+			</section>
+
+			<section class="content" style="padding: 6px;">
+				<!-- PRODUCT LIST -->
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">优惠券</h3>
+
+						<div class="box-tools pull-right"></div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<ul class="products-list product-list-in-box"
+							id="product-list-box">
+							<volist name="product_list" id="vo"> <if
+								condition="($vo['product_exist'] eq 0) OR ($vo['product_exist'] eq -2)">
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0; position: relative;">
+									<img src="__Home_IMG__/active_end.png" alt="已结束"
+										style="width: 192px; position: absolute; top: 0; left: 0; z-index: 100;">
+									<img style="width: 192px;" src="{$vo.home_picture}"
+										alt="{$vo.name}">
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="javascript:void(0);" class="product-title">{$vo.name}</a>
+									<span class="product-description"> <i
+										class="fa fa-clock-o"></i>{$vo.collectiontime}
+									</span>
+								</div>
+							</li>
+							<elseif condition="($vo['product_exist'] eq -1)" />
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0; position: relative;">
+									<img src="__Home_IMG__/sale_out.png" alt="已售完"
+										style="width: 192px; position: absolute; top: 0; left: 0; z-index: 100;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"><img
+										style="width: 192px;" src="{$vo.home_picture}"
+										alt="{$vo.name}"></a>
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"
+										class="product-title">{$vo.name}</a> <span
+										class="product-description"> <i class="fa fa-clock-o"></i>{$vo.collectiontime}
+									</span>
+								</div>
+							</li>
+							<else />
+							<li class="item">
+								<div class="product-info text-center"
+									style="width: 48%; margin-left: 0;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"><img
+										style="width: 192px;" src="{$vo.home_picture}"
+										alt="{$vo.name}"></a>
+								</div>
+								<div class="product-info"
+									style="line-height: 2rem; margin-left: 0;">
+									<a href="{:U('Home/Product/view/id/'.$vo['id'])}"
+										class="product-title">{$vo.name}</a> <span
+										class="product-description"> <i class="fa fa-clock-o"></i>{$vo.collectiontime}
+									</span>
+								</div>
+							</li>
+							</if> </volist>
+							<!-- /.item -->
+						</ul>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer text-center">
+						<a href="javascript:void(0);" id="getMore" class="uppercase">查看更多记录</a>
+					</div>
+					<!-- /.box-footer -->
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+
+	<include file="Public:layout-js" />
+	<script type="text/javascript" src="__Home_JS__/jquery.tmpl.js"></script>
+	<script type="text/html" id="productTemp">
+    {{if $data.product_exist == 0 || $data.product_exist == -2}}
+        <li class="item">
+            <div class="product-info text-center" style="width:48%;margin-left: 0;position: relative;">
+                <img src="__Home_IMG__/active_end.png" alt="已结束" style="width:192px;position: absolute;top:0;left:0;z-index: 100;">
+                <img style="width:192px;" src="{{= $data.home_picture}}"
+                     alt="{{= $data.name}}">
+            </div>
+            <div class="product-info" style="line-height:2rem;margin-left: 0;">
+                <a href="javascript:void(0);"
+                   class="product-title">{{= $data.name}}</a>
+                                    <span class="product-description">
+                                      <i class="fa fa-clock-o"></i>{{= $data.collectiontime}}
+                                    </span>
+            </div>
+        </li>
+        {{else $data.product_exist == -1}}
+        <li class="item">
+            <div class="product-info text-center" style="width:48%;margin-left: 0;position: relative;">
+                <img src="__Home_IMG__/sale_out.png" alt="已售完" style="width:192px;position: absolute;top:0;left:0;z-index: 100;">
+                <a href="{{= $data.url}}"><img style="width:192px;" src="{{= $data.home_picture}}"
+                     alt="{{= $data.name}}"></a>
+            </div>
+            <div class="product-info" style="line-height:2rem;margin-left: 0;">
+                <a href="{{= $data.url}}"
+                   class="product-title">{{= $data.name}}</a>
+                                    <span class="product-description">
+                                      <i class="fa fa-clock-o"></i>{{= $data.collectiontime}}
+                                    </span>
+            </div>
+        </li>
+        {{else}}
+        <li class="item">
+            <div class="product-info text-center" style="width:48%;margin-left: 0;">
+                <a href="{{= $data.url}}"><img style="width:192px;" src="{{= $data.home_picture}}"
+                     alt="{{= $data.name}}"></a>
+            </div>
+            <div class="product-info" style="line-height:2rem;margin-left: 0;">
+                <a href="{{= $data.url}}"
+                   class="product-title">{{= $data.name}}</a>
+                                    <span class="product-description">
+                                      <i class="fa fa-clock-o"></i>{{= $data.collectiontime}}
+                                    </span>
+            </div>
+        </li>
+        {{/if}}
+</script>
+	<script type="text/javascript">
+    $(function(){
+        var page = 2;
+
+        var doMore = function () {
+            var _this = $("#getMore");
+            _this.off('click');
+            _this.html('加载中...');
+            var url = "{:U('Home/Member/collect')}";
+            $.post(url, {page: page,method:'ajax'}, function (jsonData) {
+                if (jsonData.state) {
+                    $('#productTemp').tmpl(jsonData.list_data).appendTo('#product-list-box');
+                    page++;
+                } else {
+                    $.cl.alert(jsonData.msg);
+                }
+                $('#getMore').on('click',function(){doMore()});
+                _this.html('查看更多记录');
+            }, 'json')
+        }
+
+        $('#getMore').on('click',function(){doMore()});
+        
+        
+        
+
+        
+        
+    });
+    
+</script>
+</body>
+</html>

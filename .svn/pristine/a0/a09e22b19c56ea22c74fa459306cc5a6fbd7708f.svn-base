@@ -1,0 +1,31 @@
+<include FILE="Public:header" />
+</head>
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper" style="background-color: #fff">
+		<!-- Main Header -->
+		<include file="Public:header" />
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<section class="content">
+				<div class="box">
+					<div class="box-header with-border">
+						<h3 class="box-title" style="display: inherit">关于反盗版和防盗链等技术措施声明</h3>
+
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						本网站主办方已经对本网站内全部正版授权的内容，采取了必要的反盗版和防盗链等技术措施，并且添加、设置权利管理电子信息。
+						任何单位或个人，未经本网站主办方的许可，不得以任何方式（包括但不限于：盗链、冗余盗取等）直接或间接地盗取相关内容、不得以任何方式（包括但不限于：隐藏或者修改本网站域名、乐天邦标识等）删除或者改变相关内容的权利管理电子信息。
+						否则，本网站主办方将保留进一步追究侵权者法律责任的权利。</div>
+					<!-- /.box-footer-->
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+	<include file="Public:layout-js" />
+</body>
+</html>

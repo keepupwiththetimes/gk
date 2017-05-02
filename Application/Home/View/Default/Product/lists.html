@@ -1,0 +1,122 @@
+<include FILE="Public:header" />
+</head>
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper" style="background-color: #fff">
+		<include file="Public:header" />
+		<!-- Left side column. contains the logo and sidebar -->
+		<ul class="nav nav-tabs" style="margin-top: 2px;">
+			<li><a href="{:U('Home/Index/index')}">首页</a></li>
+			<if condition="($type eq 1)">
+			<li class="active"><a href="{:U('Home/Product/lists/type/1')}">优惠券</a></li>
+			<else />
+			<li><a href="{:U('Home/Product/lists/type/1')}">优惠券</a></li>
+			</if>
+			<if condition="($type eq 2)">
+			<li class="active"><a href="{:U('Home/Product/lists/type/2')}">代金券</a></li>
+			<else />
+			<li><a href="{:U('Home/Product/lists/type/2')}">代金券</a></li>
+			</if>
+		</ul>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!--list-->
+			<div class="box box-tools collapsed-box"
+				style="background: none; border-top: none; box-shadow: none; margin-bottom: 0;">
+				<if condition="($type eq 1)">
+				<div class="box-header">
+					<h3 class="box-title" style="margin: 6px;">全部优惠卷</h3>
+					<button class="btn btn-primary btn-sm pull-right"
+						data-widget="collapse" title="" style="margin-right: 5px;"
+						data-original-title="Collapse">
+						<i class="fa fa-filter"></i>&nbsp筛选
+					</button>
+				</div>
+				<elseif condition="$type eq 2" />
+				<div class="box-header">
+					<h3 class="box-title" style="margin: 6px;">全部代金卷</h3>
+					<button class="btn btn-primary btn-sm pull-right"
+						data-widget="collapse" title="" style="margin-right: 5px;"
+						data-original-title="Collapse">
+						<i class="fa fa-filter"></i>&nbsp筛选
+					</button>
+				</div>
+				</if>
+				<div class="box-body"
+					style="background-color: #E0E0E0; display: none;">
+					<div class="row">
+						<div class="shaixuan_div shaixuan_div_1">
+							<ul class="shaixuan_ul">
+								<li><i class="fa fa-fw fa-list"></i>分类</li>
+							</ul>
+						</div>
+						<div class="shaixuan_div shaixuan_div_2">
+							<ul class="shaixuan_ul">
+								<li><a href="{:U('Home/Product/lists/type/'.$type)}">不限</a></li>
+							</ul>
+
+						</div>
+						<div class="shaixuan_div shaixuan_div_3">
+							<ul class="shaixuan_ul">
+								<li><a href="{:U('Home/Product/lists/type/'.$type)}">美食</a></li>
+								<li><a href="{:U('Home/Product/lists/type/'.$type)}">电影</a></li>
+								<li><a href="{:U('Home/Product/lists/type/'.$type)}">娱乐</a></li>
+								<li><a href="{:U('Home/Product/lists/type/'.$type)}">旅游</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="shaixuan_div shaixuan_div_1">
+							<ul class="shaixuan_ul">
+								<li><i class="fa fa-fw fa-map-marker"></i>区域</li>
+							</ul>
+						</div>
+						<div class="shaixuan_div shaixuan_div_2">
+							<ul class="shaixuan_ul">
+								<li><a href="{:U('Home/Product/lists/type/'.$type)}">不限</a></li>
+							</ul>
+						</div>
+						<div class="shaixuan_div shaixuan_div_3">
+					<!-- 		<ul class="shaixuan_ul">
+								<volist name="three_city_list" id="vo">
+								<li><a
+									href="{:U('Home/Product/lists/type/'.$type.'/three_cityid/'.$vo['id'])}">{$vo.name}</a></li>
+								</volist>
+							</ul>
+						邵晓凌 2017-03-29注释	 -->
+						</div>
+
+					</div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!--list -->
+			<!-- Main content -->
+			<section class="content">
+
+				<!-- Your Page Content Here -->
+				<div class="box-body no-padding">
+					<ul class="users-list clearfix">
+						<volist name="product_list" id="vo">
+						<li><a href="{:U('Home/Product/view/id/'.$vo['id'])}"> <img
+								src="{$vo.home_picture}" alt="{$vo.name}" class="img-rounded" /></a>
+							<a class="users-list-name"
+							href="{:U('Home/Product/view/id/'.$vo['id'])}">{$vo.name}</a> <span
+							class="users-list-date"><i class="fa fa-shopping-cart">已售{$vo.salequantity}份</i></span>
+						</li>
+						</volist>
+					</ul>
+					<!-- /.users-list -->
+				</div>
+
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+	<include file="Public:layout-js" />
+</body>
+</html>

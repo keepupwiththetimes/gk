@@ -1,0 +1,63 @@
+<include file="Index:header" mark='detail'/>
+<div id="detail-container">
+		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+		  <!-- Indicators -->
+		  <!-- <ol class="carousel-indicators">
+		    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		  </ol> -->
+		
+		  <!-- Wrapper for slides -->
+		  <div class="carousel-inner" role="listbox">
+		    <div class="item active">
+		      <img src="{$productInfo['pic']}" alt="" class="banner-img" onerror="javascript:this.src='';"/>
+		    </div>
+		    <!-- <div class="item">
+		      <img src="__LETIANBANG__/images/wait.png" alt="" class="banner-img" onerror="javascript:this.src='';"/>
+		    </div> -->
+		  </div>
+		
+		</div>
+		<div class="detail-main">
+			<span class="role">使用规则</span>
+			<ul>
+				{$productInfo['rules']}
+			</ul>
+			<strong></strong>
+			<div class="store">
+				<i class="fa fa-map-marker"></i>
+
+				<if condition="$productInfo.ifstore eq 1">
+            <!--<a href="{:U('Home/Map/lists/product_id/'.$info['id'])}"><img src="__Home_IMG__/zsh2.0/get-things/location.png" alt="" />点击查看所有适用门店</a>-->
+            <a href="{:U('Home/Map/lists/product_id/'.$productInfo['id'])}">点击查看所有适用门店</a>
+							<else/>
+									<!-- <a href="{:U('Home/Map/lists2/product_id/'.$productInfo['id'])}">点击查看所有适用门店</a> -->
+									{$productInfo[shopUrl]}
+								<!-- 	<a href="{:U('Home/Map/lists/product_id/'.$info['id'])}"><i class="fa fa-map-marker"></i>点击查看所有适用门店</a> -->
+							</if>
+			</div>
+		</div>
+		<div class="empty-detail"></div>
+	</div>
+</body>
+<include file="Index:footer" />
+	<script type="text/javascript">
+		//-------------------------轮播图片缺失------------------------------------
+	    $('.carousel-inner img').attr('onerror','nofindOne()');//轮播图片缺失
+		function nofindOne(){
+			var img=event.srcElement;
+			img.src="__LETIANBANG__/images/wait.png";
+			img.onerror=null; //控制不要一直跳动
+		};
+		//-------------------------设定轮播图宽高------------------------------------
+	    var imageW = $('.item').css('width');
+		var imageH = parseInt(imageW)*0.6;
+		$('.item').css('height',imageH.toString());
+	
+		//-----------------------轮播图bootstrap-----------------------------------
+	    $('.carousel').carousel({
+	         interval: 3000,
+	         wrap:true
+	    });
+	</script>
+</html>

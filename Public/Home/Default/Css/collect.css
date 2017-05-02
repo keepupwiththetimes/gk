@@ -1,0 +1,42 @@
+.users-list>li img{
+    border-radius:9%;
+}
+.users-list>li {
+    width: 50%;
+}
+
+.main-header .sidebar-toggle {
+    font-family: inherit;
+}
+
+.main-header .sidebar-toggle:before {
+    content: "";
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    background-color: #ECF0F5;
+}
+
+
+.nav-tabs>li.active{
+    border-bottom: 2px solid #3c8dbc;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    background: none;
+    border: none;
+}
+ul.nav-tabs{
+    border-bottom: 3px solid #ddd;
+}
+li .users-list-name{
+    text-align: left;
+    background: #E0E0E0;
+}
+span.users-list-date{
+    text-align: left;
+    background: #E0E0E0;
+}
+.navbar-custom-menu .navbar-nav>li>a {
+    padding-top: 9px;
+    padding-bottom: 7px;
+    text-align: center;
+}

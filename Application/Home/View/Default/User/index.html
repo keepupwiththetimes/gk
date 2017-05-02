@@ -1,0 +1,1057 @@
+<include FILE="Public:header" />
+<style type="text/css">
+html, body {
+	-moz-user-select: initial;
+	-webkit-user-select: inherit;
+	-ms-user-select: inherit;
+	-khtml-user-select: inherit;
+	user-select: inherit;
+}
+
+.container a {
+	font-size: 12px;
+}
+
+.container-change-count {
+	width: 100%;
+	height: 100%;
+	/*background: #E68012;*/
+	/*display: none;*/
+}
+
+.container-order {
+	margin-bottom: 20px;
+}
+
+.container-order span {
+	color: dimgray;
+}
+
+#activity-end, #activity-over {
+	position: relative;
+}
+
+.gray {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+
+.active-end, .sale-out {
+	position: absolute;
+	left: 2%;
+	top: 0;
+	width: 100%;
+	z-index: 100;
+}
+
+#backHome {
+	position: fixed;
+	bottom: 2%;
+	left: 2%;
+	z-index: 1000;
+	width: 4em;
+}
+
+.glyphicon-home {
+	/*color: #f08000;*/
+	font-size: 3em;
+	display: inline-block;
+}
+
+.fa-heart-o {
+	position: absolute;
+	top: 25%;
+	left: 36%;
+	font-size: 230%;
+	color: white;
+}
+
+.fa-heart {
+	position: absolute;
+	top: 25%;
+	left: 36%;
+	font-size: 230%;
+	/*color: #E68012;*/
+}
+
+.fa-file-text-o {
+	position: absolute;
+	top: 25%;
+	left: 38%;
+	font-size: 230%;
+	/*color: #E68012;*/
+}
+
+.fa-file-text {
+	position: absolute;
+	top: 25%;
+	left: 38%;
+	font-size: 230%;
+	color: white;
+}
+
+.order-list-bottom a {
+	width: 35%;
+}
+
+.order-selected-one {
+	background: url("__Home_IMG__/zsh2.0/order/small-header-{$templet}.png");
+	background-size: 100% 100%;
+}
+
+.order-bg-group {
+	margin-top: 5%;
+	width: 100%;
+	height: 35px;
+	/*background: url("__Home_IMG__/zsh2.0/order/lanmu.png");*/
+	background-size: cover;
+	margin-bottom: 5%;
+	/*opacity: 0.7;*/
+}
+.loading-bg{
+	/*background-color: #eee;*/
+	width: 100%;
+	height: 100%;
+	z-index: 9999999999999999999999;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+.spinner{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+#order-box .order-top-right span{
+	margin: 5px 0;
+	height: 22px;
+	word-break:keep-all;         
+	white-space:nowrap;     
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+#collect-box .order-top-right span{
+	margin: 2px 0;
+	height: 26px;
+    word-break:keep-all;         
+	white-space:nowrap;     
+	overflow:hidden;
+	text-overflow:ellipsis;  
+}
+.order-list-top{
+	/*border-bottom: 1px solid #e1e2e4;*/
+	margin-bottom: 4px;
+}
+.order-list-bottom {
+    display: block;
+    height: 1px;
+    background: #e1e2e4;
+}
+.order-top-right{
+	width: 56%;
+}
+</style>
+
+</head>
+<body>
+<div id="main-body" style="display: none;">
+	
+	<!--头部-->
+	<div class="container-order" id="container-content">
+		<div id="order-header">
+			<ul>
+				<li class="order-selected order-selected-one"
+					onclick="{$_SESSION[$_SESSION['PLATFORM_CODE']]['tel']?'logout()':'login()'}">
+					<!--<img src="__Home_IMG__/zsh2.0/order/head-image.png">--> <a
+					class="order-phone">{$masked_phone_number}</a>
+				</li>
+				<li class="order-selected order-selected-two"
+					id="order-selected-two">
+					<p>
+						<i class="fa fa-file-text-o" id="fa-file-text"></i>
+					</p> <php>if($_SESSION['PLATFORM_CODE']=='NYYH'){</php> <a
+					class="order-phone">已领福利</a> <php>}else{</php> <a
+					class="order-phone">我的订单</a> <php>}</php>
+				</li>
+				<li class="order-selected order-selected-three"
+					id="order-selected-three">
+					<p>
+						<i class="fa fa-heart-o" id="fa-heart"></i>
+					</p> <a class="order-phone">我的收藏</a>
+				</li>
+			</ul>
+		</div>
+		<!--分组名称-->
+		<div class="order-bg-group">
+			<font class="order-title">我的订单</font> <font class="order-line"></font>
+		</div>
+		<!--订单列表-->
+		<div id="order-list">
+			<ul id="order-box">
+				<volist name="order_list" key="k" id="vo"> <if
+					condition="($vo['ifpay'] gt 0) AND ($vo['price'] gt 0)">
+				<li>
+					<div class="order-list-top">
+						<a href="javascript:detail('{$vo['orderDetail']}')">
+							<div class="order-top-left">
+								<if
+									condition="($vo['product_exist'] eq 0) OR ($vo['product_exist'] eq -2)">
+								<img src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/active_end.png" alt=""
+									class="active-end" /> <elseif
+									condition="($vo.product_exist eq -1)" /> <img
+									src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/sale_out.png" alt=""
+									class="sale-out" /> <else /> <img src="{$vo.home_picture}">
+								</if>
+							</div>
+						
+							<div class="order-top-right" style="position: relative;">
+								<span>{$vo.name} </span> <span>数量: {$vo.quality}&nbsp;总价:
+									{$vo.price}{$vo.pay_status_desc}</span> <span>购买时间:
+									{$vo['createtime']}</span>
+							</div>
+						</a>
+					</div>
+					<div class="order-list-bottom"> 
+						<!--<a href="javascript:detail('{$vo['orderDetail']}')" style="text-decoration:underline;">点击查看订单&gt;</a>-->
+					</div>
+				</li>
+				<else />
+				<li>
+					<div class="order-list-top">
+						<a href="javascript:detail('{$vo['orderDetail']}')">
+							<div class="order-top-left" id="activity-end">
+								<if
+									condition="($vo['product_exist'] eq 0) OR ($vo['product_exist'] eq -2)">
+								<img src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/active_end.png" alt=""
+									class="active-end" /> <elseif
+									condition="($vo.product_exist eq -1)" /> <img
+									src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/sale_out.png" alt=""
+									class="sale-out" /> <else /> <img src="{$vo.home_picture}">
+								</if>
+							</div>
+						
+							<div class="order-top-right" style="position: relative;">
+								<span>{$vo.name}</span> <span>领取时间: {$vo.createtime}</span> <span>有效期:
+									{$vo['start_str']}&nbsp;~&nbsp;{$vo['end_str']}</span>
+								
+							</div>
+						</a>
+					</div>
+					<div class="order-list-bottom">
+                          <!--<a href="javascript:detail('{$vo['orderDetail']}')" style="text-decoration:underline;">点击查看订单&gt;</a>--> 
+					</div>
+				</li>
+				</if> </volist>
+			</ul>
+			<div class="box-footer text-center">
+				<if condition="($is_login)"> 
+				    
+				    <php>if(empty($order_list)){</php>
+				    <a href='#' class="uppercase">暂无购买记录。</a> 
+				    <php>}else{</php>
+					    <if condition=" $moreOrder eq 1">
+					    <a id="getMoreOrder" class="uppercase">滑动查看更多记录</a> 
+					    <else />
+					    </if>
+				    <php>}</php>
+					<else /> 
+					<a onclick="login()" style="text-decoration: underline;">点击此处登录！</a>
+				</if>
+			</div>
+		</div>
+		<div id="collect-list">
+			<ul id="collect-box">
+				<volist name="collect_list" id="vo"> <if
+					condition="($vo['ifpay'] gt 0) AND ($vo['price'] gt 0)">
+				<li id="{$vo['id']}">
+					<div class="order-list-top">
+						<a href="javascript:detail('{$vo.url}')">
+							<div class="order-top-left">
+								<if
+									condition="($vo['product_exist'] eq 0) OR ($vo['product_exist'] eq -2)">
+								<img src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/active_end.png" alt=""
+									class="active-end" /> <elseif
+									condition="($vo.product_exist eq -1)" /> <img
+									src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/sale_out.png" alt=""
+									class="sale-out" /> <else /> <img src="{$vo.home_picture}">
+								</if>
+							</div>
+							<div class="order-top-right">
+								<span>{$vo.name}</span> <span>单价: {$vo.price}</span> <span>收藏时间:
+									{$vo['createtime']}</span>
+							</div>
+						</a>
+					</div>
+					<div class="collect-list-bottom">
+						<!-- <a>点击立即使用&gt;</a> -->
+					</div>
+				</li>
+				<else />
+				<li id="{$vo['id']}">
+					<div class="order-list-top" style="border: none;">
+						<a href="javascript:detail('{$vo.url}')">
+							<div class="order-top-left" id="activity-end">
+								<if
+									condition="($vo['product_exist'] eq 0) OR ($vo['product_exist'] eq -2)">
+								<img src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/active_end.png" alt=""
+									class="active-end" /> <elseif
+									condition="($vo.product_exist eq -1)" /> <img
+									src="{$vo.home_picture}" class="gray"> <img
+									src="__Home_IMG__/zsh2.0/home/sale_out.png" alt=""
+									class="sale-out" /> <else /> <img src="{$vo.home_picture}">
+								</if>
+							</div>
+						
+							<div class="order-top-right">
+								<span>{$vo.name}</span> <span>收藏时间: {$vo.createtime}</span> <span>有效期:
+									{$vo['start_str']}&nbsp;~&nbsp;{$vo['end_str']}</span>
+							</div>
+						</a>
+					</div>
+					<div class="collect-list-bottom">
+						<!-- <a>点击查看详情&gt;</a> -->
+					</div>
+				</li>
+				</if> </volist>
+			</ul>
+			<div class="box-footer text-center" id="ckshoucang">
+			<php>if(empty($collect_list)){</php>
+
+			     <a href='#' class="uppercase">暂无收藏记录</a>
+			<php>}else{</php>
+			<php>if($moreCollect == 1){</php>
+			<a id="getMoreCollect" class="uppercase">滑动查看更多记录</a>
+			<php>}else{</php>
+			<!-- <a href='#' class="uppercase">滑动查看更多记录</a> -->
+			<php>}</php>
+			<php>}</php>
+			
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	<!--跳回首页-->
+	<!-- <div id="backHome"><a href="{:U('Home/Index/index')}"><span class="glyphicon glyphicon-home"></span></a></div> -->
+	<!--弹窗背景-->
+
+	<include FILE="User:login" />
+	<include FILE="User:logout" />
+
+
+</body>
+<script src="__Home_JS_STATIC__/jquery-1.9.1.min.js"
+	type="text/javascript"></script>
+<script src="__Home_JS__/zsh2.0/zw-script.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__Home_JS_STATIC__/jquery.tmpl.js"></script>
+<script src="__Home_JS_STATIC__/clipboard.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<!--<script async src='__Home_JS__/zsh2.0/grayscale.min.js'></script>-->
+<script type="text/html" id="OrderTemp">
+   {{if $data.ifpay > 0 && $data.price > 0 }}
+     <li>
+         <div class="order-list-top">
+           <a href="javascript:detail('{{= $data.orderDetail}}')">
+             <div class="order-top-left">
+               {{if $data.product_exist == 0 || $data.product_exist == -2}}
+                 <img src="{{= $data.home_picture}}" class="gray">
+                 <img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" class="active-end"/>
+               {{else $data.product_exist == -1}}
+                 <img src="{{= $data.home_picture}}" class="gray">
+                 <img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" class="sale-out"/>
+              {{else}}
+                <img src="{{= $data.home_picture}}">
+              {{/if}}
+             </div>
+             <div class="order-top-right">
+               <span>{{= $data.name}}</span>
+               <span>数量: {{= $data.quality}}总价: {{= $data.price}}{{= $data.pay_status_desc}}</span>
+               <span>购买时间: {{= $data.createtime}}</span>
+             </div>
+           </a>
+         </div>
+
+         <div class="order-list-bottom">
+            <!--<a  href="javascript:detail('{{= $data.orderDetail}}')">点击查看详情&gt;</a>-->
+         </div>
+     </li>
+   {{else}}
+    <li>
+        <div class="order-list-top">
+          <a href="javascript:detail('{{= $data.orderDetail}}')">
+            <div class="order-top-left" id="activity-end">
+              {{if $data.product_exist == 0 || $data.product_exist == -2}}
+                <img src="{{= $data.home_picture}}" class="gray">
+                <img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" class="active-end"/>
+              {{else $data.product_exist == -1}}
+               <img src="{{= $data.home_picture}}" class="gray">
+               <img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" class="sale-out"/>
+              {{else}}
+                <img src="{{= $data.home_picture}}">
+              {{/if}}
+            </div>
+            <div class="order-top-right" >
+              <span>{{= $data.name}}</span>
+              <span>领取时间: {{= $data.createtime}}</span>
+              <span>有效期: {{= $data.start_str}}&nbsp;~&nbsp;{{= $data.start_str}}</span>
+            </div>
+          </a>
+        </div>
+        <div class="order-list-bottom">
+          <!--<a  href="javascript:detail('{{= $data.orderDetail}}')">点击查看详情&gt;</a>-->
+        </div>
+    </li>
+   {{/if}}
+ </script>
+<script type="text/html" id="CollectTemp">
+ {{if $data.ifpay > 0 && $data.price > 0 }}
+   <li id="{{= $data.id}}">
+       <div class="order-list-top">
+         <a href="javascript:detail('{{= $data.url}}')">
+           <div class="order-top-left">
+             {{if $data.product_exist == 0 || $data.product_exist == -2}}
+               <img src="{{= $data.home_picture}}" class="gray">
+               <img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" class="active-end"/>
+             {{else $data.product_exist == -1}}
+               <img src="{{= $data.home_picture}}" class="gray">
+               <img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" class="sale-out"/>
+            {{else}}
+              <img src="{{= $data.home_picture}}">
+            {{/if}}
+           </div>
+           <div class="order-top-right">
+             <span>{{= $data.name}}</span>
+             <span>单价: {{= $data.price}}</span>
+             <span>收藏时间: {{= $data.createtime}}</span>
+           </div>
+         </a>
+       </div>
+       <div class="collect-list-bottom">
+        <!-- <a>点击立即使用&gt;</a> -->
+       </div>
+   </li>
+ {{else}}
+  <li id="{{= $data.id}}">
+      <div class="order-list-top">
+        <a href="javascript:detail('{{= $data.url}}')">
+          <div class="order-top-left" id="activity-end">
+            {{if $data.product_exist == 0 || $data.product_exist == -2}}
+              <img src="{{= $data.home_picture}}" class="gray">
+              <img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" class="active-end"/>
+            {{else $data.product_exist == -1}}
+             <img src="{{= $data.home_picture}}" class="gray">
+             <img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" class="sale-out"/>
+            {{else}}
+              <img src="{{= $data.home_picture}}">
+            {{/if}}
+          </div>
+          <div class="order-top-right" >
+            <span>{{= $data.name}}</span>
+            <span>收藏时间: {{= $data.createtime}}</span>
+            <span>有效期: {{= $data.start_str}}&nbsp;~&nbsp;{{= $data.start_str}}</span>
+          </div>
+        </a>
+      </div>
+      <div class="collect-list-bottom">
+         <!-- <a>点击查看详情&gt;</a> -->
+      </div>
+  </li>
+ {{/if}}
+ </script>
+
+<script type="text/javascript">
+
+ var isorder = true;
+ var isMyCollect = false;
+ //默认选中我的订单
+ if (isorder){
+      isMyCollect = false;//关闭我的收藏
+      $('#collect-list').hide();
+     $('#order-selected-two').attr("class","order-selected order-selecting-two");
+     $('#fa-file-text').attr('class','fa fa-file-text');
+     $('#fa-heart').attr('class','fa fa-heart');
+     $('.order-title').html("我的订单 ");
+     //页面数据刷新
+//   $('#collect-list').attr('class','hide');
+	
+ };
+  //点击我的订单
+ $('#order-selected-two').click(function(){
+ 	 getMoreInfoOrderNow = false;
+	 getMoreInfoCollectNow = true;
+     isorder = true;
+     isMyCollect = false;
+     //   $('#order-list').removeClass('hide');
+	$('#order-list').show();
+//   $('#collect-list').attr('class','hide');
+	$('#collect-list').hide();
+     $('#order-selected-two').attr("class","order-selected order-selecting-two");
+     $('#order-selected-three').attr("class","order-selected order-selected-three");
+     $('#fa-file-text').attr('class','fa fa-file-text')
+     $('#fa-heart').attr('class','fa fa-heart')
+     $('.order-title').html("我的订单");
+     //页面数据刷新
+
+     var zkkStr2 = $("#order-header").html();
+	window.sessionStorage.setItem("test",zkkStr2);
+ });
+  //点击我的收藏
+ $('#order-selected-three').click(function(){
+ 	getMoreInfoOrderNow = true;
+	getMoreInfoCollectNow = false;
+     isorder = false;
+     isMyCollect = true;
+    //   $('#collect-list').removeClass('hide');
+	$('#collect-list').show();
+//   $('#order-list').attr('class','hide'); 
+     $('#order-selected-two').attr("class","order-selected order-selected-two");
+     $('#order-selected-three').attr("class","order-selected order-selecting-three");
+     $('#fa-file-text').attr('class','fa fa-file-text-o')
+     $('#fa-heart').attr('class','fa fa-heart-o')
+     $('.order-title').html("我的收藏");
+     //页面数据刷新
+
+$('#order-list').hide();
+     var zkkStr2 = $("#order-header").html();
+	window.sessionStorage.setItem("test",zkkStr2);
+ });
+$("a").click(function (){
+
+ 	var zkkStr3 = $("#order-list").html();
+	window.sessionStorage.setItem("test1",zkkStr3);
+	//var zkkStr4 = $("#collect-list").html();
+	var zkkArr4 = new Object();
+	$("#collect-box").children('li').each(function(){
+        
+        var pId = $(this).attr('id');
+        var msg = $(this).html();
+        
+		zkkArr4[pId+'s']= [msg,'shoucang',pId];
+	})
+	var zkkStr4 = JSON.stringify(zkkArr4)
+	window.sessionStorage.setItem("test2",zkkStr4);
+	window.sessionStorage.setItem("test21",$("#ckshoucang").html());
+ });
+ 
+ $('.order-top-left img').attr('onerror','nofindOne()');//优惠券图片缺失
+// $('#order-list img:nth-child(1)').attr('onerror','nofindOne()');//优惠券图片缺失
+		function nofindOne(){
+			var img=event.srcElement;
+//			img.src="__Home_IMG__/zsh2.0/home/wait.png";
+			img.src="__Home_IMG__/zsh2.0/home/wait.png";
+			img.onerror=null; //控制不要一直跳动
+
+		};
+ 
+     
+      var getMoreInfo = false; //允许加载更多
+      var getMoreInfoOrder = false; //允许加载更多订单
+      var getMoreInfoCollect = false; //允许加载更多收藏
+      var getMoreInfoOrderNow = false; //现在允许加载更多订单
+      var getMoreInfoCollectNow = true; //现在不允许加载更多收藏
+      $(function(){
+              
+              //绑定点击事件
+              $('#getMoreOrder').on('click',function(){MoreOrder()});
+              $('#getMoreCollect').on('click',function(){MoreCollect()});
+          });
+          
+	      var orderPage = 2;
+		  var collectPage = 2;
+		  var MoreOrder = function () {
+          var _this = $("#getMoreOrder");
+	          _this.off('click');
+	          _this.html('加载中...');
+	          var url = "{:U('Home/User/Order')}";
+	          $.post(url, {page: orderPage,method:'ajax'}, function (jsonData) {
+	              if (jsonData.state) {
+	                  $('#OrderTemp').tmpl(jsonData.list_data).appendTo('#order-box');
+	                  orderPage++;
+	                    _this.html('滑动查看更多记录');
+	              } else {
+	              	getMoreInfoOrder = true
+	              _this.html(jsonData.msg);
+	              }
+	              //$('#getMoreOrder').on('click',function(){MoreOrder()});
+                  getMoreInfo = false;
+	          }, 'json')
+	      }
+	      var MoreCollect = function () {
+	          var _this = $("#getMoreCollect");
+	          _this.off('click');
+	          _this.html('加载中...');
+	          var url = "{:U('Home/User/collect')}";
+	          $.post(url, {page: collectPage,method:'ajax'}, function (jsonData) {
+	              if (jsonData.state) {
+	                  $('#CollectTemp').tmpl(jsonData.list_data).appendTo('#collect-box');
+	                  collectPage++;
+	                  _this.html('滑动查看更多记录');
+	              } else {
+	              	getMoreInfoCollect = true
+	                _this.html(jsonData.msg);
+	              }
+	              //$('#getMoreCollect').on('click',function(){MoreCollect()});
+                  getMoreInfo = false;
+	          }, 'json')
+	      }
+		function detail(url){
+			var zkkStr2 = $("#order-header").html();
+			window.sessionStorage.setItem("test",zkkStr2);
+
+			updateSessionStorage()
+			window.location = url;
+		}
+		
+		$(function() {
+			var u = navigator.userAgent;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+			//android终端
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+			replaceHistory();
+			if (isiOS){
+				window.addEventListener("popstate", function(e) {
+			
+					//恢复收藏列表和订单列表
+					resetOrderCollectList();
+					var orderTwo = document.querySelector("#order-selected-two");
+					var orderThree = document.querySelector("#order-selected-three");
+					if (orderTwo.className == "order-selected order-selecting-two"){
+						 isorder = true;
+					     isMyCollect = false;
+ 						 $('#order-list').show();
+					     $('#collect-list').hide();
+					     $('#order-selected-two').attr("class","order-selected order-selecting-two");
+					     $('#order-selected-three').attr("class","order-selected order-selected-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text')
+					     $('#fa-heart').attr('class','fa fa-heart')
+					     $('.order-title').html("我的订单");
+					     //页面数据刷新
+
+					}
+					if (orderThree.className == "order-selected order-selecting-three"){
+						 isorder = false;
+					     isMyCollect = true;
+					     $('#order-list').hide();
+					     $('#collect-list').show();
+					     $('#order-selected-two').attr("class","order-selected order-selected-two");
+					     $('#order-selected-three').attr("class","order-selected order-selecting-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text-o')
+					     $('#fa-heart').attr('class','fa fa-heart-o')
+					     $('.order-title').html("我的收藏");
+					     //页面数据刷新	     
+					}
+					 //点击我的订单
+					 $('#order-selected-two').click(function(){
+					 	 
+					 	 getMoreInfoOrderNow = false;
+	                     getMoreInfoCollectNow = true;
+					     isorder = true;
+					     isMyCollect = false;
+					      $('#order-list').show();
+					     $('#collect-list').hide();
+					     $('#order-selected-two').attr("class","order-selected order-selecting-two");
+					     $('#order-selected-three').attr("class","order-selected order-selected-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text')
+					     $('#fa-heart').attr('class','fa fa-heart')
+					     $('.order-title').html("我的订单");
+					     //页面数据刷新
+
+					     var zkkStr2 = $("#order-header").html();
+						window.sessionStorage.setItem("test",zkkStr2);
+					 });
+					  //点击我的收藏
+					 $('#order-selected-three').click(function(){
+					 	 getMoreInfoOrderNow = true;
+					 	 getMoreInfoCollectNow = false;
+					     isorder = false;
+					     isMyCollect = true;
+					     $('#order-list').hide();
+					     $('#collect-list').show();
+					     $('#order-selected-two').attr("class","order-selected order-selected-two");
+					     $('#order-selected-three').attr("class","order-selected order-selecting-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text-o')
+					     $('#fa-heart').attr('class','fa fa-heart-o')
+					     $('.order-title').html("我的收藏");
+					     //页面数据刷新
+					     var zkkStr2 = $("#order-header").html();
+						window.sessionStorage.setItem("test",zkkStr2);
+					 });
+					  var orderPage = 2;
+		              var collectPage = 2;
+		              var MoreOrder = function () {
+		                  var _this = $("#getMoreOrder");
+		                  _this.off('click');
+		                  _this.html('加载中...');
+		                  var url = "{:U('Home/User/Order')}";
+		                  $.post(url, {page: orderPage,method:'ajax'}, function (jsonData) {
+		                      if (jsonData.state) {
+		                          $('#OrderTemp').tmpl(jsonData.list_data).appendTo('#order-box');
+		                          orderPage++;
+		                            _this.html('滑动查看更多记录');
+		                      } else {
+		                      	getMoreInfoOrder = true
+		                      _this.html(jsonData.msg);
+		                      }
+		                      getMoreInfo = false;
+		                      $('#getMoreOrder').on('click',function(){MoreOrder()});
+		
+		                  }, 'json')
+		              }
+	              var MoreCollect = function () {
+	                  var _this = $("#getMoreCollect");
+	                  _this.off('click');
+	                  _this.html('加载中...');
+	                  var url = "{:U('Home/User/collect')}";
+	                  $.post(url, {page: collectPage,method:'ajax'}, function (jsonData) {
+	                      if (jsonData.state) {
+	                          $('#CollectTemp').tmpl(jsonData.list_data).appendTo('#collect-box');
+	                          collectPage++;
+	                          _this.html('滑动查看更多记录');
+	                      } else {
+	                        _this.html(jsonData.msg);
+	                        getMoreInfoCollect = true
+	                      }
+	                      $('#getMoreCollect').on('click',function(){MoreCollect()});
+	                       getMoreInfo = false;
+	                  }, 'json')
+	              }
+	              //绑定点击事件
+	              $('#getMoreOrder').on('click',function(){MoreOrder()});
+	              $('#getMoreCollect').on('click',function(){MoreCollect()});
+				}, false);
+			}
+			if (isAndroid){
+				window.addEventListener("pageshow", function(e) {
+				
+					
+					//恢复收藏列表和订单列表
+					resetOrderCollectList();
+					var orderTwo = document.querySelector("#order-selected-two");
+					var orderThree = document.querySelector("#order-selected-three");
+					if (orderTwo.className == "order-selected order-selecting-two"){
+						 isorder = true;
+					     isMyCollect = false;
+					     $('#order-list').show();
+					     $('#collect-list').hide();
+					     $('#order-selected-two').attr("class","order-selected order-selecting-two");
+					     $('#order-selected-three').attr("class","order-selected order-selected-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text')
+					     $('#fa-heart').attr('class','fa fa-heart')
+					     $('.order-title').html("我的订单");
+					     //页面数据刷新
+//					     $('#order-list').removeClass('hide');
+//					     $('#collect-list').attr('class','hide');
+ 
+					}
+					if (orderThree.className == "order-selected order-selecting-three"){
+						 isorder = false;
+					     isMyCollect = true;
+					     $('#order-list').hide();
+					     $('#collect-list').show();
+					     $('#order-selected-two').attr("class","order-selected order-selected-two");
+					     $('#order-selected-three').attr("class","order-selected order-selecting-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text-o')
+					     $('#fa-heart').attr('class','fa fa-heart-o')
+					     $('.order-title').html("我的收藏");
+					     //页面数据刷新
+//					     $('#collect-list').removeClass('hide');
+//					     $('#order-list').attr('class','hide');
+ 
+					}
+					 //点击我的订单
+					 $('#order-selected-two').click(function(){
+					 	 getMoreInfoOrderNow = false;
+	                     getMoreInfoCollectNow = true;
+					     isorder = true;
+					     isMyCollect = false;
+					     $('#order-list').show();
+					     $('#collect-list').hide();
+					     $('#order-selected-two').attr("class","order-selected order-selecting-two");
+					     $('#order-selected-three').attr("class","order-selected order-selected-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text')
+					     $('#fa-heart').attr('class','fa fa-heart')
+					     $('.order-title').html("我的订单");
+					     //页面数据刷新
+//					     $('#order-list').removeClass('hide');
+//					     $('#collect-list').attr('class','hide');
+
+					     var zkkStr2 = $("#order-header").html();
+						window.sessionStorage.setItem("test",zkkStr2);
+					 });
+					  //点击我的收藏
+					 $('#order-selected-three').click(function(){
+					 	 getMoreInfoOrderNow = true;
+					 	 getMoreInfoCollectNow = false;
+					     isorder = false;
+					     isMyCollect = true;
+					      $('#order-list').hide();
+					     $('#collect-list').show();
+					     $('#order-selected-two').attr("class","order-selected order-selected-two");
+					     $('#order-selected-three').attr("class","order-selected order-selecting-three");
+					     $('#fa-file-text').attr('class','fa fa-file-text-o')
+					     $('#fa-heart').attr('class','fa fa-heart-o')
+					     $('.order-title').html("我的收藏");
+					     //页面数据刷新
+//					     $('#collect-list').removeClass('hide');
+//					     $('#order-list').attr('class','hide');
+
+					     var zkkStr2 = $("#order-header").html();
+						window.sessionStorage.setItem("test",zkkStr2);
+					 });
+					 var orderPage = 2;
+	              var collectPage = 2;
+	              var MoreOrder = function () {
+	                  var _this = $("#getMoreOrder");
+	                  _this.off('click');
+	                  _this.html('加载中...');
+	                  var url = "{:U('Home/User/Order')}";
+	                  $.post(url, {page: orderPage,method:'ajax'}, function (jsonData) {
+	                      if (jsonData.state) {
+	                          $('#OrderTemp').tmpl(jsonData.list_data).appendTo('#order-box');
+	                          orderPage++;
+	                            _this.html('滑动查看更多记录');
+	                      } else {
+	                      	getMoreInfoOrder  = true;
+	                      _this.html(jsonData.msg);
+	                      }
+	                      $('#getMoreOrder').on('click',function(){MoreOrder()});
+	                     getMoreInfo = false;
+	                  }, 'json')
+	              }
+	              var MoreCollect = function () {
+	                  var _this = $("#getMoreCollect");
+	                  _this.off('click');
+	                  _this.html('加载中...');
+	                  var url = "{:U('Home/User/collect')}";
+	                  $.post(url, {page: collectPage,method:'ajax'}, function (jsonData) {
+	                      if (jsonData.state) {
+	                          $('#CollectTemp').tmpl(jsonData.list_data).appendTo('#collect-box');
+	                          collectPage++;
+	                          _this.html('滑动查看更多记录');
+	                      } else {
+	                        _this.html(jsonData.msg);
+	              	         getMoreInfoCollect = true
+	                        
+	                      }
+	                      $('#getMoreCollect').on('click',function(){MoreCollect()});
+	                      getMoreInfo = false;
+	                  }, 'json')
+	              }
+	              //绑定点击事件
+	              $('#getMoreOrder').on('click',function(){MoreOrder()});
+	              $('#getMoreCollect').on('click',function(){MoreCollect()});
+				}, false);
+			}
+
+			function replaceHistory() {
+				var state = {
+					title: "title",
+					url: "#"
+				};
+				window.history.replaceState(state, "title", "#");
+			}
+		});
+		
+ </script>
+<script type="text/javascript">
+ 	if ($("#collect-list").height() <= $("body").height()){
+ 		$(".footer-main-footer").css({
+ 			textAlign: "center",
+ 	        fontSize: "0.9em",
+ //	        marginBottom: "3em",
+ 	        position: "absolute",
+ 	   		bottom: "0",
+ 	   		left: "0",
+ 	   		right: "0",
+ 	   		margin: "0 auto"
+ 		});
+ 	}
+ 	else{
+ 		$(".footer-main-footer").css({
+ 			textAlign: "center",
+ 	        fontSize: "0.9em",
+ 	        marginBottom: "3em"
+ 		});
+ 	}
+
+  function showMsg(msg){
+    $('#point').show();
+    $('#msgInfo').html(msg);
+  }
+
+
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+	//android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+	//ios终端
+	//alert('是否是Android：'+isAndroid);
+	//alert('是否是iOS：'+isiOS);
+	if (isAndroid){
+		$(".fa-copy").hide();
+	}
+
+	//更新订单和收藏的session
+	function updateSessionStorage()
+	{
+
+		var zkkStr3 = $("#order-list").html();
+		window.sessionStorage.setItem("test1",zkkStr3);
+		//var zkkStr4 = $("#collect-list").html();
+		var zkkArr4 = new Object();
+		$("#collect-box").children('li').each(function(){
+	        
+	        var pId = $(this).attr('id');
+	        var msg = $(this).html();
+	        
+			zkkArr4[pId+'s']= [msg,'shoucang',pId];
+		})
+		var zkkStr4 = JSON.stringify(zkkArr4)
+		window.sessionStorage.setItem("test2",zkkStr4);
+		window.sessionStorage.setItem("test21",$("#ckshoucang").html());
+	}
+ </script>
+
+<include FILE="Public:footer" />
+<script type="text/javascript">
+
+function postPhone () {
+	var tel = "{$_SESSION[$_SESSION['PLATFORM_CODE']]['tel']}";
+	var platcode = "{$_SESSION['PLATFORM_CODE']}";
+	if (tel && (platcode == 'ZHWZ' || platcode == 'ZHCJ' || platcode == 'ZHSQ' || platcode == 'ZHSQCJ')) {		
+		var url  = "{:U('Home/Ajax/sendTelToZH')}";
+		$.get(url,function(res){
+    
+		});
+	}
+	
+}
+ 	$('.loading-bg').show();
+
+ 	window.onload = function(){
+// 		setTimeout(function (){
+ 			$('.loading-bg').hide();
+ 			$("#main-body").show();
+// 		},500);
+   		
+ 		postPhone();
+ 	}
+//	grayscale($('.gray'));
+ </script>
+ <script type="text/javascript">
+
+ 	var is_login =  "{$_SESSION[$_SESSION['PLATFORM_CODE']]['tel']}";
+ 	if(!is_login){
+
+ 		login()
+ 	}
+
+ </script>
+
+ <!-- 滑动加载更多-begin -->
+ <script type="text/javascript">
+ 	
+ 	$(window).scroll(function(){
+
+        var sum = $(this).height() + $(this).scrollTop();
+        var dHeight = $(document).height();
+        
+        if(sum == dHeight && !getMoreInfo) {
+
+            
+        	if(!getMoreInfoOrder && !getMoreInfoOrderNow){
+                getMoreInfo = true;
+        		MoreOrder();
+        	}
+        	if(!getMoreInfoCollect && !getMoreInfoCollectNow){
+                getMoreInfo = true;
+        		MoreCollect();
+        	}
+        }
+ 	})
+ </script>
+ <!-- 滑动加载更多-end -->
+ <!-- 恢复收藏订单列表  begin-->
+ <!-- 恢复收藏订单列表  end-->
+ <script type="text/javascript">
+ 	
+ 	function resetOrderCollectList()
+ 	{   
+ 		if (window.sessionStorage.getItem("test")){
+			var amosStr = window.sessionStorage.getItem("test");
+			var patt1 = new RegExp("order-selecting-two")
+			if(patt1.test(amosStr)) {
+
+				getMoreInfoOrderNow = false;
+			} else {
+
+				getMoreInfoCollectNow = false;
+			}
+		}
+		 $("a").click(function (){
+		 	var zkkStr3 = $("#order-list").html();
+			window.sessionStorage.setItem("test1",zkkStr3);
+			// var zkkStr4 = $("#collect-list").html();
+			// window.sessionStorage.setItem("test2",zkkStr4);
+			var zkkArr4 = new Object();
+			$("#collect-box").children('li').each(function(){
+		        
+		        var pId = $(this).attr('id');
+		        var msg = $(this).html();
+		        
+				zkkArr4[pId+'s']= [msg,'shoucang', pId];
+			})
+			var zkkStr4 = JSON.stringify(zkkArr4)
+			window.sessionStorage.setItem("test2",zkkStr4);
+			window.sessionStorage.setItem("test21",$("#ckshoucang").html());
+		 });
+		if (window.sessionStorage.getItem("test1")){
+			var amosStr1 = window.sessionStorage.getItem("test1");
+		}else{
+			var amosStr1 = $("#order-list").html();
+		}
+ 		if (window.sessionStorage.getItem("test2")){
+			var amosStr2 = window.sessionStorage.getItem("test2");
+			//收藏
+			var amosArr2 = JSON.parse(amosStr2);
+			amosStr2 = '<ul id ="collect-box">';
+			$.each(amosArr2, function(index, v){
+
+                if(v['1'] == 'shoucang') {
+
+                	amosStr2 += '<li id="'+v[2]+'">';
+                    amosStr2 += v[0];
+                    amosStr2 += '</li>';
+                }
+			})
+			amosStr2 += '</ul>'
+			amosStr2 += '<div class="box-footer text-center" id ="ckshoucang">'+window.sessionStorage.getItem("test21");+'</div>';
+			//alert(amosStr2)
+		}else{
+			var amosStr2 = $("#collect-list").html();
+		}
+	
+		$("#order-header").html(amosStr);
+		$("#order-list").html(amosStr1);
+		$("#collect-list").html(amosStr2);
+		$('.loading-bg').hide();
+ 	}
+ </script>
+</body> 
+</html>

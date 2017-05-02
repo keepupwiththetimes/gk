@@ -1,0 +1,21 @@
+在正式服务器上线前要完成以下步骤：
+
+1. 修改index.php:
+define('DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER' , TRUE);  －> 把它设成FALSE
+define('EDITION_NUM',''); ->加入版本号，跟以往的版本号不一样就可以
+
+然后把 Public/Home/Resource 修改成 Public/Home/Resource + EDITION_NUM
+
+2. 把 Application/Runtime 目录设成任意人可读写
+
+
+3. 设置以下目录的软链接：
+ln -s /var/www/html/ltb_static_files/zhWelcome/   /var/www/html/wxzspfse/Public/Home/Default/Image/zsh2.0/
+ln -s /var/www/html/ltb_static_files/product/   /var/www/html/wxzspfse/Public/Home/Default/Image/
+ln -s /var/www/html/ltb_static_files/Audio/   /var/www/html/wxzspfse/Public/Home/Default/
+
+
+安全漏洞：
+* 修改ThinkPHP\Conf\convention.php 里面的 'DATA_CACHE_KEY'  为任意字符串，以避免 http://bobao.360.cn/snapshot/index?id=172371 提到的bug
+
+

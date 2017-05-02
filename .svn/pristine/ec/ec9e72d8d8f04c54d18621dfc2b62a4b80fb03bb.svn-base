@@ -1,0 +1,381 @@
+<?php
+namespace Home\Controller;
+
+use Think\Controller;
+
+class AjaxController extends Controller
+{
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->redisLog = new \Vendor\Redis\DefaultRedis(C('REDIS_HOST_LOG'), C('REDIS_PORT_LOG'), C('REDIS_AUTH_LOG'));
+        $this->redis = new \Vendor\Redis\DefaultRedis(C('REDIS_HOST_DEFAULT'), C('REDIS_PORT_DEFAULT'), C('REDIS_AUTH_DEFAULT')); // 默认redis实例 //记录log用的redis实例
+    }
+
+    // 分享记录日志
+    public function shareLog()
+    {
+        $data = $_POST;
+        $type = I('get.type', null);
+        if ($type == 1) {
+            if ($data['product_id']) {
+                doLog('Product/Share/loganalysis', '商品分享', $data['product_id'], $this->redisLog);
+            } else {
+                doLog('Index/Share', '首页分享', '', '', $this->redisLog);
+            }
+        } elseif ($type == 2) {
+            if ($data['product_id']) {
+                doLog('Product/Share/loganalysis', '商品分享朋友圈', $data['product_id'], '', $this->redisLog);
+            } else {
+                doLog('Index/Share', '首页分享朋友圈', '', '', $this->redisLog);
+            }
+        }
+
+        if ($data['controller_name'] == 'Wheel' && isset($_SESSION['PLATFORM_CODE']) && $_SESSION['PLATFORM_CODE'] == 'ZHCJ') {
+            $res = R('Wheel/shareReward');
+            $this->ajaxReturn(array('state' => $res));
+        }
+    }
+
+    // 记录乐天邦首页进入不同模块的事件，如抽奖、个人中心、游戏等等
+    public function moduleEntryViaHPLog()
+    {
+        $type = I('param.type', '');
+        doLog('Index/ModuleEntryViaHP', '通过乐天邦首页按钮进入功能模块', '', $type, $this->redisLog);
+    }
+    
+    
+    // 记录乐天邦首页点击查看全部商品
+    public function listAllProducts()
+    {
+    	doLog('Index/ListAllProducts', '点击查看平台所有商品', '', '', $this->redisLog);
+    }
+
+    // 记录从抽奖页面点击链接进入乐天邦首页，不包含点击浏览器回退键到乐天邦首页
+    public function fromLuckydraw2LetianbangLog()
+    {
+        $location = I('param.location', '');
+        if ($location == 'luckdrawbutton')
+            doLog('Wheel/Luckydraw2LTBHP', '点击更多优惠券按钮进乐天邦首页', '', '', $this->redisLog);
+        elseif ($location == 'home')
+            doLog('Wheel/Luckydraw2LTBHP', '从首页按钮点击链接进乐天邦首页', '', '', $this->redisLog);
+        elseif ($location == 'orderhome')
+            doLog('Wheel/Luckydraw2LTBHP', '从订单详情页面的首页按钮点击链接进乐天邦首页', '', '', $this->redisLog);
+        else
+            doLog('Wheel/Luckydraw2LTBHP', '从抽奖点击链接进入乐天邦首页', '', '', $this->redisLog);
+    }
+
+    public function cmbSendSignMsg()
+    {
+        $openid = isset($_GET['openid']) ? $_GET['openid'] : $_SESSION['ZHCJ']['cmbSendSignMsg'];
+        
+        if (empty($openid) == true)
+            return;
+        $this->redis->databaseSelect();
+        $send_url = $this->redis->get('cmd_send_url:' . $openid);
+        
+        if ($send_url) {  
+            $return = send_curl($send_url, '', '', '', 5); // 招行系统经常有问题，设成3秒超时是为了避免用户长时间等待
+            if (!empty($return)){
+            	$return_arr = json_decode($return,true);
+            	if ($return_arr['returnCode'] == '0000' || $return_arr['returnCode']=='1001') {
+            	    //"returnCode":"1001","returnMessage":"今日已签到过"
+            	    //"returnCode":"0000","returnMessage":"签到成功
+            		$this->redis->del('cmd_send_url:' . $openid);
+            	}
+            }
+            dolog('Wheel/zhSignResult', $openid, '', 'openid=' . $openid . 'CMBBank, result='. $return, $this->redisLog);
+            return true;
+        }
+        return false;
+    }
+
+    // 测试用户手机的上网速度
+    // 详细文档见：https://github.com/ashanbh/detectClientSpeed
+    public function loadtime()
+    {
+        //减少记数据库的次数 , 每10分钟只记一次
+        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+        $redisKeyBrowsetimeUpdated =  'browsetime_updated_recently_' . $session['platform_id'] . '_' . $session['openid'];
+        $updateTimes = $this->redisLog->get($redisKeyBrowsetimeUpdated);
+        if ( $updateTimes > 1){
+            return true;
+        }
+        
+        $data = $_POST;
+        $data['url'] = ''; // 没有必要记录url，否则在数据库里面看结果太费力。    
+        doLog('Index/loadtime', '记录用户网速', '', json_encode($data), $this->redisLog);
+        return true;
+    }
+
+    // 流量充值状态回调函数; 需要在流量提供商的后台配置
+    public function checkFlow()
+    {
+    	$data = $_REQUEST;  
+        if ($data['code'] == 5) {
+            $state = $this->redis->get('checkFlow' . $data['taskid']);
+            if ($state) {
+                $OrderProduct = M('order_product');
+                if ($data['orderno']) {
+                    $order_data = $OrderProduct->where('orderid = %d', $data['orderno'])->find();
+                    $return_data = get_flow($order_data['tel'], $data['orderno']);
+                    $this->redis->hset('checkFlow' . $data['taskid'], 1);
+                    $this->redis->expire('checkFlow' . $data['taskid'], 3600);
+                    dolog('Ajax/checkFlow', 'error:重新发送', '', json_encode($data), $this->redisLog);
+                } else {
+                    dolog('Ajax/checkFlow', 'error:无orderno', '', json_encode($data), $this->redisLog);
+                }
+            }
+            echo 'fail';
+        } elseif ($data['code'] == 4) {
+            dolog('Ajax/checkFlow', 'success', '', json_encode($data), $this->redisLog);
+            echo 'success';
+        } else {
+
+            dolog('Ajax/checkFlow', '未知错误', '', json_encode($data), $this->redisLog);
+        }
+    }
+
+    /**
+     * [sendTelToZH 发送手机号至招行 base64加密tel]
+     *
+     * @author 杨迎乔
+     * @DateTime 2016-12-09
+     */
+    public function sendTelToZH()
+    {
+        $platformCode = $_SESSION['PLATFORM_CODE'];
+        $openid = $_SESSION[$platformCode]['openid'];
+        $sendUrl = $this->redisLog->get('telSendToZHUrl_' . $openid . '_' . $platformCode);
+        if ($sendUrl) {
+              
+            $return = send_curl($sendUrl, '', '', '', 3); // 招行系统经常有问题，设成3秒超时是为了避免用户长时间等待
+            if (!empty($return)){
+                $this->redisLog->del('telSendToZHUrl_' . $openid . '_' . $platformCode);
+            }
+            dolog('Wheel/zhSendPhone', $openid, '', 'result='. $return . ', url=' . $send_url, $this->redisLog);
+            //dolog('Ajax/Delete', '可以删掉，招行记录用户手机号码', '', ' url=' . $sendUrl, $this->redisLog);
+        }
+    }
+
+    /**
+     * [logCallCustomerService 记录用户拨打客服电话的事件]
+     *
+     * @author Shao Xiaoling
+     * @DateTime 2016-12-20
+     */
+    public function logCallCustomerService()
+    {
+        $loc = I('param.triggerpage', '');
+        $productId = I('param.productid', 0);
+        doLog('Ajax/callCustomerService', '记录用户拨打客服电话', $productId, $loc, $this->redisLog);
+    }
+
+    /**
+     * 记录sign_picture 用户音乐播放次数
+     */
+    public function logAudioPlayBack()
+    {
+        $data['audioplayback'] = I('post.playback_num', 1, 'intval');
+        $picture = I('post.picture');
+        if (1 == $data['audioplayback']) {
+            $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+            //$checkin_data = M("checkin_data");
+            $updatetime = date('Y-m-d H:i:s');
+            $sql = sprintf("UPDATE tb_checkin_data SET audioplayback=audioplayback+1 , updatetime = '%s' WHERE openid ='%s' AND ptid = %d AND picture = '%s'",$updatetime,$session['openid'],$session['platform_id'],$picture);
+            $res = M()->execute($sql);
+            if (FALSE === $res) {
+                $wheel = A('Wheel');
+                $wheel->addSignAction( 'audioplayback', $picture, $data['audioplayback']);
+            }
+        }
+    }
+    // 计算用户页面停留时间
+    public function calculateDuration() {
+        $data['duration'] = I('post.duration', 0.0);
+        if (0.0 >= $data['duration']) {
+            return;
+        }
+        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+        //$checkin_data = M("checkin_data");
+        $updatetime = date('Y-m-d H:i:s');
+        $sql = sprintf("UPDATE tb_checkin_data SET duration = duration + %.1f , updatetime = '%s' WHERE openid ='%s' AND ptid = %d AND picture = '%s'",$data['duration'],$updatetime,$session['openid'],$session['platform_id'],$session['sign_picture']);
+        $res = M()->execute($sql);
+        if (FALSE === $res ) {
+            $wheel = A('Wheel');
+            $wheel->addSignAction('duration', $session['sign_picture'], $data['duration']);
+        }
+    }
+    // 计算用户页面加载时间
+    public function countPageloadtime() {
+        $data['pageloadtime'] = I('post.pageloadtime', 0.0);
+//        if (0.0 >= $data['pageloadtime']) {
+//            return;
+//        }
+        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+        $updatetime = date('Y-m-d H:i:s');
+        $sql = sprintf("SELECT pageloadtime FROM tb_checkin_data WHERE  openid ='%s' AND ptid = %d AND picture = '%s' LIMIT 1 " ,$session['openid'],$session['platform_id'],$session['sign_picture']);
+        $pageloadtime = M()->query($sql)[0]['pageloadtime'];
+        if (0 < $pageloadtime ) {
+            exit;
+        }
+        $sql = sprintf("UPDATE tb_checkin_data SET pageloadtime = %.1f , updatetime = '%s' WHERE openid ='%s' AND ptid = %d AND picture = '%s'",$data['pageloadtime'],$updatetime,$session['openid'],$session['platform_id'],$session['sign_picture']);
+        $res = M()->execute($sql);
+        if (FALSE === $res ) {
+            $wheel = A('Wheel');
+            //$checkin_data = M("checkin_data");
+            $wheel->addSignAction( 'duration', $session['sign_picture'], $data['duration']);
+        }
+    }
+    /**
+     * 记录sign_picture 用户页面分享次数
+     */
+    public function logShareCount()
+    {
+        $data['sharenum'] = I('post.sharenum', 1, 'intval');
+        $picture = I('post.picture');
+        if (1 == $data['sharenum']) {
+            $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+            $updatetime = date('Y-m-d H:i:s');
+            $sql = sprintf("UPDATE tb_checkin_data SET sharenum = sharenum+1 , updatetime = '%s'WHERE openid ='%s' AND ptid = %d AND picture = '%s'",$updatetime,$session['openid'],$session['platform_id'],$picture);
+            $res = M()->execute($sql);
+            if (FALSE === $res) {
+                $wheel = A('Wheel');
+                //$checkin_data = M("checkin_data");
+                $wheel->addSignAction( 'sharenum', $picture , $data['audioplayback']);
+            }
+        }
+    }
+    /**
+     * 点赞操作
+     */
+    public function thumbupAction()
+    {
+        // 点赞/取消 行为
+        if (IS_POST) {
+            $data['thumbup'] = I('post.thumbup', 0, 'intval');
+            // 验证thubmup
+            if ($data['thumbup'] != 0 || $data['thumbup'] != 1) {
+                //恶意攻击 默认点赞
+                $data['thumbup'] == 0;
+            }
+            $checkin_data = M('checkin_data');
+            $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+            $res = $checkin_data->where("openid ='%s' AND ptid = %d AND picture = '%s'", array(
+                $session['openid'],
+                $session['platform_id'],
+                $session['sign_picture']
+            ))
+                ->field('thumbup')
+                ->find();
+            if ($res) {
+                // 更新操作
+                $data['updatetime'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+                if (FALSE === $checkin_data->where("openid = '%s' AND ptid = %d AND picture = '%s'", array(
+                        $session['openid'],
+                        $session['platform_id'],
+                        $session['sign_picture']
+                    ))->save($data)
+                ) {
+                    $rs['code'] = 2;
+                    $rs['msg'] = '数据更新出错，请重新提交';
+                } else {
+                    if (online_redis_server) {
+                        $this->redis->databaseSelect();
+                        $res['totalthumbup'] = $this->redis->hget('sign_picture_totalthumbup:' . $session['sign_picture'], 'decode');
+                        if ($res['totalthumbup']) {
+                            if ($data['thumbup'] == 1) {
+                                $this->redis->hset('sign_picture_totalthumbup:' . $session['sign_picture'], $res['totalthumbup'] + 1);
+                                $this->redis->EXPIRE('sign_picture_totalthumbup:' . $session['sign_picture'], 60 * 30);//有效时间30分钟
+                            } elseif ($data['thumbup'] == 0) {
+                                $this->redis->hset('sign_picture_totalthumbup:' . $session['sign_picture'], $res['totalthumbup'] - 1);
+                                $this->redis->EXPIRE('sign_picture_totalthumbup:' . $session['sign_picture'], 60 * 30);//有效时间30分钟
+                            }
+                        }
+                    }
+                    $rs['code'] = 1;
+                    $rs['msg'] = '成功';
+                }
+            } else {
+                $wheel = A('Wheel');
+                //插入操作
+                if ($wheel->addSignAction( 'thumbup', $session['sign_picture'], 1)) {
+                    $rs['code'] = 1;
+                    $rs['msg'] = '成功';
+                } else {
+                    $rs['code'] = 2;
+                    $rs['msg'] = '数据更新出错，请重新提交';
+                }
+            }
+        } else {
+            $rs['code'] = 0;
+            $rs['msg'] = '请求参数错误!';
+        }
+        exit(json_encode($rs));
+    }
+    
+    public function logOrderControllerButtonClick()
+    {
+        $buttonTitle = I('param.buttontitle', ''); //按钮上的文字： 点击复制，立即使用//isset($_GET['buttonTitle']) ? $_GET['buttonTitle'] :'';
+        $productId = I('param.productid', 0);
+        doLog('Ajax/OrderControllerButtonClick', '记录订单页面点击按钮', $productId, $buttonTitle, $this->redisLog);
+    
+    }
+    
+    /**
+     * [refreshPage 从抽奖到乐天邦或者乐天邦到抽奖的时候刷新session]
+     * @ckhero
+     * @DateTime 2017-03-22
+     * @return   [type]     [description]
+     */
+    public function refreshPage() {
+    
+        $platform_code = I('param.platcode', null);
+        if (isset($platform_code)) {
+
+            $platform_code = strtoupper($platform_code);
+            $_SESSION['PLATFORM_CODE'] = empty($platform_code) ? $_SESSION['PLATFORM_CODE'] : $platform_code;
+        }
+        
+       //doLog('Index/refresfPage', "页面刷新", '', '', $this->redisLog);
+       $this->ajaxReturn(1);
+    }
+    
+    /**
+     * [handleAttention 处理关注信息]
+     * @ckhero
+     * @DateTime 2017-03-22
+     * @return   [type]     [description]
+     */
+    public function handleAttention()
+    {
+
+        $openid = 'ocZ-njpv_J2_1QAEg95zhHvag6RE2';
+        $this->redis->databaseSelect('wheel');
+        $inviterUid = $this->redis->get('Invitee:'.$openid);
+        if ($inviterUid > 0) {
+            $this->redis->delete('Invitee:'.$openid);
+            $inviterSignRewardKey = 'SignReward:'.$inviterUid;
+            $inviterSignReward = $this->redis->hget($inviterSignRewardKey);
+            //邀请人抽奖信息生成的情况下删除 该信息，让其重新生成
+            $inviterRewardKey = 'InviterReward:'.$inviterUid;
+            $inviterReward = $this->redis->get($inviterRewardKey);
+            doLogNoSession('Ajax/acceptAttention', '邀请奖励', '', '邀请人id:'.$inviterUid.';被邀请人openid:'.$openid, '', '', '关注奖励');
+            if ($inviterReward > 0) {
+
+                $inviterReward += 1; 
+            } else {
+
+                $inviterReward = 1;
+            }
+            doLogNoSession('Ajax/acceptAttention', '奖励次数', '', '邀请人id:'.$inviterUid.';奖励一次后当天总奖励次数'.$inviterReward, '', '', '关注奖励');
+            //把奖励信息记在redis一天有效
+            $this->redis->set($inviterRewardKey, $inviterReward, strtotime(date('Y-m-d 00:00:00', strtotime('+1 day'))) - time());
+            if($inviterSignReward['today'] > 0) {
+             
+                $this->redis->delete($inviterSignRewardKey);
+            }
+        }
+    }
+}

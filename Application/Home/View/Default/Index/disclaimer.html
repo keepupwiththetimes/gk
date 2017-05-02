@@ -1,0 +1,106 @@
+<include FILE="Public:header" />
+<style>
+html, body {
+	-moz-user-select: none; /*火狐*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none;
+}
+body{
+	background-color: rgb(240,240,240);
+	overflow-y: scroll;
+}
+.user-header-img {
+	display: inline-block !important;
+	vertical-align: middle !important;
+	border-radius: 999px !important;
+	width: 100px;
+	border: none;
+}
+
+.box-title {
+	text-align: center;
+}
+
+.content-wrapper {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.content-wrapper p {
+	text-indent: 2em;
+}
+
+.footer-main-footer {
+	text-align: center;
+	font-size: 0.9em;
+	margin-bottom: 3em;
+}
+
+.footer-main-footer a {
+	color: dodgerblue;
+	text-decoration: underline;
+}
+
+.footer-declaration {
+	display: inline-block;
+	text-align: center;
+	text-decoration: underline;
+}
+</style>
+</head>
+
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div class="content-wrapper">
+					<div class="box-header with-border">
+					
+					<php>if($platformCode != 'MSYHC'){</php>
+						<h4 class="box-title">免责声明</h4>
+					<php>}</php>
+					
+					<php>if($platformCode == 'MSYHC'){</php>
+						<br/>
+					<php>}</php>
+						
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						
+						<p>欢迎访问乐天邦网站。为了规范网站管理，依法保障本网站及相关版权所有者的合法权利，本网站特作出以下法律免责声明。本法律声明阐述之条款和条件适用于所有访问和使用乐天邦网站的个人或机构。</p>
+						<span> 1、任何访问和使用本网站的个人或机构必须遵守有关法律法规，不得借助本网站的传播能力，从事非法活动； <br />
+
+							2、本网站不保证所有信息、文本、图形、链接及其它项目的绝对准确性和完整性，内容仅供访问者使用参照，乐天邦对因使用本网站内容而产生的相关后果不承担任何商业和法律责任；
+							<br />
+							3、所有与本网站链接的网站及其内容和版权由相应的提供者与拥有者负责，本网站不对其内容或形式或性质担负任何直接或间接的商业或法律责任；
+							<br /> 4、所有在本网站链接中进行的用户信息的录入，乐天邦不进行数据录入、留存与传输，用户信息将仅用于奖品的线下核销； <br />
+							5、若有任何争议，最终解释权归乐天邦所有； <br />
+							6、访问者对本网站包括但不限于的访问浏览、利用、转载、宣传、链接等，均视为访问者同意本免责声明。
+							<br>
+							<br>
+						</span>
+					</div>
+			</div>
+
+		<footer class="footer-main-footer" style="display: none;">
+		<span>乐天邦</span>版权所有&nbsp;	
+			<div class="footer-declaration" style="display: none;">
+			<span><a
+				href="javascript:detail('{:U('Home/Index/disclaimer',array('platcode'=>$platformCode))}')">免责声明</a></span>
+		</div>
+		<div class="customer"><span class="tel-phone">客服:021-62662177&nbsp;</span><span class="work-time">工作日9:30-17:30</span></div>
+	</footer>
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+	<include file="Public:layout-js" />
+</body>
+<script type="text/javascript">
+	var platformCode = "{$platformCode}";
+	if ( platformCode == 'MSYHC' )
+		$('.head-name').html('免责声明');
+	else
+		$('title').html('乐天邦 - 您的专享优惠');
+</script>
+</html>

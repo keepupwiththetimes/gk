@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+百度平均分:{$avg_score.baiduip_avg}
+geo平均分:{$avg_score.geoip_avg}
+ipipnet平均分:{$avg_score.ipipnet_avg} 
+ip138平均分:{$avg_score.ip138_avg}
+<table>
+    <tr>
+        <td>ip</td>
+        <td>程序得到结果</td>
+        <td>geoip得到结果</td>
+        <td>百度IP取得结果</td>
+        <td>Ipipnet取得结果</td>
+        <td>Ip138取得结果</td>
+        <td>是否存入redis</td>
+        <td>baidu得分</td>
+        <td>geo得分</td>
+        <td>ipipnet得分</td>
+        <td>ip138得分</td>
+    </tr>
+    <volist name="ipList" id="vo">
+    <tr>
+        <td>{$vo.ip}</td>
+        <td>{$vo.crontab_province}-{$vo.crontab_city}</td>
+        <td>{$vo.geoip_province}-{$vo.geoip_city}</td>
+        <td>{$vo.baiduip_province}-{$vo.baiduip_city}</td>
+        <td>{$vo.ipipnet_province}-{$vo.ipipnet_city}</td>
+        <td>{$vo.ip138_province}-{$vo.ip138_city}</td>
+        <td>{$vo.is_redis}</td>
+        <td>{$vo.baidu_score}</td>
+        <td>{$vo.geoip_score}</td>
+        <td>{$vo.ipipnet_score}</td>
+        <td>{$vo.ip138_score}</td>
+    </tr>
+    </volist>
+</table>
+</body>
+</html>

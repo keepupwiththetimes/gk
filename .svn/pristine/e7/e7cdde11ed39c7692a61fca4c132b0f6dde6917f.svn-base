@@ -1,0 +1,139 @@
+<if name='mark' condition='($mark eq index) or ($mark eq detail)'>
+
+<script src="__LETIANBANG__/js/amazeui.min.js" type="text/javascript"
+	charset="utf-8"></script> </if>
+<if name='mark' condition='($mark eq index)'> <script
+	src="__LETIANBANG__/js/clipboard.min.js" type="text/javascript"
+	charset="utf-8"></script> </if>
+
+<if name='mark' condition='($mark eq login)'> <script
+	src="__LETIANBANG__/js/zepto.min.js" type="text/javascript"
+	charset="utf-8"></script> </if>
+<if name='mark' condition='($mark eq detail)'> <!--<script src="__LETIANBANG__/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>-->
+<script src="__Home_Bootstrap__/js/bootstrap.min.js"
+	type="text/javascript"></script> </if>
+<if name='mark' condition='($mark eq index) or ($mark eq login)'> <script
+	src="__LETIANBANG__/js/sweetalert.min.js" type="text/javascript"
+	charset="utf-8"></script> <script type="text/javascript">
+
+		//验证手机号
+		function isPhoneNo(phone) {
+			 var pattern = /^1[34578]\d{9}$/;
+			 return pattern.test(phone);
+		}
+
+		function checkN(thisInput){
+			var ss = '#' + thisInput;
+			var val = $(ss).val();
+			if (!isPhoneNo(val)) {	
+				$('#btn-check').get(0).className = "";
+			}else{
+				$('#btn-check').get(0).className = "active-login";
+			}
+		}
+		
+		
+		//验证验证码
+		function checkM(){
+			var yzm = $("#checkNumber").val(); //验证码的值
+			var sjh = $("#mobile").val();  //手机号的值
+			if (yzm&&sjh){
+				$('.submitBtn').get(0).className = "submitBtn active-login1";
+			}else{
+				$('.submitBtn').get(0).className = "submitBtn";
+			}
+		}
+		
+		//验证码倒计时
+		var wait = 60;
+		var isSend =false;
+		function time(o) {
+	        if (wait == 0) {
+	        	 
+	            o.innerHTML="获取验证码";
+	            $('#btn-check').get(0).className = "active-login";
+	            wait = 60;
+	            isSend =false;
+	        } else {
+	            o.innerHTML="重新发送(" + wait + ")";
+	            $('#btn-check').get(0).className = "";
+//	          	alert('发送验证码');
+	            wait--;
+	
+	            setTimeout(function() {
+	                time(o);
+	            },1000);
+	        }
+	    }
+		
+	  	$('#btn-check').click(function(){
+
+			tel = $('#mobile').val();
+			if (tel&&/^1[3|4|5|8|7]\d{9}$/.test(tel)) {
+				if(!isSend){
+					isSend =true;
+//					alert('发送验证码');
+
+					$.ajax({
+
+	             	url:"{:U('leTianBang/verify')}",
+	             	data:{tel:$("#mobile").val()},
+	             	 success:function(data){
+
+	             	 }
+	             })
+					time(this);	
+				}
+			}else{
+//				alert('手机号不正确');
+				swal("乐天邦提醒您","请输入正确的手机号码", "error");
+			}
+		});
+		
+		//登录验证
+		$('.submitBtn').click(function (){
+			console.log('2')
+			var yzm = $("#checkNumber").val(); //验证码的值
+			var sjh = $("#mobile").val();  //手机号的值
+// 			if ((yzm == "1234") && isPhoneNo(sjh)){
+// //				alert("登录成功");
+// 				swal("登录成功", "", "success");
+// 			}
+			//else{
+				if ((yzm=="") ||(sjh=="")){
+//					alert("输入");
+					swal("乐天邦提醒您", "请输入完整的信息");
+				}else{
+//					alert("登录失败");
+//					
+                    $.ajax({
+
+                    	url:"{:U('leTianBang/login')}",
+                    	data:{tel:sjh,code:yzm,submit:'submit'},
+                    	type:'get',
+                    	success:function(data){
+                    		swal("乐天邦提醒您",data['info'],data['type'])
+                    		if(data['info'] == '登录成功' ){
+                                
+                                if($("#forward").val()){
+
+                                	setTimeout(function(){
+
+	                    				location.href= $("#forward").val();
+	                    			},3000)
+                                }else{
+
+                                	setTimeout(function(){
+
+	                    				window.location.reload();
+	                    			},2000)
+                                
+                    			}
+                    		}
+                    	}
+                    })
+					// swal("登录失败", "", "error");
+				}
+			//}
+		});
+	</script> </if>

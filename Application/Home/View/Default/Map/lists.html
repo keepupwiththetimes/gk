@@ -1,0 +1,125 @@
+<include FILE="Public:header" />
+<style type="text/css">
+.correct-shop-cell-right {
+	float: right;
+	display: table;
+	margin-top: 6%;
+	margin-right: 6%;
+}
+
+.correct-shop-cell-top {
+	overflow: hidden;
+}
+
+.fa-rotate-270 {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 200%;
+	/*color: #E68012;*/
+}
+
+.fa-map-marker {
+	width: 10px;
+	height: 15px;
+	display: inline-block;
+	position: absolute;
+	/*margin: auto;
+		    margin-top: 4px;*/
+	font-size: 132%;
+	/*color: #E68012;*/
+}
+
+#leave-tips {
+	position: absolute;
+	display: table;
+	top: 25%;
+	left: 30%;
+	width: 40%;
+	height: 13%;
+	word-wrap: break-word;
+	/*border: 1px solid #E68012;*/
+}
+
+#leave-tips span {
+	display: table-cell;
+	vertical-align: middle;
+	word-break: break-all;
+	font-size: 130%;
+	/*color: #E68012;*/
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+.point {
+	pointer-events: none;
+}
+</style>
+
+
+</head>
+<body>
+	<!--导航栏-->
+<!-- 	<header>
+		<nav class="correct-shop-navbar">
+			<div class="correct-shop-navbar-header">
+				<div class="correct-shop-title">适用门店</div>
+			</div>
+		</nav>
+	</header> -->
+	<if condition="empty($shop_list)">
+	<div class="content-wrapper">没有内容可以加载...</div>
+	<else />
+	<div class="correct-shop-container">
+		<volist name="shop_list" id="vo">
+		<div class="correct-shop-cell">
+			<div class="correct-shop-cell-top">
+				<div class="correct-shop-cell-left">
+					<ul>
+						<if condition="empty($vo['abbreviation'])">
+						<li class="correct-shop-name">{$vo['merchantshort']}</li>
+						<!--<li class="correct-shop-location"><img src="__Home_IMG__/zsh2.0/match-shop/location.png"><span>{$vo.remark}</span></li>-->
+						<li class="correct-shop-location"><i class="fa fa-map-marker"></i><span>{$vo.remark}</span></li>
+						<else />
+						<li class="correct-shop-name">{$vo['abbreviation']}</li>
+						<!--<li class="correct-shop-location"><img src="__Home_IMG__/zsh2.0/match-shop/location.png"><span>{$vo.address}</span></li>-->
+						<li class="correct-shop-location"><a
+							href="{:U('Home/Map/view/id/'.$vo['id'])}"><i
+								class="fa fa-map-marker"></i><span>{$vo.address}</span></a></li>
+						</if>
+					</ul>
+				</div>
+				<if condition="empty($vo['ophone'])"> <a
+					class="correct-shop-cell-right"><i
+					class="fa fa-phone fa-rotate-270"></i> </a> <else /> <a
+					class="correct-shop-cell-right" href="tel:{$vo['ophone']}"><i
+					class="fa fa-phone fa-rotate-270"></i> </a> </if>
+			</div>
+		</div>
+		</volist>
+	</div>
+	</if>
+	<!--<div id="leave-tips"><span id="leave-tip"></span></div>-->
+
+	<include FILE="Public:footer" />
+	<include FILE="User:logout" />
+	<script type="text/javascript">
+
+	//弹窗
+    var i = 4;
+    function out(ev){
+    if (i>0){
+      i--;
+    }else {
+		location.href = url;
+	}
+		document.getElementById('msgInfo').innerHTML= i.toString()+'s后自动跳转';
+
+    };
+
+
+	$('#point').hide();//隐藏弹窗
+
+	$('title').html('乐天邦-适用门店');
+
+</script>

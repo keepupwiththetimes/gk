@@ -1,0 +1,1312 @@
+<include FILE="Public:header" />
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+/*阻止被选中*/
+html, body {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+body {
+	color: #333;
+	font-size: 12px;
+	font-family: "Microsoft YaHei";
+	width: 100%;
+	background: url(__Home_IMG__/wheel2/luck-draw3/bg.jpg) no-repeat;
+	background-size: cover;
+}
+
+.header {
+	width: 100%;
+	text-align: center;
+}
+
+.header img {
+	width: 56%;
+	/*height: auto;
+    margin-top:8%;
+    margin-bottom: 8%;*/
+}
+
+/* 大转盘样式 */
+.banner {
+	/*display: block;
+    width: 70%;
+    margin:0 auto;*/
+	display: block;
+	/* width: 70%; */
+	padding: 37px;
+	padding-bottom: 0;
+	margin: 0 auto;
+	position: absolute;
+	top: 33%;
+}
+
+.banner .turnplate {
+	display: block;
+	width: 100%;
+	position: relative;
+	background-image: url(__Home_IMG__/wheel2/luck-draw3/turnplate-bg.png);
+	background-size: 100% 100%;
+}
+
+.banner .turnplate canvas.item {
+	width: 100%;
+}
+
+.banner .turnplate img.pointer {
+	position: absolute;
+	width: 22.5%;
+	height: 28.5%;
+	left: 38.5%;
+	top: 32.2%;
+}
+
+canvas.item {
+	width: 100%;
+}
+
+img.pointer {
+	position: absolute;
+	width: 27%;
+	height: 35%;
+	left: 36.48%;
+	top: 28%;
+}
+
+.right-top-cloud {
+	display: block;
+	width: 15%;
+	float: right;
+	height: auto;
+	margin-right: 3%;
+}
+
+.left-top {
+	/*display: none;*/
+	width: 15%;
+	float: left;
+}
+
+.left-bottom-cloud {
+	/*display: block;
+        width: 10%;
+        height: auto;
+        margin-left: 10%;*/
+	display: block;
+	width: 9%;
+	height: auto;
+	position: absolute;
+	margin-left: 9%;
+	bottom: 35%;
+}
+
+.rule-activity {
+	width: 100%;
+	position: absolute;
+	/*bottom: 1.5%;*/
+	bottom: 5%;
+	height: 7%;
+	display: none;
+}
+
+.rule-activity a {
+	text-decoration: none;
+	display: block;
+	width: 72%;
+	margin: auto;
+	font-size: 12px;
+	margin-left: 20%;
+	color: white;
+}
+
+.luckdraw-bottom {
+	width: 100%;
+	position: absolute;
+	bottom: 5%;
+	/*bottom: 40px;*/
+	height: 7%;
+}
+
+.luckdraw-bottom-left {
+	display: inline-table;
+	width: 58%;
+	height: 10px;
+	float: left;
+}
+
+.bg-color {
+	display: block;
+	width: 75%;
+	height: 9px;
+	float: left;
+	font-size: 16px;
+	background-color: white;
+	margin-top: 10px;
+	margin-left: 13.8%;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.step-box {
+	display: inline-block;
+	float: left;
+	width: 33.33%;
+	position: relative;
+}
+
+.progress-color {
+	/*display: inline-block;
+	    height: 9px;
+	    width: 76.5%;
+	    margin-bottom: 9px;
+	    text-align: right;
+	    background: white;*/
+	display: inline-block;
+	height: 9px;
+	width: 98%;
+	/* border-bottom-right-radius: 4px; */
+	/* border-top-right-radius: 4px; */
+	margin-bottom: 9px;
+	margin-left: -2px;
+	text-align: right;
+	/* background: #F69E25; */
+}
+
+.luckdraw-bottom-left p {
+	display: block;
+	width: 75%;
+	font-size: 12px;
+	color: white;
+	float: left;
+	margin-left: 13.8%;
+	margin-top: 13px;
+}
+
+.fa-check-circle {
+	display: inline-block;
+	float: right;
+	margin-top: -4px;
+	font-size: 18px;
+	color: white;
+	position: absolute;
+	right: 0%;
+}
+
+.luckdraw-bottom-right {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	float: right;
+	text-align: center;
+}
+
+.luckdraw-bottom-right img {
+	width: 60%;
+}
+
+.bottom-message {
+	width: 87%;
+	/* float: right; */
+	position: absolute;
+	right: 2%;
+	bottom: 2%;
+}
+
+.login-input-phone input {
+	line-height: 34px;
+	width: 75%;
+	padding-left: 36px;
+	font-size: 16px;
+	border-radius: 10px;
+}
+
+.login-input-phone input:focus {
+	color: black;
+	line-height: 34px;
+	width: 75%;
+	font-size: 16px;
+	padding-left: 36px;
+	border-radius: 10px;
+	outline: none;
+}
+
+.common-login ul {
+	margin-top: -4%;
+	opacity: 0.8;
+	font-size: 0.7rem;
+	padding-bottom: 5%;
+}
+
+.point-container .point-word {
+	padding: 2%;
+	height: 50%;
+	/*overflow-y: scroll;*/
+	padding-left: 5%;
+	padding-right: 5%;
+	width: 90%;
+}
+
+.bg-line hr {
+	height: 1px;
+	border: none;
+	width: 98%;
+	position: absolute;
+	/* margin: auto; */
+	top: 7px;
+	overflow: hidden;
+}
+
+@media only screen and (min-width: 479px) {
+	html {
+		min-height: 100%;
+		background: url(__Home_IMG__/wheel2{$image_path}/bg.png) no-repeat;
+		background-size: cover;
+	}
+	.banner {
+		display: block;
+		width: 70%;
+		padding: 20px;
+		margin: 0 auto;
+		position: absolute;
+		top: 65%;
+		left: 12%;
+	}
+	.luckdraw-bottom {
+		width: 100%;
+		position: relative;
+		bottom: -140%;
+		height: 0%;
+	}
+	.rule-activity {
+		width: 100%;
+		position: relative;
+		bottom: -102.5%;
+		height: 7%;
+		display: none;
+	}
+	.bottom-message {
+		width: 87%;
+		position: absolute;
+		right: 2%;
+		bottom: -900%;
+	}
+	.point-container {
+		display: table;
+		width: 50%;
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 9%;
+		margin: auto;
+		background-color: white;
+		border-radius: 5px;
+		z-index: 10000000;
+	}
+	.progress-color {
+		display: inline-block;
+		height: 9px;
+		width: 86.5%;
+		margin-bottom: 9px;
+		text-align: right;
+		background: white;
+	}
+}
+
+#hhr {
+	height: 1px;
+	/*border:none;*/
+	width: 100%;
+	position: absolute;
+	top: 7px;
+}
+
+.record-test {
+	color: white;
+	position: absolute;
+	bottom: 15px;
+	/*width: 100px;*/
+	width: 30%;
+	text-align: center;
+	left: 35%;
+	background-color: transparent;
+}
+
+.record-mask {
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.2);
+	position: fixed;
+	top: 0px;
+	display: none
+}
+
+.record-list {
+	/*border: 2px solid #F4A445;*/
+	/*width: 90%;*/
+	top: 21%;
+	left: 6%;
+	right: 6%;
+	height: 252px;
+	position: absolute;
+	background: white;
+	display: none;
+	padding: 20px;
+	overflow: auto;
+	z-index: 10;
+}
+
+.record-tile {
+	height: 30px;
+	line-height: 30px;
+	width: 100px;
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	border-bottom: 1px solid #EEEEEE;
+	font-size: 14px;
+	color: rgb(236, 66, 66);
+	font-weight: bold;
+}
+
+.record-item {
+	padding: 10px;
+	border-bottom: 1px solid #EEEEEE;
+	position: relative;
+}
+
+.record-item img{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+}
+
+.record-name {
+	width: 100%;
+	float: left;
+	/*color: rgb(240,130,0);*/
+}
+
+.record-time {
+	/*float: right;*/
+	color: #999999;
+}
+
+.record-xiangqing {
+	float: right;
+	color: #999999;
+}
+
+.record2 {
+	color: white;
+	display: block;
+	padding-top: 11px;
+	position: absolute;
+	bottom: -9%;
+	left: 30%;
+	width: 40%;
+	font-size: 0.7rem;
+}
+
+.progress-color img {
+	display: inline-block;
+	height: 80%;
+	margin-top: -4px;
+	position: absolute;
+	right: 0%;
+}
+
+.luck-rule {
+	position: fixed;
+	height: 60%;
+	top: 17%;
+	left: 13%;
+	width: 74%;
+	background: white;
+	border-radius: 5px;
+	overflow: scroll;
+}
+
+.luck-rule h3 {
+	text-align: center;
+	color: #EC4242;
+	margin-top: 7%;
+	margin-bottom: 4%;
+}
+
+.luck-rule p {
+	/*text-indent: 2em;*/
+	width: 85%;
+	text-align: left;
+	/* padding: 22px; */
+	margin-left: 7%;
+	margin-top: 2%;
+	color: gray;
+	margin-bottom: 7%;
+}
+
+.btn-rule {
+	display: block;
+	width: 31%;
+	text-align: center;
+	font-size: 12px;
+	color: white;
+	/*margin-top: 5px;*/
+	float: right;
+}
+
+.rule-bg {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 10;
+}
+
+.change-phone {
+	/*display: block;*/
+	color: white;
+	margin-top: -11%;
+	/* margin-left: 32%; */
+	text-align: center;
+	font-size: 12px;
+	width: 48%;
+	position: absolute;
+	left: 26%;
+}
+
+.color-font {
+	color: yellow;
+}
+
+.user-count {
+	position: absolute;
+	width: 100%;
+	margin-top: 11%;
+	height: 30px;
+	z-index: 10;
+}
+
+.fa-user {
+	font-size: 1.1rem;
+	color: white;
+}
+
+@media all and (orientation : landscape) {
+	.record-test {
+		bottom: -180%;
+		padding-bottom: 10px;
+	}
+	.banner {
+		top: 95%;
+	}
+}
+
+#sign-today {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 10;
+}
+
+#sign-today img {
+	width: 100%;
+	height: 100%;
+}
+
+.reality-bg {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 10;
+}
+
+.reality {
+	position: fixed;
+	top: 17%;
+	left: 13%;
+	width: 74%;
+	background: white;
+	border-radius: 5px;
+}
+
+.reality h3 {
+	text-align: center;
+	color: #EC4242;
+	margin-top: 7%;
+	margin-bottom: 4%;
+}
+
+.reality p {
+	text-indent: 2em;
+	width: 85%;
+	text-align: left;
+	/* padding: 22px; */
+	margin-left: 7%;
+	margin-top: 1%;
+	color: gray;
+	margin-bottom: 3%;
+}
+
+.no-reality {
+	display: block;
+	width: 31%;
+	text-align: center;
+	font-size: 12px;
+	color: white;
+	/* margin-top: 5px; */
+	float: left;
+}
+
+@media screen and (max-device-height: 480px) /* 兼容iphone4/4s */ {
+	body {
+		background-size: 100% 100%;
+	}
+	.header img {
+		width: 51%;
+	}
+	.change-phone {
+		margin-top: -16%;
+	}
+	.luckdraw-bottom-right {
+		margin-top: 7%;
+	}
+	.record2 {
+		bottom: -64%;
+	}
+}
+.gray{
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+.checkyzm{
+	width: 39%;
+}
+.getyzm{
+	width: 39%;
+}
+.noPriceHome{
+	width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 100;
+}
+.noPriceHomebg{
+	width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 102;
+}
+.noPriceHome-container{
+	display: block;
+    width: 70%;
+    /* height: 15%; */
+    position: fixed;
+    left: 15%;
+    top: 30%;
+    background-color: #fff;
+    border-radius: 5px;
+    /* border: 1px solid #f08000; */
+    z-index: 103;
+}
+.noPriceHome-container img{
+	width: 70%;
+    margin-left: 15%;
+}
+.noPriceHome-container p{
+	padding: 2%;
+    height: 50%;
+    /* overflow-y: scroll; */
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 90%;
+    word-wrap: break-word;
+    text-align: center;
+    color: #06b093;
+    font-size: 14px;
+}
+.noPriceHome-container a{
+	display: inline-block;
+    text-align: center;
+    width: 50%;
+    position: relative;
+    left: 25%;
+    height: 30px;
+    margin-top: 5%;
+    margin-bottom: 7%;
+    line-height: 30px;
+    border-radius: 3px;
+    color: white;
+}
+</style>
+
+
+
+</head>
+<body>
+	<div class="header">
+		<img src="__Home_IMG__/wheel2/luck-draw3/title.png">
+	</div>
+	<div>
+		
+		<php>if($mode['LEFT_SIGN']['state']){</php>
+
+		<img
+			src="__Home_IMG__/wheel2{$image_path}/{$mode['LEFT_SIGN']['img_name']}"
+			class="left-top">
+		<php>}</php>
+		<php>if($mode['RIGHT_SIGN']['state']){</php>
+		<img
+			src="__Home_IMG__/wheel2{$image_path}/{$mode['RIGHT_SIGN']['img_name']}"
+			class="right-top-cloud">
+		<php>}</php>
+
+	</div>
+	<div class="user-count">
+
+		<span class="change-phone"><i class="fa fa-user"></i>&nbsp; <php>if($_SESSION[$_SESSION['PLATFORM_CODE']]['tel']){</php>
+			{$masked_phone_number}<font
+			class="color-font">修改</font> <php>}else{</php> 未登录 <php>}</php> </span>
+	</div>
+	<div class="banner">
+		<div class="turnplate">
+			<canvas class="item" id="wheel_canvas" width="410px" height="410px"
+				style="display: block;"></canvas>
+			<img class="pointer" id="signPointer"
+				src="__Home_IMG__/wheel2/luck-draw3/turnplate-pointer.png">
+		</div>
+	</div>
+	<php>if($sign_info['sign_cycle']>0){</php>
+	<div class="luckdraw-bottom" style="display: block">
+
+		
+
+		<div class="luckdraw-bottom-right">
+			<!--<button id="doSign">马上签到</button>-->
+			<span class="btn-rule"><img
+				src="__Home_IMG__/wheel2/luck-draw3/btn-rule.png" alt="" /></span> <span
+				class="record2" id="record"><img
+				src="__Home_IMG__/wheel2/luck-draw3/record.png" alt="" /></span> <span
+				class="no-reality"><img
+				src="__Home_IMG__/wheel2/luck-draw3/no-reality.png" alt="" /></span>
+		</div>
+	</div>
+
+	<php>}else{</php>
+
+	<php>if(!$mode['WORD_ENABLE']['state']){</php>
+	<php>if($mode['LEFT_BOTTOM_SIGN']['state']){</php>
+	<img
+		src="__Home_IMG__/wheel2{$image_path}/{$mode['LEFT_BOTTOM_SIGN']['img_name']}"
+		class="left-bottom-cloud">
+	<php>}</php>
+	<div class="rule-activity" style="display: block">
+
+		<a href="#">{$mode['WORD_ENABLE']['info']}</a>
+	</div>
+	<php>}else{</php>
+
+	<div class="rule-activity" style="display: block">
+		<php>if($mode['LEFT_BOTTOM_SIGN']['state']){</php>
+		<img
+			src="__Home_IMG__/wheel2{$image_path}/{$mode['LEFT_BOTTOM_SIGN']['img_name']}"
+			class="left-bottom-cloud">
+		<php>}</php>
+		<img
+			src="__Home_IMG__/wheel2{$image_path}/{$mode['WORD_ENABLE']['img_name']}"
+			class="bottom-message" />
+	</div>
+	<php>}</php>
+
+
+	<php>}</php>
+
+
+	<php>if($sign_info['sign_cycle']<=1 &&
+	$_SESSION['PLATFORM_CODE']!='ZHCJ'){</php>
+	<div class="luckdraw-bottom" style="display: block">
+		<div class="luckdraw-bottom-right">
+			<!--<button id="doSign">马上签到</button>-->
+
+			<span class="btn-rule"><img
+				src="__Home_IMG__/wheel2/luck-draw3/btn-rule.png" alt="" /></span> <span
+				class="record2" id="record"><img
+				src="__Home_IMG__/wheel2/luck-draw3/record.png" alt="" /></span> <span
+				class="no-reality"><img
+				src="__Home_IMG__/wheel2/luck-draw3/no-reality.png" alt="" /></span>
+		</div>
+	</div>
+	<php>}</php>
+
+	<div class="record-mask"></div>
+	<div class="record-list">
+		<!--  <span class='record-tile'>中奖纪录</span>
+    <a href="">
+      <div class='record-item'>
+       <span class='record-name'>流量套餐个</span>
+       <br>
+       <span class='record-time'>2016-07-14 00:00:00</span>
+       <span class='record-xiangqing'>详情</span>
+    </div>
+    </a> -->
+
+	</div>
+	<div class="rule-bg">
+		<div class="luck-rule">
+			<h3>活动规则</h3>
+			<p>
+				<strong>活动时间</strong>：即日起至2017年12月31日<br />
+				<br /> <strong>参与对象</strong>：关注“农业银行信用卡”微信公众号的用户<br />
+				<br /> <strong>活动内容</strong>：活动期间，用户点击“享优惠”--“天天有礼”菜单，完成签到即可获得一次抽奖资格。<b>每人每天限抽奖一次。</b><br />
+				<br /> <strong>奖品设置</strong>：<?php echo trim(str_replace("谢谢参与,", '', str_replace('"','',$prize_str)), ',')?>等，奖品将会不定期更新。<br />
+				<br /> <strong>活动细则</strong>:
+				1、通过扫描下方农业银行信用卡官方微信号或搜索“农业银行信用卡”，关注即可参与本次活动。<br /> <img
+					src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAAgAElEQVR4Ae3cd5ReVdU/8KfMMy1lMplJSCFh0oA0Qgm9SDN0BUEQUUAUCy7bWvaCDRuKiqCAXeyAimBHpIZAgBBqCAQC6X0yvT3l/Uw23HkyGVi+67d+f7xrcdfycu655+yz93d/9z773GdiulQqpV67XhmBzCu/eu1NPwL/fwFCz//rDE0nBkSjWCwmPf8NhTKZTHrHlQw2PYR4FZ16XNls1qOx8Rj3ZFbSCGnJ3KRfw5SQbEwMKNd2SE1iSrmQV28nkjViZEX5hL6+vk2bNvX29pJb3r9rO+a7jxkzpqamJoyPYaa3tra2tbXV1dWNHDmyu7vbYz6fHzt2bFVVlSmE9/T0bNy4kXmJ5GTF6upqE4cPH568ShqFQqFlx2XFxsZGMknu6OgwwHSzRowYYYlkPPmdnZ2bN2+OnmSJZEDSSMyprKykZ0XFACwDLeKg85GPfGTlypVWpU0yf9cGd+VyOdp8+ctfPuKII2iWjHn++ef/9Kc//f3vfz/77LPPOuuspUuX3nDDDevXr//KV76y9957Dxs2jORnn332/e9/PxAp7dLDNyRoz58//4ILLjjxxBMTgUlj+/btv/71r6+//vpDDjnk05/+9Nq1a2+88UYLme56xzve8eY3v3n69OnJePLvuuuuSy+9lGnkuyevBjUAxMesmDFjxre//W1eTwYMAEQ5zqc6C00od0UyOmlYr6urC0yUsDBHaQA+KIMdK1asIGrdunUvvvjiM888owfu4WSc0n7iiSc0LBrKAY5wj+3t7aiRLBSdloAOaVyIQ1u2bNEg2RLPPfdcuIo0MFHMSONpQo7By5cvJ6S2ttYw8ssll7eRmjmucFXyagAgXeYzVePII4886qijGEz7ZGjSsLxVb7nlFlrqpMeTTz75xz/+cdy4cW95y1tMCXvuueceIcDPEEfJX/3qV7fffjstabBhwwavDDN91KhRc+bMeeMb30g5jxMnTtxrr72StTRoZcoPf/hDojj53e9+N9/gEbFQFm6ve93r9ttvPwo3NDSgqldwwd+mpibTeZ3MU045Zc8993wlc4zBtYULF4bPylffCaB4IQtY8oMf/CBx/DkIda4A3B133PHAAw/wJGayE0A/+MEPGHbAAQcIYygYtmrHxTMuIN56660EIqYBXJ2IRasDDzzwQx/6EDn0C/qQnGipHyJ//vOft23bduGFF77zne+87777PvvZzwKI5N133/34448Hx+jRo0GMm7/85S9xbZ999gEQ9XROmjRJ9EEQ0EQlkjW8RV4AWZdF5a+iPQRAXoDATAo9+OCD5ZRj1cyZM+kUCyfi9Ftg69atxlMUCkcffbS3+levXs0SooIve+yxB73xlJGJZGsRKAzFCyFmuRLhJgKC/42RYvhv/PjxBx98MMNeeOEFoOuPK1YklsGxXAiJMRblMlHpMRHOlzKaPYHJSWd5Y+heI+SUxYsXf+ADH0DX8gmYJY4G2UA/RvKbnD137lz+/PjHPx6zfve73/30pz8FUDxK2xdddBHU3vCGN0SUsYQ93grJn/zkJw8//LB2OUCEw0KEikTERMB58+Z985vfvO22237+858vW7as3OAEr/LOWBqacvyPfvSjeIy7VEU9O4NVyvuT9isCREWugI6cl4zW4Mxy58Sr0EbgCEmOslh9fX28si8cdthh9DDGZSMTU3KQwdLHlClTUIP9//nPfzBowoQJzc3N/CzEBKzdBLIISBnQ4I405C3h3mKiiMZWQEsfeuSacn2indypLYQHmUNyBHWolwxOGq8IkBHmJOOSxpCd5YNZHkvGFCEJiOOOOy7GAIhJhEBfMJ588sn77ruvxPG9731v8uTJhx9+uPE333wzgBYsWMCxjz76qKSLYkB3F8J2g2nTpiGyaD311FO1ke7+++9XGbz+9a+HgixDgXIOJsqjedJOGq8ETQx4NYASEYMau2IU2kR2QAobExX5iv8BweGqL+wwQA+qQ0Q/4qCAMgorlQVTp06FCAvRRIDbKFxwUezYBM0CkAxipLlPPfWUfIQ1JNsixKyCkBzoUwD0eErtcph2VTvseqX+ePu/BsiS5auGlOhU3b7pTW/af//9Z8+ejcyPPPLIvffeK2SMofF5551nN3nooYfsgOwERMySIO04F198Me4AUT8u4IXYBGhoDxHV5m677Qb6t7/97Tjyl7/8BaDAdcc1bJKhKGDku971LoDCzlzSQkP3WC55TBq7mpO80nhFgEwr34yTOahRvmr0G0wbBpx55plKEjsCXOyav/nNb9asWWMMr9qMFUo2r5/97GeyhikcbgkAyetCzyyXfpFy7LHHSsaBDhJZVHVupAT/3ve+V0B94hOf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" /><br />
+				2、奖品将以短信方式发送到客户领奖时填写的手机号码上。此号码为领奖唯一凭据，请准确填写，若不填或填写错误，均视为客户自动弃奖。由于手机型号问题，不排除部分手机型号会把此中奖短信拦截至垃圾信息，请客户留意查收。<br />
+				3、<b>请在优惠券有效时间内去享受该优惠，具体使用规则见领奖页面,以领奖页面商户公布的使用规则为准。</b>客户如对活动奖品、服务有疑问，可联系供应商客服热线：021-62457922，该奖品由上海长尚网络科技有限公司提供并提供保障。<br />
+				4、奖品发放兑换、使用规则及售后服务等问题，均由奖品供应商负责，如发生纠纷，中国农业银行信用卡中心可协助客服进行处理。<br />
+				5、中国农业银行信用卡中心有权在中国法律法规允许的范围内解释、修改、变更本活动条款及细则（包括但不限于延迟或提前终止本活动等），并于农业银行网站或其他相关渠道公告后生效，敬请持卡人留意。<br />
+		</div>
+
+	</div>
+
+	
+
+	<div class="reality-bg">
+		<div class="reality">
+			<h3>免责声明</h3>
+			<p>本活动平台由乐天邦提供，特此声明并保证:</p>
+			<p>平台所提供商品、赠品及其广告、商品、赠品之包装，均无违反《消费者权益保护法》及其它相关法律法规。</p>
+			<p>用户所输入的个人资料如手机号码完全基于用户自愿的条件下，仅用于抽奖及领取优惠券、优惠商户核销，除此以外不对用户数据进行任何形式的第三方收集及传输、不用于其他商业用途。</p>
+			<p>用户如对活动奖品、服务有疑问，可联系乐天邦客服热线：021-62457922。</p>
+		</div>
+	</div>
+<div class="noPriceHome" id="noPriceHome">
+	<div class="noPriceHomebg">
+		
+	</div>
+	<div class="noPriceHome-container">
+		<!--<p class="information"></p>-->
+		<img src="__Home_IMG__/zsh2.0/home/head-{$templet}.png" alt="" />
+		<p class="point-word" id="msgInfo" style="width: 90%;"></p>
+		<a href="http://m.zwmedia.com.cn/wxzspfse/index.php/Home/Nyyh/index?do=user_entry"><span>领取更多优惠券</span></a>
+	</div>
+</div>
+	
+	<script>
+wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{$sign_package.appId}', // 必填，公众号的唯一标识
+    timestamp: '{$sign_package.timestamp}', // 必填，生成签名的时间戳
+    nonceStr: '{$sign_package.nonceStr}', // 必填，生成签名的随机串
+    signature: '{$sign_package.signature}',// 必填，签名，见附录1
+    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','hideMenuItems','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','onOpenAddress']// 必填，需要使用的JS接口列表
+});
+
+      wx.ready(function () {
+          wx.onMenuShareTimeline({
+              title: '{$SHARE["title"]}', // 分享标题
+              link: '{$SHARE["link"]}', // 分享链接
+              imgUrl: '{$SHARE["imgUrl"]}', // 分享图标
+              success: function () {
+                  // 用户确认分享后执行的回调函数
+                  var url  = "{:U('Home/Ajax/shareLog/type/1')}";
+                  var data = '{$SHARE["product_id"]}';
+                  $.post(url,{product_id:data});
+
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+              }
+          });
+
+          wx.onMenuShareAppMessage({
+              title: '{$SHARE["title"]}', // 分享标题
+              desc: '{$SHARE["desc"]}', // 分享描述
+              link: '{$SHARE["link"]}', // 分享链接
+              imgUrl: '{$SHARE["imgUrl"]}', // 分享图标
+              type: '', // 分享类型,music、video或link，不填默认为link
+              dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+              success: function () {
+                  // 用户确认分享后执行的回调函数
+                  var url  = "{:U('Home/Ajax/shareLog/type/2')}"; 
+                  var data = "{$SHARE['product_id']}";
+                  $.post(url,{product_id:data});
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+              }
+          });
+      });
+      </script>
+	
+	<script src="__Home_JS__/zsh2.0/loading.js" type="text/javascript"
+		charset="utf-8"></script>
+	<include FILE="User:login" />
+	<script type="text/javascript">
+
+$('.btn-rule').bind("click",function(){
+	document.removeEventListener("touchmove",mo,false);   //解除禁止滑动事件
+	$('.rule-bg').show();
+//	e.preventDefault();
+});
+
+$('.rule-bg').bind("click",function(){
+	$('.rule-bg').hide();
+//	e.preventDefault();
+});
+
+$('#login').attr('placeholder','输入手机号码参与抽奖');
+
+$('.change-phone').click(function(){
+					$(".common-login").removeClass('zoomOut animated');
+				$(".common-login").addClass('zoomIn animated');
+				$('.login-contain').fadeIn(200);
+//	e.preventDefault();
+});
+
+//$('body').bind('touchmove', function (event) {
+//  event.preventDefault();
+//});
+
+$('#sign-today').bind('touchstart',function(){
+//	$('#sign-today').hide();
+	setTimeout(function() {
+		$('#sign-today').hide();
+	}, 500);
+    p=false;
+});
+
+
+
+$('.no-reality').click(function(){
+		document.removeEventListener("touchmove",mo,false);   //解除禁止滑动事件
+		$('.reality-bg').show();
+
+});
+
+$('.reality-bg').click(function(){
+	$('.reality-bg').hide();
+});
+
+//登录框调整
+$('.login-input-phone').css('margin-top','12%');
+
+//$(document).bind("touchend",function (){
+//	event.preventDefault();
+//});
+
+$('.noPriceHomebg').click(function(){
+	$('.noPriceHome').hide();
+});
+</script>
+
+
+	<script type="text/javascript">
+
+//	var p = true;
+
+    var mo=function(e){e.preventDefault();}
+    var p = false;
+    var is_play = 0;
+    var first="{$first}";
+      checkCycle = {$sign_info['sign_cycle']};
+    var turnplate = {
+        restaraunts: [],                //大转盘奖品名称
+        colors: [],                 //大转盘奖品区块对应背景颜色
+        outsideRadius: 180,         //大转盘外圆的半径,大转盘195,小转盘168
+        textRadius: 95,                //大转盘奖品位置距离圆心的距离
+        insideRadius: 10,           //大转盘内圆的半径,小转盘60,大转盘50
+        startAngle: -Math.PI/2,              //开始角度
+        counted:0,
+        bRotate: false              //false:停止;ture:旋转
+    };
+	var arrImg = [{$prize_logo_list}];
+    loadingFn({
+		imgArr:arrImg,
+		loadingOver: function (){
+		   
+		   $(document).ready(function () {
+
+		        //动态添加大转盘的奖品与奖品区域背景颜色
+                turnplate.restaraunts = [{$prize_str}];
+                turnplate.colors = [{$prize_bg}];
+                turnplate.imgs = [{$prize_logo_list}];
+		        
+		        //旋转转盘 item:奖品位置; txt：提示语;
+		function rotatens(item,txt,state){
+		//计算圆弧
+		is_play = 1;
+		var s = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length*2));
+		s = s - 90;
+		if(s<270){
+			s = 270 - s;
+		}else{
+			s = 360 - s + 270;
+		}
+
+		s = 1800*turnplate.counted+s;
+
+		$("#wheel_canvas").css("transition-duration","6s");
+		$("#wheel_canvas").css("transform","rotate("+s+"deg)");
+
+		setTimeout(function(){
+				state =3;
+			  if(state==1){
+                   // showMsg("亲，恭喜获得"+ txt.replace("||","") +"(3秒钟之后自动跳转到领奖页面)")
+
+                    showMsg("亲，恭喜您中奖了, 3 秒钟之后自动跳转到领奖页面!")
+                    setTimeout(function(){
+
+                        location.href = '{:U("Home/Wheel/prize")}';
+                    },3000)
+
+                 }else{
+
+                     if(checkCycle> 1){
+
+                            msg = "别灰心哦，再接再厉！累积签到"+checkCycle+"天即获得一次抽奖机会";
+                        }else{
+
+                            msg = "别灰心哦，再接再厉！每天都有一次抽奖机会，记得明天再来哦";
+                        }
+                               setTimeout(function(){
+                               	$('.noPriceHome-container p').html(msg);
+                               	$('.noPriceHome').show();
+//			                   	  showMsg(msg);
+			                   },300);
+
+                        if("{$_SESSION['PLATFORM_CODE']}" == "ZHCJ"){
+                            setTimeout("location.href='{:U('Wheel/signPicture')}';",3000);
+                        }
+                  }
+
+                 document.removeEventListener("touchmove",mo,false)   //解除禁止滑动事件
+                $('body').css('pointer-events','auto');
+                    turnplate.bRotate = !turnplate.bRotate;
+                    if(!first){
+                        $('.color-one').css('background-color','white');
+                        $('.check-one').css('color','white');
+                        $('.color-one').children('img').attr('src','__Home_IMG__/zsh2.0/luck-draw2/progresswhite.png');
+                        $("#sign_num").html('0')
+                    }
+
+		},6000);
+
+	}
+
+
+		$('#signPointer').bind("click",function () {
+            document.addEventListener("touchmove",mo,false);//禁止滑动事件
+        	$('body').css('pointer-events','none');
+
+        	if(turnplate.bRotate){
+
+			if(checkCycle> 1 ){
+                msg = "亲爱的客户，累积签到"+checkCycle+"天即获得一次抽奖机会";
+            }else{
+
+                msg = "亲，每天都有一次抽奖机会，记得明天再来哦";
+            }
+
+            showMsg(msg)
+            return
+
+		}
+
+//
+         if(is_play!=0){
+//       	$(document).unbind('touchend');
+         	$('body').css('pointer-events','auto');
+
+            if(checkCycle> 1){
+//          	$('body').css('pointer-events','auto');
+                msg = "亲爱的客户，累积签到"+checkCycle+"天即获得一次抽奖机会";
+            }else{
+
+                msg = "亲，每天都有一次抽奖机会，记得明天再来哦";
+            }
+             showMsg(msg)
+             return false;
+         }
+         turnplate.bRotate = !turnplate.bRotate;
+            //获取随机数(奖品个数范围内)
+            var url = '{:U("Home/Wheel/prize")}';
+            var data = {ajax: 1};
+            $.post(url, data, function (data_json) {
+//          	$(document).unbind('touchend');
+//			$('body').css('pointer-events','auto');
+
+
+            if(data_json.state==11){
+//            		$(document).unbind('touchend');
+              		$('body').css('pointer-events','auto');
+
+					$(".common-login").removeClass('zoomOut animated');
+				$(".common-login").addClass('zoomIn animated');
+				$('.login-contain').fadeIn(200);
+                    turnplate.bRotate = !turnplate.bRotate;
+                    return false;
+                }
+             if(!data_json.msg){
+
+                 if(checkCycle> 1){
+
+                    if(first){
+
+                        data_json.msg = "亲爱的客户，第一次签到即可获得一次抽奖机会";
+                    }else{
+
+                        data_json.msg = "亲爱的客户，累积签到"+checkCycle+"天即获得一次抽奖机会3";
+                    }
+                }else{
+
+                    data_json.msg = "亲，每天都有一次抽奖机会，记得明天再来哦";
+                }
+             }
+             if (data_json.state == 0) {
+             	 $('body').css('pointer-events','auto');
+                    showMsg(data_json.msg)
+                    turnplate.bRotate = !turnplate.bRotate
+             }else
+                {
+                	turnplate.counted++;
+                	//处理数组越界
+                	if (data_json.item  > turnplate.restaraunts.length || data_json.item  < 1) {
+
+                	for (var i = 0; i<turnplate.restaraunts.length;i++) {
+
+                			if (turnplate.restaraunts[i] == "谢谢参与") {
+
+                				data_json.item = i+1;
+                				data_json.state = 2;
+                			}
+                	}
+
+
+                	 rotatens(data_json.item, turnplate.restaraunts[data_json.item - 1],data_json.state);
+
+                	} else{
+
+                		    rotatens(data_json.item, turnplate.restaraunts[data_json.item - 1],data_json.state);
+                	}
+
+                }
+            }, 'json')
+
+        });
+    });
+		    //页面所有元素加载完毕后执行drawRouletteWheel()方法对转盘进行渲染
+		    window.onload = function () {
+
+		        drawRouletteWheel();
+		    };
+
+		    function drawRouletteWheel() {
+		        var canvas = document.getElementById("wheel_canvas");
+		        if (canvas.getContext) {
+		            //根据奖品个数计算圆周角度
+		            var arc = Math.PI / (turnplate.restaraunts.length / 2);
+		            var ctx = canvas.getContext("2d");
+		            //在给定矩形内清空一个矩形
+		            ctx.clearRect(0, 0, 422, 422);
+		            //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
+		            ctx.strokeStyle = "#a44126";
+		            //font 属性设置或返回画布上文本内容的当前字体属性
+		            ctx.font = '14px Microsoft YaHei';
+		            for (var i = 0; i < turnplate.restaraunts.length; i++) {
+		                var angle = turnplate.startAngle + i * arc;
+		                ctx.fillStyle = turnplate.colors[i];
+		                ctx.beginPath();
+		                //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
+		                ctx.arc(205, 205, turnplate.outsideRadius, angle, angle + arc, false);
+		                ctx.arc(205, 205, turnplate.insideRadius, angle + arc, angle, true);
+		                ctx.stroke();
+		                ctx.fill();
+		                //锁画布(为了保存之前的画布状态)
+		                ctx.save();
+
+		                //----绘制奖品开始----
+		                ctx.fillStyle = "{$font_color}";
+		                var text = turnplate.restaraunts[i];
+		                var line_height = 17;
+		                //translate方法重新映射画布上的 (0,0) 位置
+		                ctx.translate(205 + Math.cos(angle + arc / 2) * turnplate.textRadius, 205 + Math.sin(angle + arc / 2) * turnplate.textRadius);
+
+		                //rotate方法旋转当前的绘图
+		                ctx.rotate(angle + arc / 2 + Math.PI / 2);
+
+		                /** 下面代码根据奖品类型、奖品名称长度渲染不同效果，如字体、颜色、图片效果。(具体根据实际情况改变) **/
+		                if (text.indexOf("||") > 0) {
+		                    var texts = text.split("||");
+		                    for (var j = 0; j < texts.length; j++) {
+		                        ctx.font = j == 0 ? ' Microsoft YaHei' : '16px Microsoft YaHei';
+		                        if (j == 0) {
+		                            ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+		                        } else {
+		                            ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+		                        }
+		                    }
+		                } else if (text.indexOf("||") == -1 && text.length > 6) {
+		                    text = text.substring(0, 6) + "||" + text.substring(6);
+		                    var texts = text.split("||");
+		                    for (var j = 0; j < texts.length; j++) {
+		                        ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+		                    }
+		                } else {
+		                    //在画布上绘制填色的文本。文本的默认颜色是黑色
+		                    //measureText()方法返回包含一个对象，该对象包含以像素计的指定字体宽度
+		                    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+		                }
+
+		                //添加对应图标
+							  var img= new Image();
+							  img.src = turnplate.imgs[i];
+							  img.onload=function(){
+								  ctx.drawImage(img,-35,-80,80,65);
+							  };
+							  ctx.drawImage(img,-35,-80,80,65);
+
+				  //把当前画布返回（调整）到上一个save()状态之前
+		                ctx.restore();
+		                //----绘制奖品结束----
+		            }
+		        }
+		    }
+
+		    //签到
+		    $(function () {
+
+		        $('#doSign').bind("touchstart",function () {
+
+		            var url = '{:U("Home/Wheel/sign")}';
+		            var data = {ajax: 1};
+		            $.post(url, data, function (data_json) {
+
+
+		                  if(data_json.state==1){
+
+		                    showMsg(data_json.msg,!first)
+		                  }else if(data_json.state==11){
+					$(".common-login").removeClass('zoomOut animated');
+				$(".common-login").addClass('zoomIn animated');
+				$('.login-contain').fadeIn(200);
+		                  }else{
+
+		                    showMsg(data_json.msg)
+		                  }
+		                }, 'json')
+		        });
+
+		    });
+
+		   }
+		});
+
+
+
+
+
+</script>
+
+	<script type="text/javascript">
+//中奖纪录
+var record = false;
+$("#record").bind("touchstart",function(){
+	
+	document.removeEventListener("touchmove",mo,false);   //解除禁止滑动事件
+
+    if(record){
+
+        showMsg('正在获取中奖纪录')
+        return false;
+    }
+    var url = "{:U('Wheel/getRecord')}";
+    $.ajax({
+
+       url:url,
+       data:{dosubmit:'dosubmit'},
+       beforesend:function(){
+
+        record = true
+       },
+       success:function(data){
+
+        if(data.state==11){
+					$(".common-login").removeClass('zoomOut animated');
+				$(".common-login").addClass('zoomIn animated');
+				$('.login-contain').fadeIn(200);
+        }else if(data.state==1){
+
+         var str ="<span class='record-tile'>中奖纪录</span>";
+         
+         $.each(data.list,function(index,v){
+				if (v['status'] == 1 || v['status'] == 2){
+		            str +='<a href="'+v['url']+'">';
+		            str += "<div class='record-item'>"
+		            //str += "<span class='record-name'>"+v['productname']+"</span>"
+		            str += "<span class='record-name'>"+ v['productname'].replace("||"," ") +"</span>"
+		            str += "<br>"
+		            str += "<span class='record-time'>"+v['updatetime']+"</span>"
+		            str += "<span class='record-xiangqing'>详情</span>"
+		            str += "</div></a>"
+		       }else if(v['status'] == 0){
+			       	str +='<a href="javascript:void(0)">';
+		            str += "<div class='record-item gray'>"
+		            //str += "<span class='record-name'>"+v['productname']+"</span>"
+		            str += "<span class='record-name'>"+ v['productname'].replace("||"," ") +"</span>"
+		            str += "<br>"
+		            str += "<span class='record-time'>"+v['updatetime']+"</span>"
+		            str += "<img src='__Home_IMG__/zsh2.0/home/expired.png'></img>"
+		            str += "</div></a>"
+	            }
+	         })
+
+         $(".record-list").html(str)
+          $(".record-mask").show();
+         $(".record-list").show();
+        }else{
+
+            showMsg('您暂无中奖纪录！')
+        }
+        record = false;
+       }
+    })
+
+});
+$(".record-mask").bind("touchstart",function(){
+	document.removeEventListener("touchmove",mo,false);   //解除禁止滑动事件
+    $(".record-mask").hide();
+    $(".record-list").hide();
+});
+</script>
+	<include file="Public:footer" />

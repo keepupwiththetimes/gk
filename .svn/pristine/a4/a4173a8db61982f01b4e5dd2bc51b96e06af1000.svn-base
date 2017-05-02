@@ -1,0 +1,36 @@
+<include file="LeTianBang:header" mark='login' />
+
+<div id="login-box">
+	<div class="header">
+		<p>账户登录</p>
+		<a href="index.html"><i class="fa fa-chevron-left"></i></a>
+	</div>
+	<div class="center">
+		<div class="center-box">
+			<div>
+				<img src="__LETIANBANG__/images/header.png" alt="" />
+			</div>
+			<p>用户账号</p>
+		</div>
+	</div>
+	<div class="number">
+		<p class="phone-number">
+			&nbsp;&nbsp;&nbsp;手机号码&nbsp;&nbsp;&nbsp; <input type="tel" name=""
+				oninput="checkN(this.id)" id="mobile" maxlength="11" value=""
+				placeholder="输入您的手机号" />
+		</p>
+		<p class="check-number">
+			<input type="tel" name="" id="checkNumber" oninput="checkM()"
+				value="" placeholder="请输入短信验证码" /> <span id="btn-check">获取验证码</span>
+		</p>
+	</div>
+	<span class="submitBtn">确认登录</span>
+	<ul>
+		<li><span>您的手机号码是发放优惠券和奖品的唯一凭证，请正确填写哦</span></li>
+		<li><span>本活动由乐天邦提供，客服电话：021-62457922<span></li>
+	</ul>
+</div>
+</body>
+<input type='hidden' id="forward" value='{$forward}'>
+<include file="LeTianBang:footer" />
+</html>

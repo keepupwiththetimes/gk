@@ -1,0 +1,111 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: jysdhr
+ * Date: 2017/3/22
+ * Time: 15:04
+ * Description:分类模型类
+ */
+
+namespace Home\Model;
+
+use Think\Model;
+
+class CategoryModel extends Model
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->tablePrefix = C('DB_PREFIX');
+    }
+
+    /**
+     * @Description:定时任务调取该方法,计算分类对于用户的一个对应分数(15分钟计算1次)
+     * @User:jysdhr
+     * @param $dataList 10条记录(包括用户user_id,category_id,score)
+     * @return 0 失败 1 成功
+     */
+    public function analysis_category_score($dataList)
+    {
+        //批量处理
+        return FALSE === $this->addAll($dataList) ? 0 : 1;
+    }
+
+    /**
+     * @Description:获取用户和分类的对应分数
+     * @User:jysdhr
+     * @param $user_id 用户id
+     * @param $category_id 分类id
+     * @return int score 分类得分,查不到的为0分
+     */
+    public function get_score($zwid, $category_id)
+    {
+        $score = M('user_category_score')->field('score')->where("zwid = '%s' and category_id = %d ", $zwid, $category_id)->find()['score'];
+        if (255 <= $score) $this->balance_score($zwid);
+        return $score ? $score : 0;
+    }
+
+    /**
+     * @Description:当用户一个分类分满时,平衡该用户所有分类分数
+     * @User:jysdhr
+     * @param $zwcmopen_id 用户id
+     */
+    public function balance_score($zwid)
+    {
+        $res = M('user_category_score')->field('id,score')->where("zwid = %d ", $zwid)->select();
+        //一个用户对应的分类目前为10种,所以没必要分批批量更新,一次性更新
+        foreach ($res as $k => $v) {
+            $data = ['id' => $v['id'], 'score' => ($v['score'] / 2)];
+            $this->save($data);//不判断成功失败
+        }
+    }
+
+    /**
+     * @Description:更新或者插入记录
+     * @User:jysdhr
+     * @param $data
+     */
+    public function update_or_insert_records($data)
+    {
+        $sql = printf("UPDATE tb_user_category_score SET score=score+%d WHERE zwcmopen_id = '%s' and category_id = %d ", $data['score'], $data['zwcmopen_id'], $data['category_id']);
+        if (FLASE === M()->execute($sql))
+            M('user_category_score')->add($data);
+    }
+
+    /**
+     * create by gk
+     * @return [array]返回所有分类
+     */
+    public function get_category_info()
+    {
+        $category = M("category");
+        $category_info = $category->field(array('id','display_name'))->select();
+        return $category_info;
+    }
+
+    /**
+     * create by gk
+     * [get_category_by_categroy_id 根据分类id获取分类名
+     * @param  [int] $categroy_id [分类id]
+     * @return [array] [分类信息]
+     */
+    public function get_category_by_categroy_id($category_id){
+        $category = M("category");
+        $where['id'] = $category_id;
+        $category_info = $category->where($where)->field(array('id','display_name'))->find();
+        return $category_info;
+    }
+    
+    /**
+     * create by gk
+     * [get_category_by_categroy_id 根据分类id获取分类名
+     * @param  [array] $category_ids [分类id]
+     * @return [array] [分类信息]
+     */
+    public function getCategoryByCategroyIdS($category_ids){
+        $category = M("category");
+        $where['id'] = array('in',$category_ids);
+        $category_info = $category->where($where)->field(array('id','display_name'))->select();
+        return $category_info;
+    }
+}

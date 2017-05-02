@@ -1,0 +1,54 @@
+<include FILE="Public:header" />
+	<style type="text/css">
+		*{
+			border: 0;
+			padding: 0;
+			margin: 0;
+		}
+		body,html{
+			width: 100%;
+			height: 100%;
+			background: url("__Home_IMG__/zsh2.0/order/fail_bg.png") no-repeat;
+			background-size: 100% 100%;
+		}
+		.fail-main{
+			width: 30%;
+			position: absolute;
+			top: 40%;
+			right: 10%;
+			text-align: center;
+			font-size: 18px;
+			border-radius: 5px;
+			padding: 5px;
+		}
+		.backHome-main{
+			width: 30%;
+			position: absolute;
+			top: 40%;
+			left: 10%;
+			text-align: center;
+			font-size: 18px;
+			border-radius: 5px;
+			padding: 5px;
+		}
+		.fail-main a, .backHome-main a{
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<div class="fail-main">
+		<a href="{:U('Home/Order/orderDetail/id/'.$orderid)}">订单详情</a>
+	</div>
+	<div class="backHome-main">
+		<a href="{:U('Home/Index/index')}">回到首页</a>
+	</div>
+<include FILE="Public:footer" />
+<script type="text/javascript">
+	var body = document.querySelector("body");
+	body.addEventListener("touchmove",function (e){
+		e = e||e.evnet;
+		e.preventDefault();
+	},false);
+</script>
+</html>

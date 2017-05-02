@@ -1,0 +1,538 @@
+<include FILE="Public:header" />
+<style type="text/css">
+html, body {
+	width: 100%;
+	height: 100%;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-khtml-user-select: none; /*早期浏览器*/
+}
+
+#buy-num {
+	height: 60px;
+	/*border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;*/
+}
+
+#buy-introduce span {
+	/*color: black;*/
+	display: inline-block;
+	line-height: 24px;
+}
+
+#buy-introduce ul li {
+	width: 100%;
+}
+
+#buy-num .buy-num-left .buy-num-left-text {
+	/*color: black;*/
+	
+}
+
+.buy-name {
+	display: inline-block;
+}
+
+.now-price {
+	/*color: #E68012;*/
+	font-size: 1.6rem;
+}
+
+.buy-name-price {
+	margin-top: 10px;
+}
+
+#buy-bottom-select {
+	position: fixed;
+	bottom: 0;
+}
+
+.fa-heart {
+	display: block;
+	width: 54px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 30px;
+}
+
+.fa-phone {
+	display: block;
+	width: 54px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 30px;
+}
+
+.buy-introduce-left {
+	float: left;
+	margin-left: 4%;
+	width: 22%;
+}
+
+.buy-introduce-right {
+	width: 70%;
+	margin-right: 2.5%;
+	float: right;
+	vertical-align: top;
+}
+
+#buy-introduce {
+	margin-top: 2%;
+}
+
+.select-item {
+	margin-bottom: 3%;
+}
+
+.select-item span {
+	float: right;
+	/*border: 1px solid;*/
+	/*border-color: #e1e2e3;*/
+	margin-left: 4%;
+	margin-bottom: 5%;
+	border-radius: 3px;
+	text-align: center;
+}
+
+.buy-select {
+	margin-top: 5%;
+	/*margin-bottom: 19%;*/
+	/*padding-top: 5%;*/
+}
+
+.selected-m {
+	border: 1px solid;
+	/*line-height: 40px;*/
+	min-width: 17.7%;
+}
+
+.buy-select-name span {
+	font-size: 16px;
+	/*line-height: 40px;*/
+}
+
+.unselect-m {
+	border: 1px solid;
+	border-color: #e1e2e3;
+	/*line-height: 40px;*/
+	min-width: 17.7%;
+}
+
+.buy-price {
+	text-align: right;
+}
+
+#fa-phone{
+	left: 5%;
+	top: -11%;
+}
+</style>
+</head>
+<body>
+	<div id="container-content">
+		<div class="container">
+			<!--头部商品图片-->
+			<div class="row">
+				<div id="buy-banner-shop">
+					<img src="{$info['detail_picture']}" onerror="javascript:this.src='__Home_IMG__/zsh2.0/home/wait.png';">
+				</div>
+			</div>
+			<!--名称和价格-->
+
+			<div class="row" style="border-bottom: 1px solid lightgray;">
+				<div class="buy-name-price">
+					<span class="buy-name col-xs-6" style="font-size: 14px;">{$info['name']}</span>
+					<span class="buy-price col-xs-6"
+						style="padding-left: 0; padding-right: 0;">
+						<table
+							style="text-align: right; float: right; padding-right: -15px;">
+							<tr>
+								<td class="now-price" style="max-width: 20%;">现价:</td>
+								<td class="now-price"
+									style="min-width: 30%; padding-right: 15px;">{$info['price']}元</td>
+							</tr>
+							<php>if($info['original_price'] != 0){</php>
+							<tr>
+								<td class="old-price" style="max-width: 20%;">原价:</td>
+								<td class="old-pp"
+									style="min-width: 30%; padding-right: 15px; text-decoration: line-through;">{$info['original_price']}元</td>
+							</tr>
+							<php>}</php>
+							
+						</table>
+				</div>
+			</div>
+			<!--数量-->
+
+			<div id="buy-num">
+				<div class="buy-num-left col-xs-6" style="padding-left: 0;">
+					<span class="buy-num-left-text">数量</span>
+				</div>
+				<div class="buy-right-select col-xs-6" style="padding-right: 0;">
+					<span class="buy-reduce2 col-xs-4" id="rd">-</span> <span
+						class="col-xs-4 buy-count">1</span> <span
+						class="buy-plus2 col-xs-4" id="pl">+</span>
+				</div>
+			</div>
+
+			<!-- 规格 -->
+			<volist name="info['specification']" id="vo">
+
+			<div class="buy-select">
+				<div class="buy-select-name col-xs-3" style="padding-left: 0;">
+					<span>{$key}</span>
+				</div>
+				<div class="select-item col-xs-9" style="padding-right: 0;">
+					<volist name="vo" id="voo"> <span name="color"
+						required="required" style="padding-left: 4px; padding-right: 4px;">{$voo}</span>
+					</volist>
+				</div>
+			</div>
+
+			</volist>
+
+			<!--描述-->
+			<div class="row" style="margin-bottom: 54px;">
+				<div id="buy-introduce">
+					<ul>
+						<li style="border-top: 1px solid lightgray; padding-top: 10px;">
+							<span class="buy-introduce-left">商品名称&nbsp;:</span> <span
+							class="buy-introduce-right">{$info['name']}</span>
+							<!--<a href="javascript:void(0)" class='buy1'>
+								<div class="buy-btn1 buy-btt" >
+									购买
+								</div>
+							</a>-->
+						</li>
+						<li><span class="buy-introduce-left">商品介绍&nbsp;:</span> <span
+							class="buy-introduce-right">{$info['introduction']}</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!--购买,收藏-->
+		<div class="row" style="margin: 0;">
+			<div id="buy-bottom-select">
+				<div class="buy-collect-img">
+					<!--<if condition="($is_collect)">
+                	<i class="fa fa-heart"></i>
+            	<else/>
+              		<i class="fa fa-heart-o" id="collect-img" data-product_id="{$info.id}" data-platform_id="{$platform_id}"></i>
+              </if>-->
+					<a href="tel:021-62457922"><i class="fa fa-phone"></i></a>
+				</div>
+				<a href="javascript:void(0)" id="buy">
+					<div class="buy-buy-text ">
+						<span>立即购买</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+		
+	<include FILE="User:login" />
+	<script src="__Home_JS_STATIC__/jquery-1.9.1.min.js"
+		type="text/javascript"></script>
+	<script src="__Home_JS__/zsh2.0/zw-script.min.js"
+		type="text/javascript"></script>
+		
+	<script type="text/javascript">
+
+		$('.select-item span').click(function(){
+			$(this).siblings().removeClass('selected-m');
+			$(this).siblings().addClass('unselect-m');
+			$(this).addClass('selected-m');
+			$(this).removeClass('unselect-m');
+		});
+
+		$('.select-item span').attr('class','unselect-m');
+	
+		$('.z-prize').hide();
+		$('.z-bank').html('我们将通过此手机号码联系您收货，请正确填写哦');
+	
+	</script>
+	<script type="text/javascript">
+		$(function(){
+		    var price ={$info['price']};
+		    var product_id ={$info['id']};
+		    var platform_id ={$platform_id};
+		    $(".buy-buy-text").click(function(){
+		    	var a=[];
+		    	var b=[];
+		    	var c=[];
+			    $('.selected-m').each(function(){
+			    		a.push($(this).text());
+			    	});
+		    	$('.buy-select-name span').each(function(){
+		    		b.push($(this).text());
+		    	});
+				var info ="{"
+			    	for (var i=0;i< a.length;i++) {
+			    		t = b[i] + ':' + a[i];
+			    		c.push(t);
+			
+			
+				        info += '"'+b[i] + '":"' + a[i]+'"';
+				        if(i !=(a.length-1)){
+					        info +=","
+					    }
+		    		}
+		
+		      info +="}"
+		    	var product_info_json = JSON.stringify(c);
+		    	if (a.length<b.length) {
+		//  		alert('您填的信息不完整');
+		    		msg = '请先选择商品的规格后再下单哦';
+		    		showMsg(msg);
+		    		return;
+		    	}
+		        var num = $(".buy-count").html()
+		         $("#buy").click(function () {
+		//          $("#loadingToast").show();
+					   $('.loading-bg').show();
+		            var url="{:U('Home/Member/doOrder')}";
+		            var quality=num;
+		            var pay_price=num*price;
+		            //product_info_json为全局变量
+		            var data={product_id: product_id, platform_id: platform_id, quality: quality, pay_price: pay_price,info:info};
+		            $.post(url, data, function (jsonData) {
+		                $("#loadingToast").hide();
+		                if (jsonData.state==2) {
+		                    var url=("{:U('/Home/Order/pay',array('id'=>'suffix_id'))}");
+		                        window.location=url.replace(/suffix_id/g, jsonData.order_id);
+		                        $('.loading-bg').hide();
+		
+		                } else if (jsonData.state==-1) {
+		                    login('buy')
+		                } else {
+		                   showMsg(jsonData.msg);
+		                   $('.loading-bg').hide();
+		                }
+		            }, "json");
+		        });
+		    })
+		    //收藏
+		    $('#collect-img').click(function(){
+		    var url="{:U('Home/Member/doCollect')}";
+		    var product_id=$(this).attr('data-product_id');
+		    var platform_id=$(this).attr('data-platform_id');
+		    var data={product_id: product_id, platform_id: platform_id};
+		    $.post(url, data, function (jsonData) {
+		      var data = eval(jsonData);
+		        if (data.state==1) {
+		            showMsg('收藏成功');
+		            $('#collect').off('click');
+		            $('#collect-img').attr("class","fa fa-heart");
+		        } else if (jsonData.state==-1) {
+		            // var url = "{:U('Home/User/login')}";
+		            // location.href=url;
+		        }
+		    }, 'json');
+		  //$('#receive-img-collect').removeAttr("id");
+		});
+		})
+		
+		function showMsg(msg){
+			$('#point').show();
+			$('#msgInfo').html(msg);
+		}
+		$(function(){
+			$(".buy-reduce2").css("color","#666666");
+		  //购买界面\
+		    $('.buy-reduce2').click(function(){
+		        var numOBJ = parseInt($('.buy-count').html());
+		        if(numOBJ < 2){
+		        	 var numColor = $('.buy-count').css('color');
+		            $(".buy-reduce2").css("color",numColor.toString());
+		            $('.buy-count').html("1");
+		        }else{
+		            numOBJ = numOBJ -1;
+		
+		            $('.buy-count').html(numOBJ);
+		            var numColor = $('.buy-count').css('color');
+		            $(".buy-reduce2").css("color",numColor.toString());
+		            if(numOBJ < 2){
+		        	 $(".buy-reduce2").css("color","#666666");
+		            $('.buy-count').html("1");
+		        }
+		        }
+		    });
+		    $('.buy-plus2').click(function(){
+		        var numOBJ = parseInt($('.buy-count').html());
+		        numOBJ= numOBJ + 1;
+		        $('.buy-count').html(numOBJ);
+	            var numColor = $('.buy-count').css('color');
+	            $(".buy-reduce2").css("color",numColor.toString());
+		    });
+		});
+		
+		$(function(){
+			
+			var timedelay = 0;
+			var timer1;
+			var timer2;
+			var hammer1 = new Hammer(document.getElementById('pl'));
+			var hammer2 = new Hammer(document.getElementById('rd'));
+			
+			hammer1.on('press',function(){	
+				timer1 = setInterval(function(){
+					timedelay++;
+					$('.buy-count').html(timedelay);
+				},200);
+			});
+			
+			
+			
+			hammer1.on('pressup',function(){
+				clearInterval(timer1);
+				clearInterval(timer2);
+			});
+			
+			var pd1 = document.getElementById('pl');
+			
+			pd1.addEventListener('touchmove',function(){
+				clearInterval(timer1);
+				clearInterval(timer2);
+			});
+			pd1.addEventListener('touchend',function(){
+				clearInterval(timer1);
+				clearInterval(timer2);
+			});
+			
+			
+			hammer2.on('press',function(){
+				timer2 = setInterval(function(){
+					timedelay--;
+					if(timedelay<2){
+						timedelay = 1;
+					}
+					$('.buy-count').html(timedelay);
+				},200);
+			});
+			
+			
+			
+			hammer2.on('pressup',function(){
+				clearInterval(timer2);
+				clearInterval(timer1);
+			});
+			
+			var pd2 = document.getElementById('rd');
+			
+			pd2.addEventListener('touchmove',function(){
+				clearInterval(timer2);
+				clearInterval(timer1);
+			});
+			pd2.addEventListener('touchend',function(){
+				clearInterval(timer2);
+				clearInterval(timer1);
+			});
+			
+			//绑定电话点击事件
+			$(".fa-phone").click(function(){
+				var url  = "{:U('Home/Ajax/logCallCustomerService')}";
+				var product_id ={$info['id']};		
+				$.get(url, {triggerpage:'buy',productid:product_id}, function(res){
+				});
+			});
+		});
+		
+		</script>
+		
+		<if condition ="$_SESSION['PLATFORM_CODE'] eq 'MSYHC'">
+		<script type="text/javascript">
+		
+			//ios终端
+			var u = navigator.userAgent;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+			//android终端
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+		//	alert('是否是Android：'+isAndroid);
+		//	alert('是否是iOS：'+isiOS); 
+			if (isiOS){ 
+		
+				var startx, starty;
+			    //获得角度
+			    function getAngle(angx, angy) {
+			        return Math.atan2(angy, angx) * 180 / Math.PI;
+			    };
+			 
+			    //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
+			    function getDirection(startx, starty, endx, endy) {
+			        var angx = endx - startx;
+			        var angy = endy - starty;
+			        var result = 0;
+			 
+			        //如果滑动距离太短
+			        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+			            return result;
+			        }
+			 
+			        var angle = getAngle(angx, angy);
+			        if (angle >= -135 && angle <= -45) {
+			            result = 1;
+			        } else if (angle > 45 && angle < 135) {
+			            result = 2;
+			        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+			            result = 3;
+			        } else if (angle >= -45 && angle <= 45) {
+			            result = 4;
+			        }
+			 
+			        return result;
+			    }
+			    //手指接触屏幕
+			    document.addEventListener("touchstart", function(e) {
+			        startx = e.touches[0].pageX;
+			        starty = e.touches[0].pageY;
+			    }, false);
+			    //手指离开屏幕
+			    document.addEventListener("touchend", function(e) {
+			        var endx, endy;
+			        endx = e.changedTouches[0].pageX;
+			        endy = e.changedTouches[0].pageY;
+			        var direction = getDirection(startx, starty, endx, endy);
+			        switch (direction) {
+			            case 1:
+			            	//上滑
+							$("#buy-bottom-select").css("bottom","0");
+			                break;
+			            case 2:
+			                //下滑
+			               $("#buy-bottom-select").css("bottom","50px");
+			                break;
+			            default:
+			        }
+			    }, false);
+			    document.addEventListener("touchmove", function(e) {
+			        var endx, endy;
+			        endx = e.changedTouches[0].pageX;
+			        endy = e.changedTouches[0].pageY;
+			        var direction = getDirection(startx, starty, endx, endy);
+			        var buyBottom = document.querySelector("#buy-bottom-select");
+			        var timer = null;
+			        switch (direction) {
+			           case 1:
+			            	//上滑
+							$("#buy-bottom-select").css("bottom","0");
+			                break;
+			            case 2:
+			                //下滑
+			               $("#buy-bottom-select").css("bottom","50px");
+			               
+			                break;
+			            default:
+			        }
+			    }, false);
+			} 	
+			
+				
+		</script>
+		</if>
+
+	<include file="Public:footer" />

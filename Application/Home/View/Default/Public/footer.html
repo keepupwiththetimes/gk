@@ -1,0 +1,281 @@
+
+<div class="loading-bg">
+	<div class="spinner">
+		<div class="spinner-loading-container loading-container1">
+			<div class="loading-circle1"></div>
+			<div class="loading-circle2"></div>
+			<div class="loading-circle3"></div>
+			<div class="loading-circle4"></div>
+		</div>
+		<div class="spinner-loading-container loading-container2">
+			<div class="loading-circle1"></div>
+			<div class="loading-circle2"></div>
+			<div class="loading-circle3"></div>
+			<div class="loading-circle4"></div>
+		</div>
+		<div class="spinner-loading-container loading-container3">
+			<div class="loading-circle1"></div>
+			<div class="loading-circle2"></div>
+			<div class="loading-circle3"></div>
+			<div class="loading-circle4"></div>
+		</div>
+	</div>
+</div>
+
+<div id="cpts" >
+	<table id="aaa" style="background-color: #393939;">
+		<tr><th style="font-size: 14px;color: white;">已复制到剪切板</th></tr>
+	</table>
+</div>
+
+<!--提示窗1-->
+<div class="point" id="point">
+	<div class="point-container">
+		<!--<p class="information"></p>-->
+		<img src="__Home_IMG__/zsh2.0/home/head-{$templet}.png" alt="" />
+		<p class="point-word" id="msgInfo" style="width: 90%;">领取成功</p>
+		<!--<span class="pointSure" style="display: block;color: white;font-size: 14px;margin-bottom: 5px;margin-top: 4px;">确定</span>-->
+		<a
+			href="https://mkt.cmbc.com.cn/wxbank/WxRD.do?SI=0200&TYPE=VLK&BaNo=02050&ACTYPE=OPACT"
+			id="msyh" style="display: none"><span class="point-button">点击开通</span></a>
+		<!-- 	<input type="hidden" id="msyh2" value="{$judgeMsyh}"> -->
+	</div>
+</div>
+<!--提示窗2 (确定，取消按钮)-->
+<div id="alertTips-box">
+	<div class="alertTips">
+		<img src="__Home_IMG__/zsh2.0/home/head-{$templet}.png" alt="" />
+		<div class="alertInfo">是否确认取消</div>
+		<div class="alertButton" style="margin-bottom: 7px;">
+			<p class="alertSure">是</p>
+			<p class="alertCancel">否</p>
+		</div>
+		
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+$('#point').hide();
+var goHome = false;
+var goPro = false;
+var goOrder = false;
+var goUser = false;
+</script>
+<?php
+if(in_array(CONTROLLER_NAME.ACTION_NAME, array('Productview', 'Productview', 'Userindex', 'NotifypayReturn'))){
+	
+	if($_GET['from'] != 'user') {
+
+	    echo '<script type="text/javascript">var goHome = true;</script>';
+	}
+}
+
+if(in_array(CONTROLLER_NAME.ACTION_NAME, array('Orderpay'))){
+	
+	 if($_GET['from'] != 'user') {
+
+	    echo '<script type="text/javascript">var goPro = true;</script>';
+	}else{
+    
+	echo '<script type="text/javascript">var goOrder = true;</script>';
+	}
+}
+
+if(in_array(CONTROLLER_NAME.ACTION_NAME, array('OrderorderDetail'))){
+	
+	if($_GET['from'] == 'user') {
+
+	    echo '<script type="text/javascript">var goUser = true;</script>';
+	}
+}
+?>
+<script src="__Home_JS__/zsh2.0/zw-script.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+//	var navih = '<div class="nah"><i class="fa fa-home"></i><span class = "head-name">1234</span></div>';
+//	var timeb = '<div class="customer"><span class="tel-phone">客服:18918553709&nbsp;</span><span class="work-time">工作日9:30-17:30</span></div>'
+//	$('body').prepend(navih);
+//	$('footer').append(timeb);
+    var goback = false;
+    var goPro2 = false;
+    if (goOrder) {
+
+    	window.sessionStorage.setItem("test",'')
+	    window.sessionStorage.setItem("test1",'')
+	    window.sessionStorage.setItem("test2",'')
+    }
+	$('.nah i').click(function(){
+        
+		if(goback){         
+            if($(window.frames["iframeAddress"].document).find("#checkHide").val() == 1){
+			
+            	$(window.frames["iframeAddress"].document).find("#address-box1").hide()
+            	$(window.frames["iframeAddress"].document).find("#checkHide").val('0')
+            	window.frames["iframeAddress"].window.location.reload();
+            	return false;
+            }else if(document.getElementById("iframe-wrap").style.display == 'none'){
+          
+            	var goUrl= "{:U('Home/Product/view', array('id'=>'suffix_id'))}";
+			     window.location=goUrl.replace(/suffix_id/g, "{$pid}");
+            }else{
+			
+            	$("#iframe-wrap").hide();
+	            $(".pay-money-container").show();
+	            goback = true;
+                goPro2 = true;
+	            //获取最近一次使用的地址
+
+		        var getAdressUrl="{:U('Home/Member/getOneAddress')}";
+		        $.post(getAdressUrl, {id:"{$_GET['id']}"}, function (jsonData) {
+		            $(".loading-bg").hide();
+		            if (jsonData.state==1) {
+		                var res=jsonData.data;
+		                var addressData={
+		                            telNumber: res.tel,
+		                            userName: res.name,
+		                            postalCode: res.post_code,
+		                            nationalCode: res.national_code,
+		                            provinceName: res.province,
+		                            cityName: res.city,
+		                            countryName: res.area,
+		                            detailInfo: res.address,
+		                            orderid: '{$order_detail.id}'
+		                        };
+		                var arr=[addressData.userName, addressData.telNumber+"</br>", addressData.provinceName, addressData.cityName, addressData.countryName, addressData.postalCode, addressData.detailInfo];
+		                $("#address").html(arr.join(" ")).data(addressData);
+		                $("#address-show").hide();
+		                $("#get_address").show();
+		                $('.pay-money-location-image').remove();
+		                $("#addr_id").val(res['id']);
+
+		                    iframeUrl +='&id='+res['id'];
+		                    document.getElementsByClassName('head-name')[0].innerHTML = "确认订单";
+		                $("#iframe").attr('src',iframeUrl)
+		            } else if (jsonData.state==-1) {
+		            	
+		                isDOGet=1;
+		                $("#login-dropdown").dropdown('toggle');
+		            } else {
+		            
+		            	document.getElementsByClassName('head-name')[0].innerHTML = "确认订单";
+		            	var ts = document.getElementsByClassName('pay-money-location-image')[0];
+		            	
+		            	if (!ts) {
+		            		$("#address-show").prepend('<span class="pay-money-location-image"><i class="fa fa-map-marker"></i></span>');
+		            	}	            	
+	                    $("#address-show").show();
+		                $("#get_address").hide();
+		                $("#address").text('')
+		                $("#iframe").attr('src',iframeUrl)
+
+		                //$.cl.alert(jsonData.msg);
+		            }
+		        }, "json");
+            }
+            
+	    } else if(!goback && goPro){
+           
+			var goUrl= "{:U('Home/Product/view', array('id'=>'suffix_id'))}";
+			window.location=goUrl.replace(/suffix_id/g, "{$pid}");
+		} else if(!goback && goOrder){
+           
+			var goUrl= "{:U('Home/Order/orderDetail', array('id'=>'suffix_id', 'from'=>'user'))}";
+			window.location=goUrl.replace(/suffix_id/g, "{$_GET['id']}");
+	    }else if(goHome){
+			
+	    	window.location.href= "{:U('Home/Index/index')}";
+		}else if(goUser){
+		
+	    	window.location.href= "{:U('Home/User/index')}";
+		}else{
+		
+			window.history.go(-1);
+		}
+	});
+
+</script>
+<?php
+  if($_SESSION['PLATFORM_CODE']=='MSYHC'||$_SESSION['PLATFORM_CODE']=='MSYHCCJ'){
+     if(in_array(CONTROLLER_NAME.ACTION_NAME, array('Userindex'))) {
+
+     $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+     $url2 = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/wxzspfse/?/Home/Index/index';
+     }else{
+
+     $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+     $url2 = $url;
+     }
+ 	 
+ 	 echo '<script src="__Home_JS_STATIC__/cmbcForClient.js" type="text/javascript"></script>';
+ 	 echo '<script>var _isCmbc = 1;var beforeurl="'.$url2.'";var tourl="'.$url.'"</script>';
+	 if(CONTROLLER_NAME!='Index' &&  $_SESSION['PLATFORM_CODE']=='MSYHCCJ'){
+		 echo '<div class="HomeBack" id="HomeBack"><i class="fa fa-angle-left" id="angele-left"></i></div>';
+		 echo '<script>$("#HomeBack").click(function(){history.go(-1);})</script>';
+	 }
+  }else{
+ 	 echo '<script>var _isCmbc = 0;</script>';
+  }
+ ?>
+
+<!--<script src="__Home_Bootstrap__/js/bootstrap.min.js" type="text/javascript"></script>-->
+<!-- 微信共享地址 begin -->
+<script type="text/javascript">
+	
+	function wxShareAddress(orderid)
+	{
+		//获取用户地址
+        // $(".getAddress").on(eType,function () {
+        wx.openAddress({
+            success: function (res) {
+                if (res.errMsg=="openAddress:ok") {
+                    
+                    var url="{:U('Home/Member/setAddress')}";
+                     var telNumber=res.telNumber,
+                                userName=res.userName,
+                                postalCode=res.postalCode,
+                                nationalCode=res.nationalCode,
+                                provinceName=res.provinceName,
+                                cityName=res.cityName,
+                                countryName=res.countryName,
+                                detailInfo=res.detailInfo,
+                                arr=[userName, telNumber+"</br>", provinceName, cityName, countryName, postalCode, detailInfo];
+                    var addressData={
+                            telNumber: telNumber,
+                            userName: userName,
+                            postalCode: postalCode,
+                            nationalCode: nationalCode,
+                            provinceName: provinceName,
+                            cityName: cityName,
+                            countryName: countryName,
+                            detailInfo: detailInfo,
+                            orderid:orderid
+                        };
+
+                    // //随时保存下地址
+                    $.post(url, addressData, function (jsonData) {
+
+                        if (jsonData.state==1) {
+                        	$('.llq').attr('src','__Home_IMG__/wheel2/zhcj2/zprize.png');
+                        	window.localStorage.goprize = 1;
+                            return addressData;
+                        } else {
+                            showMsg(jsonData.msg);
+                        }
+                    }, "json");
+                } else {
+                    showMsg(res.errMsg);
+                }
+            },
+            fail: function (res) {
+            	//用户取消，被调用的也是这段程序，所以注释掉
+            	showMsg('亲，请填写收货地址,并点击完成！');
+            	//showMsg( JSON.stringify(res));  
+              },
+            cancel: function () {
+                // 用户取消拉出地址
+                // 
+            }
+        });
+	}
+</script>
+<!-- 微信共享地址 end -->
+</html>

@@ -1,0 +1,240 @@
+
+<div class="login-contain" style="display: none;">
+	<div class="login-background"></div>
+	<div class="common-login">
+	<div class="login-top" onclick="closeLogin()">
+	<img class="fa fa-times-circle-o" ontouchstart="closeLogin()" src="__Home_IMG__/zsh2.0/order/close.png">
+			<!-- <i class="fa fa-close fa-lg" style="font-size:32px;color: rgb(233,110,0);float:right;font-weight:100" onclick="closeLogin()" ></i> -->
+	</div>
+		<!--内容   -->
+		<div class="loginhead">
+			<img src="__Home_IMG__/zsh2.0/order/loginheader{$templet}.png">
+		</div>
+		
+		<php>if($_SESSION['PLATFORM_CODE']=='MSYH'){</php>
+		<div class="login-list-text bank-card-Number">
+			<!--输入手机号-->
+			<div class="login-form-group login-input-card">
+				<i class="fa fa-credit-card" id="fa-card"
+					style="font-size: 1.4rem; top: 12%; left: 8%;"></i><input
+					class="login-form-card" type="number" id="bank-card"
+					placeholder="请输入民生直销银行电子账号"> <a
+					href="https://www.mszxyh.com/wapserver/outer/index.html?Page=index&seq=DZZH_2016122200323&ChannelId=mszx02213">
+					<span class='msyhkt'
+					style="display: inline-block; width: 88%; padding-left: 38px; padding-top: 3%; font-size: 0.8rem; text-align: left;">若您没有开通,<font
+						style="text-decoration: underline; color: red;">点此开通</font></span>
+				</a>
+			</div>
+		</div>
+		<php>}</php>
+		<div class="login-list-text">
+			<!--输入手机号-->
+			<div class="login-form-group login-input-phone"
+				style="top: 12%;">
+				<i class="fa fa-phone" id="fa-phone" style="left: 9%;"></i><input
+					type="tel" maxlength="11" class="login-form-control" id="login"
+					placeholder="请输入手机号码" style="font-size: 14px;">
+			</div>
+		</div>
+		<php>if ($isTel == 1) {</php>
+		<div class="boxyzm" style="display:;">
+		<php>} else {</php>
+		<div class="boxyzm" style="display:none;">
+		<php>}</php>
+			<input class="checkyzm" type="tel" maxlength="4" placeholder="请输入验证码" id="verifyCode" style="font-size: 14px;"/><!--<i class="fa fa-exclamation" id="checkyzm"></i>-->
+			<button class ="getyzm" style="font-size: 14px;">获取验证码</button>
+		</div>
+		
+		<!--登录-->
+		<div class="login-btn-login">
+			<button class="login-btn" onclick="dolog()" >提交</button>
+		</div>
+		<input type="hidden" name="" id="doAfterLogin" value='0'>
+
+		<ul>
+			<div class="bg-line">
+				<hr id="hhr">
+			</div>
+			<li class="z-prize"><i class="login-dot"></i><span>&nbsp;&nbsp;您的手机号码是发放优惠券和奖品的唯一凭证,<br />&nbsp;&nbsp;&nbsp;请正确填写哦
+			</span></li>
+			<li><i class="login-dot"></i><span>&nbsp;&nbsp;<font
+					class="z-bank">此号码仅用于抽奖和领取优惠券</font></span></li>
+			<li><i class="login-dot"></i><span>&nbsp;&nbsp;本活动由乐天邦提供,客服电话:021-62457922</span></li>
+		</ul>
+	</div>
+</div>
+<!--底部-->
+<script src="__Home_JS__/zsh2.0/zw-script.min.js" type="text/javascript"></script>
+<script>
+
+var mo=function(e){e.preventDefault();}
+//显示弹窗
+	  function login(type){
+        
+	    if(_isCmbc==1){
+	       loginForComm(beforeurl,tourl);
+	    }else{
+	     	document.addEventListener('touchmove',mo,false);
+			$(".common-login").removeClass('zoomOut animated');
+			$(".common-login").addClass('zoomIn animated');
+			$('.login-contain').fadeIn(200);
+	       	$("#doAfterLogin").val(type);
+//	       $('.login-contain').show();
+	     }
+	  }
+	  function logout(){
+	    $('#container-content').hide();
+	    $(".common-login").removeClass('zoomOut animated');
+	    $(".common-login").addClass('zoomIn animated');
+	    $('#container-loginout').show();
+	  }
+	function closeLogin(){
+		var timer = setTimeout(function (){
+			document.removeEventListener('touchmove',mo,false);
+			$(".common-login").removeClass('zoomIn animated');
+	    $(".common-login").addClass('zoomOut animated');
+			$('.login-contain').fadeOut(300);
+			$("#container-content").show();
+			document.activeElement.blur();			
+			$('#login').blur();
+
+		},100);
+	} 
+		
+		$('.getyzm').click(function(){
+			
+            var tel = $('#login').val();
+            //60秒内,禁止重新发送验证码
+            if (tel && /^1[3|4|5|8|7]\d{9}$/.test(tel)) {
+ 		
+ 			var ndtime = new Date().getTime();//时间戳
+ 			
+ 			if (!window.localStorage.getItem(tel)) {
+ 				window.localStorage.setItem(tel,ndtime);
+ 			}else{
+	 				var tworeducetime = ndtime -parseInt(window.localStorage.getItem(tel))
+	 				tworeducetime = tworeducetime/1000;
+	 				var waittime = 0;
+ 				if (tworeducetime<60) {
+				        	tworeducetime = parseInt(tworeducetime);
+				           	waittime = 60 - tworeducetime;
+							var sdtimer = setInterval(function(){
+								waittime--;
+								$('.point p').html("请 "+waittime + " 秒后再试");
+								if (waittime == 0) {
+									$('.point').hide();
+									clearInterval(sdtimer);
+								}
+							},1000);
+			    			showMsg("请 "+waittime + " 秒后再试");
+				            return;
+		            	}else{
+		            		window.localStorage.setItem(tel,ndtime);
+		            	}
+ 				
+ 			}
+ 			
+				
+                $.ajax({
+
+                	url : "{:U('Home/Member/telVerify')}",
+                	data : {tel:tel},
+                	success : function(data) {
+
+                		if (data.status == 1) {
+                            verifyCode = data.code;
+                            
+                		} else {
+                			showMsg(data.msg);
+                			return;
+                		}
+
+                		 var t = 60;
+							$('.getyzm').html(t + " 秒");
+							$('.getyzm').css('background-color','lightgray');
+							$('.getyzm').attr('disabled','disabled')
+							var timer1 = setInterval(function(){
+							t--;
+							if (t == 0) {
+								$('.getyzm').html('重新获取')
+//									$('.getyzm').css('background-color','#E68012');
+								$('.getyzm').css('background-color',$('.login-btn').css('background-color'));
+								$('.getyzm').removeAttr('disabled');
+								clearInterval(timer1);
+							} else{
+								$('.getyzm').html(t + " 秒");
+								$('.getyzm').css('background-color','lightgray');
+								$('.getyzm').attr('disabled','disabled')
+							}
+							
+						},1000);
+                	}
+                })
+                
+	                
+            } else {
+
+            	showMsg('手机号码格式出错');
+            	return false
+            }
+		});
+var isNeedCheckTel = "{$isTel}";
+  function dolog(){
+    
+    
+    //是否是领取页面
+    var isreceive = "{$isreceive}";
+    var tel = $('#login').val();
+    var card= $('#bank-card').val();
+    if(tel&&/^1[3|4|5|8|7]\d{9}$/.test(tel)){
+
+      //需要验证的平台
+	  	if (isNeedCheckTel == 1) {
+
+		  	if( !$("#verifyCode").val() || $("#verifyCode").val().length != 4) {
+
+		  		showMsg('请填写正确的验证码 !');
+		  		return false;
+		  	}
+	  	}
+      var url = "{:U('Home/Member/login')}";
+      $.post(url,'tel='+tel+'&card='+card+'&code='+$("#verifyCode").val(),function(jsonData){
+        var data = eval('('+jsonData+')');
+
+        if(data.state == 1){
+          //  self.location=document.referrer;
+          if($("#doAfterLogin").val() && $("#doAfterLogin").val() != 0){
+              	$('.login-contain').hide();
+  	         $('#'+$("#doAfterLogin").val()).trigger("click");
+           }else{
+           	window.sessionStorage.removeItem("test");
+            window.location.reload();
+            
+          }
+         // history.go(0) ;
+        }else if (data.state == -1) {
+          // history.go(0) ;
+          window.sessionStorage.removeItem("test");
+          window.location.reload();
+          //window.location.href = "{:U('Home/User/index')}";
+        }else if(data.state == 2){
+
+            $("#msyh").show()
+            showMsg(data.msg);
+         }else {
+           showMsg(data.msg);
+         }
+
+         if(data.status == 1) {
+             $(".boxyzm").show()
+        	isNeedCheckTel = 1;
+        }
+      });
+    }else{
+
+      showMsg('手机号码格式出错');
+
+    }
+  }
+
+</script>

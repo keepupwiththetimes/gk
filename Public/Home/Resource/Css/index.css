@@ -1,0 +1,115 @@
+.users-list>li img{
+    border-radius:0%;
+}
+.users-list>li {
+    width: 50%;
+}
+
+.main-header .sidebar-toggle {
+    font-family: inherit;
+}
+
+.main-header .sidebar-toggle:before {
+    content: "";
+}
+.content{
+    padding: 0px;
+}
+.nav-tabs>li.active{
+    border-bottom: 2px solid #3c8dbc;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    background: none;
+    border: none;
+}
+ul.nav-tabs{
+    border-bottom: 3px solid #ddd;
+}
+li .users-list-name{
+    text-align: left;
+    background: #E0E0E0;
+}
+span.users-list-date{
+    text-align: left;
+    background: #E0E0E0;
+}
+.navbar-custom-menu .navbar-nav>li>a{
+    padding-top: 9px;
+    padding-bottom: 7px;
+    text-align: center;
+}
+
+.gray {
+    filter:grayscale(100%);
+    -webkit-filter:grayscale(100%);
+    -moz-filter:grayscale(100%);
+    -ms-filter:grayscale(100%);
+    -o-filter:grayscale(100%);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+    -webkit-filter:grayscale(1)
+    filter: gray;
+}
+/*分组*/
+#btn-group{
+    width: 100%;
+    height: 35px;
+    background: url("../Image/youhuiquanlanmu.png") no-repeat;
+    background-size: 98% 35px;
+    margin: 0 auto;
+}
+.btn-left{
+    float: left;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 2%;
+    margin-left: 2.5%;
+    color: black;
+}
+
+
+.btn-right{
+	/*border: 1px solid red;*/
+	width: 10%;
+	height: 18px;
+	line-height: 18px;
+    float: right;
+    font-size: 10px ;
+    display: inline-block;
+    margin-top: 9.5px;
+    margin-right: 5.8%;
+    text-align: center;
+    color: black;
+   
+}
+
+
+/*首页调整*/
+
+/*用户选择*/
+
+.btn-select{
+    text-align: center;
+    margin-top: 7%;
+}
+
+
+.btn-select img{
+    width: 70%;
+    height: auto;
+}
+
+
+.description-text{
+    margin-top: 5%;
+}
+
+/*个人中心,用户选择,尾部*/
+
+.footer-menu img{
+    width: 15%;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    height: auto;
+    background: red;
+}

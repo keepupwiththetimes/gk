@@ -1,0 +1,88 @@
+<include FILE="Public:header" />
+</head>
+<body class="skin-blue sidebar-mini">
+	<div class="wrapper" style="background-color: #fff">
+		<include file="Public:header" />
+		<!-- Left side column. contains the logo and sidebar -->
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="box-header with-border"
+				style="border-bottom: 1px solid #d2d6de; padding-bottom: 5px;">
+				<h3 class="box-title">
+					优惠券 <small>Coupon information</small>
+				</h3>
+				<div class="box-tools pull-right">
+					<button data-url="{:U('Home/Product/lists/type/1')}"
+						class="btn btn-box-tool" data-widget="collapse">
+						<i class="fa fa-ellipsis-h"> 更多</i>
+					</button>
+				</div>
+
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<!-- Your Page Content Here -->
+				<div class="box-body no-padding">
+					<ul class="users-list clearfix">
+						<volist name="product_list_1" id="vo">
+						<li><a href="{:U('Home/Product/view/id/'.$vo['id'])}"> <img
+								src="{$vo.home_picture}" alt="{$vo.name}" class="img-rounded" /></a>
+							<a class="users-list-name"
+							href="{:U('Home/Product/view/id/'.$vo['id'])}">{$vo.name}</a> <span
+							class="users-list-date"><i class="fa fa-shopping-cart">已售{$vo.salequantity}份</i></span>
+						</li>
+						</volist>
+					</ul>
+					<!-- /.users-list -->
+				</div>
+
+			</section>
+
+			<section class="box-header with-border"
+				style="border-bottom: 1px solid #d2d6de; padding-bottom: 5px;">
+				<h3 class="box-title">
+					代金券 <small>Vouchers information</small>
+				</h3>
+				<div class="box-tools pull-right">
+					<button data-url="{:U('Home/Product/lists/type/2')}"
+						class="btn btn-box-tool" data-widget="collapse">
+						<i class="fa fa-ellipsis-h"> 更多</i>
+					</button>
+				</div>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<!-- Your Page Content Here -->
+				<div class="box-body no-padding">
+					<ul class="users-list clearfix">
+						<volist name="product_list_2" id="vo">
+						<li><a href="{:U('Home/Product/view/id/'.$vo['id'])}"> <img
+								src="{$vo.home_picture}" alt="{$vo.name}" class="img-rounded" /></a>
+							<a class="users-list-name"
+							href="{:U('Home/Product/view/id/'.$vo['id'])}">{$vo.name}</a> <span
+							class="users-list-date"><i class="fa fa-shopping-cart">已售{$vo.salequantity}份</i></span>
+						</li>
+						</volist>
+					</ul>
+					<!-- /.users-list -->
+				</div>
+
+			</section>
+		</div>
+		<!-- /.content-wrapper -->
+		<include file="Public:footer" />
+	</div>
+	<!-- ./wrapper -->
+	<include file="Public:layout-js" />
+	<script type="text/javascript">
+    $(document).ready(function(){
+        $('.btn-box-tool').on('click',function(){
+            var url = $(this).attr('data-url');
+            location.href = url;
+        })
+    });
+</script>
+</body>
+</html>

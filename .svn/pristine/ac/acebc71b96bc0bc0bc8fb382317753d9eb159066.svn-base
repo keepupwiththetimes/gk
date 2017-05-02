@@ -1,0 +1,1045 @@
+<include FILE="Public:header" />
+<link rel="stylesheet" type="text/css" href="__Home_CSS__/zsh2.0/swiper.min.css"/>
+<script type="text/javascript">
+
+		function nofindOne(){
+
+			var img=event.srcElement;
+			img.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAEsCAMAAAACZbH6AAAAOVBMVEUAAACzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7MRQjmeAAAAEnRSTlMARsYk7gzhsHZbGTOf1I5qu4KztaNVAAAIIUlEQVR42uzVwY6CMBQF0IIKVETN+/+PHYchIaYSOwm6Omf30tzVfW0TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPzPeXZKn5Db/qHNy9g8xmf3PvF9Y/traoqDZqiU06ZrzIZlzFHoEl+2FlGW3kelNm26xOy2jEMUpsTOTs1bSy+HIttGpf5t6Xm9+OXGsLMxKh3Pxb5MUemSNvXPz8jlVZidNVGpOxWld1Hpmja1MRvXHSjD7CxHpamIHo5RaUiF8+1PtzQ7D8PYvwqzsyEq3at/hlKufWHyD3vntuQ2CIPhgMHmbJv3f9g2dlKJKp2VqcmVvjtm15uZlYXEL4noSlgfws2U/risKhf1P0b3D+FmUn9c9pVL5IYVnz+9McLNLP1x2VUu4UFYPxv9DPFGP5nfb4xwM1v/Fr1m3ZDrC92SN8vNJbypT4p9sr71AeFm8tVjOmCnhuDrSZ7+InBzCeNx7ubeHyzcCZy1DfA2AKZWxz/9bd25xOxx7lbe+oBwL+G0sVZArgdOIby3/NPf0p1LzA6HkiTS+xgmeh7TvflTuaKbpvxEvzcafSwXhz97Eel9DJGex3Jv/pSu6KbhjPalHqTXcsefrV/BQgDulN4difKm3+ju+u6wNksT0NsnPRS344nUGUxv0rx0SGhL+0hCuZudpcg2hpXYaaq9SbMmRmc/oxrVIOO3b38IN7MT5SV296vMHbppbrNGjXK3SYpsI4CYGkmU191Hfn7eTxOIjHb0KPWWQaBWqNboW9eR/2C6+AzEEjuj9F+J0QexkazN9zYpTUSwZT+TbfMOuGPhpcg2CE2yNtfbpBTrxRSQxpKpkd6lyDaITLK2vXYmzaqjZdmDcEvC+C5FtjHYmWRtpTdp9h0ty2sbS1QjvUuRbQzBENUr9XamrVeKbNMnFdZ6Kr1nKbIBw+otS2/S7C7UW8Kmn2xzPZjPpfd4R99Eeh+DgqyNaGQXR2NiqidLVC2BO2Lh1kZ6l673MXiatWVm0qzmvzD1xMx/4blG9w5lgpORYzpmZL3Fciur64Cu9wKZoH0V3CR5vx1HzGJnZtLs7m+AVq8im/tNqlJYHUSBAE6EUcajPCau0eMiTe+jgfOZosLofQ3zJnC3iagrIF2RQwDLlekP/h9tzJY9nM4x3P7Z6FlmmoYDliMTC0b/Rew2euY2QJs4V0Bi+ihydzZmZ/64K0W59Yl7JRDrgY9G7h4ZD99yZiIC7g13j1jTqPWxVgnqw+Fbzlgi4HJJP1Zjl4+nd6m3jIFvuUweXVoqkNOC2PyPRk9i9C8Sa/+lYBbTHLxT+zO+9O9RVinb+yhivSEwk1w+207p373TB2ttEqMPYjJdgZmi+mQ010r/O0ofJiPZ+yByZbJfudqgdHbdF3QtqJ2lnD4Iz3V1d8HRq+6U/hN6OhgZahqFcl5hXD3I6i/CJR0+8lVg+PW2V2aS6yKH0z/qAA8Brq/rXuP5Frku8mv4Hsl7uXqHr40n+TS6igc24/kWuTnwC/TPt0RWCR2zfrzeRp1GdzLU9FVgvgW6lDscndiKV1lV5nRuGWr6CsofBDzqYBf9JF1wdFOolsPvujEvo3sZavoGNlfzJOJRB5tBKmFeDlaCoZI5/z6xZr6lyFDTWBRIngm25433b48Gyq+w06vr11RmVQ+iDDUNB7yqQHxWqH+O7+io4TFxlXpg87hyv4j0PhQ7g3k1eJtj5WQTcnT4U8RajO8BWTx27k2k96F4KI7BqAOUwLg5WWn8Xl3u3UgO1+i03Bw4lARGg1EH6HBgOvp8eKjiFF1COwhlzoXbkZ2tXCI3EPA7hUcdwJ6a6eiu7brLjNlHjW+h9SG9FGC5RG48viJDI4vZ+efoHGbk6G1eF9mqztQsl9ebKNL7SBa0jUesneufz2w7+XoddaHooj/VW4pcIjcaiMoKmWzBThs5jp4tHAXYRfUMWwksnVwiN54Vn7EUeD3nzOaIo8P+bgLzqJj/LEV6Hw3d3eF/XfDCMWYltKXFdc/MIHU7+bDa8Jsk0vs4YHfHrrtj8yXGtzf6D8rLwuy6X9pl1k+qGJ0wZnfHRTbOmU1/bJoorPydCgFRRh2GQg2XGoN51nX/a9PzTPd3PV3qelcyyfYNbAgO789Qb2leiBKCfbSEfd/L3M6l0r5qve/F2QfBl/03TsNHU6NLA/Qgktawj+J4rNpEfNsmsjMDJMcuPzmrrpgIjo+QC/5/sXMHOw6CQACGxUIVQSz7/g+70bYBO0zcw5L08H+nprZeYHAEhj6craqW/C6d2yGpe96MKHnSLq6DtDZ7xfxTkMf1spRG94vdfeRPm5pQeRHo2srpQ3nTk10mcQxFT3Jzmwut4DPqGD0rZW6y+eLVyqpX91DdCfT/Z+rRvdXoQR2jszYGl//pS6yigzUb3Y5Mx3VQz61srVqFxWpjdBShrGVq80VBzPZZ7jI/Zc87eg9zNYmamnXJo/ZwnUpAhkFKfz4jNLqS3rFXprsSrndTPp8bymvRPNaRLAUrs7zC2/vLml11z/1ry7aJvvJ0iEY/SWKbDl7Nv6O7WH4Lg7CYt9PFYHYkb3255eDeY2sJ/KL8pOam8fDY3NDm4/jEk/lruRzTSw7DtdtloZu7HahQAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH7bgwMSAAAAAEH/X7cjUAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALgJKoGE6+ENfKQAAAAASUVORK5CYII=";
+			img.onerror=null; //控制不要一直跳动
+		};
+
+		
+//首页选择项图片缺失
+		$('.mode-all img').attr('onerror','nofindTwo()');
+
+		$('#mode-user img').attr('onerror','nofindTwo()');
+
+		function nofindTwo(){
+
+			var img=event.srcElement;
+
+			img.src="data:image/png;base64,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";
+
+			img.onerror=null; //控制不要一直跳动
+		};
+			
+		
+</script>
+<style type="text/css">
+html, body {
+	width: 100%;
+}
+
+.carousel, .carousel-inner, .item {
+	width: 100%;
+}
+
+.carousel-inner img {
+	width: 100%;
+}
+
+.thumbnail {
+	padding: 0;
+	line-height: 2;
+	position: relative;
+	/*background-color: white;*/
+}
+
+.thumbnail img {
+	/*border: 0;*/
+	/*border:0;*/
+	
+}
+
+.thumbnail a {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+
+.thumbnail{
+	border: none;
+	overflow: hidden;
+	background: transparent;
+	margin-bottom: 9.7px;
+	border-radius: 2px;
+}
+.thumbnail>div {
+	border-top: 1px solid #eee;
+	background-color: white;
+}
+
+.swiper-container-horizontal>.swiper-pagination {
+	bottom: 0px;
+}
+
+.swiper-pagination-bullet-active{
+	background-color: white;
+}
+.swiper-slide{
+	background-color: #eee;
+}
+.icon {
+	font-size: 16px;
+	padding-left: 2px;
+	line-height: 20px;
+}
+
+.index-coupon {
+	width: 22%;
+	height: 32px;
+	/*background: url("__Home_IMG__/zsh2.0/home/coupon2.png") no-repeat;*/
+	background-size: 100% 32px;
+	padding-top: 6px;
+	padding-left: 4%;
+	margin-left: 1%;
+}
+
+.index-line {
+	margin-top: 15px;
+	margin-left: 4px;
+	margin-right: 2px;
+}
+
+.index-change {
+	padding-left: 9%;
+	width: 22%;
+	height: 32px;
+	/* background: url("__Home_IMG__/zsh2.0/home/change.png") no-repeat;*/
+	background-size: 100% 32px;
+	font-size: 11px;
+	padding-right: 0px;
+	padding-top: 8px;
+}
+
+.sale-out {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+
+.active_end {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+
+.gray {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+
+.index-time {
+	width: 80%;
+	height: 20px;
+	/*width: 100%;*/
+	overflow: hidden;
+	padding-left: 5px;
+	float: left;
+	margin-bottom-bottom: 0;
+}
+
+.active-time {
+	font-size: 12px;
+	padding-left: 5px;
+	margin-top: 0;
+}
+
+.col-xs-6 {
+	padding-left: 4.5px;
+	padding-right: 4.5px;
+}
+
+.col-xs-9 {
+	width: 73%;
+}
+
+.index-btn-select2 img {
+	width: 40%;
+	height: auto;
+}
+
+.thumbnail img:nth-child(1) {
+	display: block;
+	width: 100%;
+}
+
+.index-btn-select-group .index-btn-select {
+	/*display: table-cell;*/
+	/*margin-top: 10%;*/
+}
+
+.index-btn-select-group {
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	width: 100%;
+	table-layout: fixed;
+	padding-top: 0%;
+	padding-left: 0;
+	padding-right: 0;
+	overflow: hidden;
+	background-color: white;
+}
+
+.container {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.mode-all {
+	width: 100%;
+	margin-top: 0;
+}
+
+.index-btn-select {
+	width: 49.9%;
+	/*height: 100px;*/
+	margin-top: 0;
+}
+
+#collect_toast {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: transparent;
+}
+
+.toast_box {
+	width: 90%;
+}
+
+.sweet-alert {
+	width: 70%;
+	margin-left: 0;
+	margin-right: 0;
+	left: 15%;
+	right: 15%;
+	top: 46%;
+}
+
+.sweet-overlay {
+	background-color: transparent;
+}
+
+.hide1 {
+	display: none;
+}
+
+.inline {
+	display: inline;
+}
+.loading-bg{
+	/*background-color: #eee;*/
+	width: 100%;
+	height: 100%;
+	z-index: 9999999999999999999999;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+.spinner{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+.swiper-slide{
+	width: 100%;
+}
+.swiper-slide a img{
+	width: 100%;
+}
+
+.swiper-pagination-h .swiper-pagination-bullet{
+	width: 30px;
+	height: 5px;
+	border-radius: 0;
+	margin: 0 10px;
+}
+#isFirst{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999999999999999999999999;
+	height: 100%;
+	display: none;
+	background: url("__Home_IMG__/zsh2.0/home/isFirst.png") no-repeat;
+	background-size: 100% 100%;
+}
+.container-home{
+	margin-top: 0;
+}
+
+</style>
+
+
+</head>
+<body style="visibility:hidden;">
+	<div id="isFirst"></div>
+	 <div class="swiper-container swiper-container-banner">
+        <div class="swiper-wrapper">
+            <volist name="banner" id="data" key="k"> <if
+				condition="($k eq 1)">
+			<div class="swiper-slide">
+				<a href="javascript:detail('{$data.url}')"> <img src="{$data.img}"
+					alt="{$data.title}" id="ID_{$k}" />
+				</a>
+			</div>
+			<else />
+			<div class="swiper-slide">
+				<a href="javascript:detail('{$data.url}')"> <img src="{$data.img}"
+					alt="{$data.title}" id="ID_{$k}" />
+				</a>
+			</div>
+			</if> </volist>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination swiper-pagination-banner"></div>
+    </div>
+
+
+	<div class="container container-home">
+		<!--模块分类-->
+		<php>if($mode['ENABLE_LUCKDRAW']||$mode['ENABLE_GAME']){</php>
+		<div class="mode-all" id="mode-all">
+			<div class="index-btn-select-group">
+				<div class="index-btn-select" id="personCenter" style="float: left;border-right: 1px solid #eee;">
+					<a href="javascript:detail('{:U('User/index',array('platcode'=>$platformCode))}')">
+						
+						<img class="index-btn-select-one"
+						src="__Home_IMG__/zsh2.0/home/mine{$templet}.png"
+						alt="个人中心">
+						<!--<div class="caption index-description-text">
+							<php>if($_SESSION['PLATFORM_CODE']=='NYYH'){</php>
+							
+							<php>}else{</php>
+							<p>个人中心</p>
+							<php>}</php>
+						</div>-->
+					</a>
+				</div>
+				<php>if($mode['ENABLE_GAME']){</php>
+				<div class=" index-btn-select ">
+					<a href="javascript:detail('{$mode['URL_GAME']}')" id="game"> <img
+						class="index-btn-select-two"
+						src="__Home_IMG__/zsh2.0/home/game{$templet}.png" alt="一元夺宝"></a>
+					<div class="caption index-description-text">
+						<p>一元夺宝</p>
+					</div>
+				</div>
+				<php>}</php>
+				<php>if($mode['ENABLE_LUCKDRAW']){</php>
+				<div class=" index-btn-select" id="luckdraw" style="float: right;">
+					
+					<a href="javascript:detail('{$mode.URL_LUCKDRAW}')"><img
+						class="index-btn-select-three"
+						src="__Home_IMG__/zsh2.0/home/choujiang{$templet}.png"
+						alt="抽奖"></a>
+					<!--<div class="caption index-description-text">
+						<php>if($_SESSION['PLATFORM_CODE']=='NYYH'){</php>
+						
+						<php>}else{</php>
+						<p>
+							<php>if($_SESSION['PLATFORM_CODE']=='ZHWZ') echo '签到';</php>抽奖
+						</p>
+						<php>}</php>
+					</div>-->
+				</div>
+				<php>}</php>
+			</div>
+		</div>
+		<php>}</php>
+		
+		<!--分组名称-->
+		<!--<div class="row row-nh">
+			<php>if($hide_next_page_button){</php>
+			<div class="index-coupon col-xs-3">
+				<php>if($_SESSION['PLATFORM_CODE']=='MSYHC') echo '热销中'</php>
+				<php>if($_SESSION['PLATFORM_CODE']!='MSYHC') echo '优惠券'</php>			
+			</div>
+			<div class="index-line col-xs-9">&nbsp;</div>
+			<php> }else{</php>
+			<div class="index-coupon col-xs-3">
+				<php>if($_SESSION['PLATFORM_CODE']=='MSYHC') echo '热销中'</php>
+				<php>if($_SESSION['PLATFORM_CODE']!='MSYHC') echo '优惠券'</php>
+			</div>
+			<div class="index-line col-xs-9">&nbsp;</div>
+			
+			<php>} </php>
+		</div>-->
+		<!--优惠内容-->
+		<!--<div class="row index-list-detail " id="product-list-box">
+			
+		</div>-->
+	</div>
+	
+	<div class="swiper-container swiper-container-h row" style="padding-top: 30px;">
+        <div class="swiper-wrapper">
+			
+				<volist name="product_list_1" id="vo">
+				<if condition = "$key % 6 eq 0">
+				<div class="swiper-slide">
+				</if>
+				<div class="col-xs-6 index-list-item">
+					<div class="thumbnail indx-thumbnail">
+						<a href="javascript:detail('{$vo.url}')"> <if
+								condition="($vo.product_exist eq 0) OR ($vo.product_exist eq -2) ">
+							<img src="" data-src="{$vo.home_picture}" alt="{$vo.name}" id="ID_{$vo.code}"
+								class="gray swiper-lazy" onerror="javascript:this.src='__Home_IMG__/zsh2.0/home/wait.png';"> <img
+								src="__Home_IMG__/zsh2.0/home/active_end.png" alt=""
+								class="active_end" /> <elseif
+								condition="($vo.product_exist eq -1)" /> <img
+								src="" data-src="{$vo.home_picture}" alt="{$vo.name}" id="ID_{$vo.code}"
+								class="gray swiper-lazy" onerror="javascript:this.src='__Home_IMG__/zsh2.0/home/wait.png';"> <img
+								src="__Home_IMG__/zsh2.0/home/sale_out.png" alt=""
+								class="sale-out" /> <else /> <img class="swiper-lazy" src="" data-src="{$vo.home_picture}"
+								alt="{$vo.name}" id="ID_{$vo.code}" onerror="javascript:this.src='__Home_IMG__/zsh2.0/home/wait.png';"> </if>
+						</a>
+						<if condition="($vo.iscollect  eq '')">
+						<div onclick="collect({$vo.id},this)" id="collect{$vo.id}">
+							<p class="index-time">{$vo.name}</p>
+							<i class="fa fa-heart-o icon animated "
+								style="position: relative;"> <span
+								class="fa fa-heart icon animated hide1"
+								style="position: absolute; top: 0; left: 0;"></span>
+							</i>
+	
+						</div>
+						<else />
+						<div onclick="collect({$vo.id},this)" id="collect{$vo.id}">
+							<p class="index-time">{$vo.name}</p>
+							<i class="fa fa-heart icon animated " style="position: relative;">
+								<span class="fa fa-heart icon animated hide1"
+								style="position: absolute; top: 0; left: 0;"></span>
+							</i>
+	
+						</div>
+						</if>
+					</div>
+				</div>
+				<if condition = "$key % 6 eq 5">
+				</div>
+				</if>
+				</volist>
+			</div>
+        <if condition="(count($product_list_1) % 6) neq 0">
+        </div>
+        </if>
+        <div class="swiper-pagination swiper-pagination-h" style="top: 5px;height: 20px;"></div>
+    </div>
+	
+	<php>if(!$mode['ENABLE_LUCKDRAW']&&!$mode['ENABLE_GAME']){</php>
+	<div class="row " id="mode-user">
+		<a href="javascript:detail('{:U('Home/User/index',array('platcode'=>$platformCode))}')">
+			<div class="index-footer-menu" id="index-footer-menu">
+				<img src="__Home_IMG__/zsh2.0/home/root{$templet}.png" alt="个人中心">
+			</div>
+		</a>
+	</div>
+	<php>}</php>
+
+	<div class="loading-bg">
+		<div class="spinner">
+			<div class="spinner-loading-container loading-container1">
+				<div class="loading-circle1"></div>
+				<div class="loading-circle2"></div>
+				<div class="loading-circle3"></div>
+				<div class="loading-circle4"></div>
+			</div>
+			<div class="spinner-loading-container loading-container2">
+				<div class="loading-circle1"></div>
+				<div class="loading-circle2"></div>
+				<div class="loading-circle3"></div>
+				<div class="loading-circle4"></div>
+			</div>
+			<div class="spinner-loading-container loading-container3">
+				<div class="loading-circle1"></div>
+				<div class="loading-circle2"></div>
+				<div class="loading-circle3"></div>
+				<div class="loading-circle4"></div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer-main-footer">
+		<span>乐天邦</span>版权所有&nbsp;•	
+			<div class="footer-declaration">
+			<span><a
+				href="javascript:detail('{:U('Home/Index/disclaimer',array('platcode'=>$platformCode))}')">免责声明</a></span>
+		</div>
+		<div class="customer"><span class="tel-phone">客服:021-62662177&nbsp;</span><span class="work-time">工作日9:30-17:30</span></div>
+	</footer>
+	<div id="waitingToast" class="loaders">
+		<div class="loader_bg"></div>
+		<div class="loader">
+			<p style="margin-top: 26%;">敬请期待</p>
+		</div>
+	</div>
+	
+	<include FILE="User:login" />
+	<include FILE="User:logout" />
+	
+	<include FILE="Public:footer" />
+	<script src="__Home_JS_STATIC__/jquery-1.9.1.min.js"
+		type="text/javascript"></script>
+	<script src="__Home_JS__/zsh2.0/swiper.jquery.min.js" 
+		type="text/javascript"></script>
+	<script src="__Home_JS__/zsh2.0/swiper.animate.min.js" 
+		type="text/javascript"></script>
+	<script src="__Home_Bootstrap__/js/bootstrap.min.js"
+		type="text/javascript"></script>
+	<script src="__Home_JS__/zsh2.0/sweetalert.min.js"
+		type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript"
+		src="__Home_JS_STATIC__/jquery.tmpl.min.js" charset="utf-8"></script>
+	<script src="__Home_JS__/zsh2.0/zw-script.min.js"
+		type="text/javascript"></script>
+	<script type="text/x-jquery-tmpl" id="productTemp">
+    <div class="col-xs-6 index-list-item">
+       <div class="thumbnail">
+         <a href="javascript:detail('{{= $data.url}}')">
+
+           {{if $data.product_exist == 0 || $data.product_exist == -2}}
+             <img src="{{= $data.home_picture}}"  alt="{{= $data.name}}" id="ID_{{= $data.code}}" class="gray">
+             <img src="__Home_IMG__/zsh2.0/home/active_end.png" alt="" class="active_end"/>
+           {{else $data.product_exist == -1}}
+             <img src="{{= $data.home_picture}}" alt="{{= $data.name}}" id="ID_{{= $data.code}}" class="gray">
+             <img src="__Home_IMG__/zsh2.0/home/sale_out.png" alt="" class="sale-out"/>
+          {{else}}
+            <img src="{{= $data.home_picture}}" alt="{{= $data.name}}" id="ID_{{= $data.code}}">
+          {{/if}}
+         </a>
+         {{if $data.iscollect }}
+         <div id="collect{{= $data.id}}"  onclick="collect({{= $data.id}}, this)">
+           <p class="index-time">{{= $data.name}}</p>
+           <i class=' fa fa-heart icon animated'  style="position: relative;">
+           	<span class="fa fa-heart icon animated hide1" style="position: absolute;top: 0;left: 0;"></span>
+           </i>
+          </div>
+         {{else}}
+         <div  id="collect{{= $data.id}}"  onclick="collect({{= $data.id}}, this)">
+           <p class="index-time">{{= $data.name}}</p>
+           <i class=' fa fa-heart-o icon animated' style="position: relative;">
+           	<span class="fa fa-heart icon animated hide1" style="position: absolute;top: 0;left: 0;"></span>
+           </i>
+         </div>
+          {{/if}}
+       </div>
+     </div>
+
+</script>
+
+
+<script type="text/javascript">
+	
+	var product_id_list = '{$product_id_list}';
+	var product_id_list_arr = eval(product_id_list)
+	var product_id_list_done = new Object();
+	var url  = "{:U('Home/Index/setPageView')}";
+	var swiperH = new Swiper('.swiper-container-h', {
+        pagination: '.swiper-pagination-h',
+        paginationClickable: true,
+        spaceBetween: 30,
+        lazyLoading:true,
+        lazyLoadingOnTransitionStart:true,
+        lazyLoadingInPrevNextAmount:2,
+        longSwipesRatio: 0.3,
+		touchRatio:1,
+		observer:true,//修改swiper自己或子元素时，自动初始化swiper
+		observeParents:true,//修改swiper的父元素时，自动初始化swiper
+		onSlideChangeEnd:function(e){
+            
+			var activeIndex = swiperH.activeIndex;
+			if(!product_id_list_done[activeIndex] && activeIndex > 0) {
+
+				$.ajax({
+
+					url:url,
+					data:{product_id_list : product_id_list_arr[activeIndex]}
+				})
+				product_id_list_done[activeIndex] = true;
+			}
+			
+		}
+   });
+   
+   
+   var swiper = new Swiper('.swiper-container-banner', {
+        pagination: '.swiper-pagination-banner',
+        paginationClickable: true,
+        spaceBetween: 0,
+        centeredSlides: true,
+        slidesPerView: 1,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false,
+        loop: true,
+         longSwipesRatio: 0.3,
+    touchRatio:1,
+    observer:true,//修改swiper自己或子元素时，自动初始化swiper
+    observeParents:true,//修改swiper的父元素时，自动初始化swiper
+    });
+
+  $(document).ready(function(){
+		var platCode = "{$_SESSION['PLATFORM_CODE']}"+"scroll";
+		var imgH1 = $(".swiper-container-banner").width()*0.6+8;
+		var imgH2 = $(".swiper-container-banner").width()*0.6+$(".index-btn-select img").width()*0.35;
+	
+		if (window.localStorage.getItem(platCode)){
+			$("#isFirst").hide();
+		}else{
+			window.localStorage.setItem(platCode,"111");
+			if ("{$hide_next_page_button}"){
+				$("#isFirst").hide();
+			}else{
+				if ("{$display_instructions}" == "yes"){
+					$("#isFirst").show();
+				}
+			}
+		}
+		
+		$("#isFirst").click(function (){
+			$("#isFirst").hide();
+		});
+	
+   var page = 2;
+   var btnR = document.querySelector(".index-btn-change");
+// var indexListDetail = document.querySelector(".index-list-detail");
+
+	if(btnR){
+		
+	 btnR.addEventListener("click",function (e){
+        $('.index-btn-change').off('click');
+
+      // indexListDetail.className= "row index-list-detail animated fadeIn";
+        var url = "{:U('Home/Index/getMore',array('platcode'=>$platformCode))}";
+        $.post(url,{page:page},function(jsonData){
+          console.log(jsonData.list_data);
+          if(jsonData.state==0){
+            $('#product-list-box').empty();
+            $('#productTemp').tmpl(jsonData.list_data).appendTo('#product-list-box');
+            page++;
+            $('.index-btn-change').on('click')
+          }else if (jsonData.state==1){
+            $('#product-list-box').empty();
+            $('#productTemp').tmpl(jsonData.list_data).appendTo('#product-list-box');
+            page = 1;
+          }else if (jsonData.state==2){
+             $('#product-list-box').empty();
+             $('#productTemp').tmpl(jsonData.list_data).appendTo('#product-list-box');
+             page = 2;
+          } else {
+            location.reload();
+          }
+
+          $('.thumbnail img:nth-child(1)').attr('onerror','nofindOne()');
+          
+			$('.thumbnail a').css('display','block');
+		    $('.thumbnail a').css('width','100%');
+		    var cheapW = $('.thumbnail a').css('width');
+		
+		    var cheapH = parseInt(cheapW)*0.6;
+		    $('.thumbnail a').css('height',cheapH.toString());
+		    $('.thumbnail img:nth-child(1)').css('height',cheapH.toString());
+          //优惠券图片缺失
+        },'json');
+		
+		var zkkStr1 = $("#product-list-box").html();
+		window.sessionStorage.setItem("change",zkkStr1);
+    });	
+		
+}
+
+  });
+
+
+
+$(".loading-bg").show();
+
+</script>
+	<script type="text/javascript">
+	if (window.sessionStorage.getItem("isCollect")){
+			var ckarr =JSON.parse(window.sessionStorage.getItem("isCollect")) ;
+//			console.log(ckarr);
+		}else{
+			var  ckarr={};
+		}
+
+	function detail(url){
+		var zkkStr1 = $("#product-list-box").html();
+		window.sessionStorage.setItem("change",zkkStr1);
+		var is_login = "{$_SESSION[$_SESSION['PLATFORM_CODE']]['tel']}";
+		if(url == '/wxzspfse/index.php/Home/User/index/platcode/MSYHC.html' && !is_login){
+			tourl ="{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/wxzspfse/index.php/Home/User/index" ;
+			login()
+			return false;
+		}
+		window.location = url;
+	}
+
+
+	function collect(i, s){
+	     
+	      var url="{:U('Home/Member/doCollect')}";
+	      var data={product_id: i};
+	      var e=$('#collect'+i);
+	      $.post(url, data, function (jsonData) {
+	        var data = eval(jsonData);
+	          if (data.state==1) {
+	
+	              $(s).children('i').removeClass('fa-heart-o');
+	              $(s).children('i').addClass('fa-heart');
+	              $(s).children('i').children("span").removeClass("hide1 fa-heart-o");
+	              $(s).children('i').children("span").addClass('fly inline fa-heart');
+				  ckarr['#collect'+i] = 'shoucang';
+	          }else if (data.state==0){
+//	          	
+	          }else if(data.state==2){
+//	          	
+	          }else if(data.state==3){
+			  
+	          	$(s).children('i').removeClass('fa-heart');
+	              $(s).children('i').addClass('fa-heart-o');
+	              $(s).children('i').children("span").removeClass("fa-heart fly");
+	              $(s).children('i').children("span").addClass('fa-heart-o hide1');
+//	          	
+					ckarr['#collect'+i] = 'quxiao';
+	          } else if (data.state == 4) {
+
+	              login()
+	          } else if (jsonData.state==-1) {
+	              var url = "{:U('Home/User/login')}";
+	              location.href=url;
+	          }
+//			  console.log(ckarr);
+			  window.sessionStorage.setItem('isCollect', JSON.stringify(ckarr))
+			  window.sessionStorage.removeItem("test");
+			  window.sessionStorage.removeItem("test1");
+			  window.sessionStorage.removeItem("test2");
+//			  console.log( window.sessionStorage.getItem("isCollect"))
+	      }, 'json');
+	      return false;
+	  }
+	
+	
+		
+	
+	$(function() {
+			var u = navigator.userAgent;
+		var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+		//android终端
+		var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+			$("a").click(function (){
+				var zkkStr1 = $("#product-list-box").html();
+				window.sessionStorage.setItem("change",zkkStr1);
+			});
+			replaceHistory();
+			if (isiOS){
+				window.addEventListener("popstate", function(e) {
+                    
+                    //抽奖页面回来刷新
+					window.sessionStorage.removeItem("test");
+					  window.sessionStorage.removeItem("test1");
+					  window.sessionStorage.removeItem("test2");
+	
+					if (window.sessionStorage.getItem("change")){
+						var amosStr = window.sessionStorage.getItem("change");
+					}else{
+						var amosStr = $("#product-list-box").html();
+					}
+					
+					$("#product-list-box").html(amosStr);
+					$(".fa-heart").removeClass("fly");
+	
+					var zkkstr = window.sessionStorage.getItem("isCollect");
+					var zkkarr = JSON.parse(zkkstr);
+					for (var key in zkkarr){
+	//					alert(key);
+						if (zkkarr[key] == "shoucang"){
+							$(key).children('i').removeClass('fa-heart-o');
+			              $(key).children('i').addClass('fa-heart');
+			               $(key).children('i').children("span").removeClass("hide1 fa-heart-o");
+			              $(key).children('i').children("span").addClass('inline fa-heart');
+						}else if(zkkarr[key] == "quxiao"){
+							$(key).children('i').removeClass('fa-heart');
+			              $(key).children('i').addClass('fa-heart-o');
+			               $(key).children('i').children("span").removeClass("fa-heart fly");
+			              $(key).children('i').children("span").addClass('fa-heart-o hide1');
+						}
+					}
+					
+	//				alert(amosStr)
+				}, false);
+			}
+				
+			if (isAndroid){
+				window.addEventListener("pageshow", function(e) {
+	                
+	                //抽奖页面回来刷新
+					
+					window.sessionStorage.removeItem("test");
+					  window.sessionStorage.removeItem("test1");
+					  window.sessionStorage.removeItem("test2");
+					if (window.sessionStorage.getItem("change")){
+						var amosStr = window.sessionStorage.getItem("change");
+					}else{
+						var amosStr = $("#product-list-box").html();
+					}
+					
+					$("#product-list-box").html(amosStr);
+					$(".fa-heart").removeClass("fly");
+	
+					var zkkstr = window.sessionStorage.getItem("isCollect");
+					var zkkarr = JSON.parse(zkkstr);
+					for (var key in zkkarr){
+	//					alert(key);
+						if (zkkarr[key] == "shoucang"){
+							$(key).children('i').removeClass('fa-heart-o');
+			              $(key).children('i').addClass('fa-heart');
+			               $(key).children('i').children("span").removeClass("hide1 fa-heart-o");
+			              $(key).children('i').children("span").addClass('inline fa-heart');
+						}else if(zkkarr[key] == "quxiao"){
+							$(key).children('i').removeClass('fa-heart');
+			              $(key).children('i').addClass('fa-heart-o');
+			               $(key).children('i').children("span").removeClass("fa-heart fly");
+			              $(key).children('i').children("span").addClass('fa-heart-o hide1');
+						}
+					}
+					
+	//				alert(amosStr)
+				}, false);
+			}
+			
+			function replaceHistory() {
+				var state = {
+					title: "title",
+					url: "#"
+				};
+				window.history.replaceState(state, "title", "#");
+			}
+		});
+		//抽奖
+		$("#luckdraw img").click(function (){
+					
+			//记录点击事件
+			var url  = "{:U('Home/Ajax/moduleEntryViaHPLog/type/luckydraw',array('platcode'=>$platformCode))}";
+            $.get(url,function(res){
+            });     
+		});
+
+	//游戏
+	  $("#game img").click(function (){
+	  			//记录点击事件
+			var url  = "{:U('Home/Ajax/moduleEntryViaHPLog/type/game',array('platcode'=>$platformCode))}";
+			$.get(url,function(res){
+           });	
+		});
+		
+		//个人中心
+	  $("#personCenter img").click(function (){
+	  		//记录点击事件
+			var url  = "{:U('Home/Ajax/moduleEntryViaHPLog/type/setting',array('platcode'=>$platformCode))}";
+			$.get(url,function(res){
+           });
+		});
+		
+		$('.index-description-text').click(function(){
+			//$(".loading-bg").show();
+		});
+
+	    //是否在线
+	    if(window.navigator.onLine){
+	        console.log('网络在线');
+	    }else{
+	        console.log('断线了');
+	    }
+
+		function nofindOne(){
+
+			var img=event.srcElement;
+			img.src="data:image/png;base64,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";
+			img.onerror=null; //控制不要一直跳动
+
+		};
+
+
+//首页选择项图片缺失
+		$('.mode-all img').attr('onerror','nofindTwo()');
+
+		$('#mode-user img').attr('onerror','nofindTwo()');
+
+		function nofindTwo(){
+
+			var img=event.srcElement;
+
+			img.src="data:image/png;base64,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";
+
+			img.onerror=null; //控制不要一直跳动
+		};
+
+     
+
+
+</script>
+
+
+	<script type="text/javascript">
+
+//设定轮播图宽高
+    var imageW = $('.item').css('width');
+	var imageH = parseInt(imageW)*0.6;
+	$('.item').css('height',imageH.toString());
+
+	//  设定选着区域宽高
+
+    $('.thumbnail a').css('display','block');
+    $('.thumbnail a').css('width','100%');
+    var cheapW = $('.thumbnail a').css('width');
+
+    var cheapH = parseInt(cheapW)*0.6;
+    $('.thumbnail a').css('height',cheapH.toString());
+    $('.thumbnail img:nth-child(1)').css('height',cheapH.toString());
+
+</script>
+
+
+	<script type="text/javascript">
+	window.onload = function(){
+		$(".loading-bg").hide();
+		$("body").css({"visibility":"visible"});
+			//  <!--模块加载时间-->
+	     function loadtime(time) {
+	        var url = "{:U('Home/Ajax/loadtime',array('platcode'=>$platformCode))}";
+	        $.post(url,time,function(res){});
+	    }
+	    //body加载时间
+	    detectSpeed.startSpeedCheck('__Home_IMG__/zsh2.0/home/wait.png', loadtime);
+
+		if (document.body.scrollHeight  <= document.body.offsetHeight){
+		$(".footer-main-footer").css({
+			textAlign: "center",
+	        fontSize: "0.9em",
+	        position: "absolute",
+	   		bottom: "0",
+	   		left: "0",
+	   		right: "0",
+	   		margin: "0 auto"
+		});
+	}else{
+		$(".footer-main-footer").css({
+			textAlign: "center",
+	        fontSize: "0.9em",
+		});
+	}
+	}
+	
+</script>
+
+<if condition ="$_SESSION['PLATFORM_CODE'] eq 'MSYHC'">
+<script type="text/javascript">
+
+	//ios终端
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+	//android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+//	alert('是否是Android：'+isAndroid);
+//	alert('是否是iOS：'+isiOS);
+	var footerMenu = document.getElementById("index-footer-menu"); 
+	if (isiOS){ 
+//	    
+		var startx, starty;
+	    //获得角度
+	    function getAngle(angx, angy) {
+	        return Math.atan2(angy, angx) * 180 / Math.PI;
+	    };
+	 
+	    //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
+	    function getDirection(startx, starty, endx, endy) {
+	        var angx = endx - startx;
+	        var angy = endy - starty;
+	        var result = 0;
+	 
+	        //如果滑动距离太短
+	        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+	            return result;
+	        }
+	 
+	        var angle = getAngle(angx, angy);
+	        if (angle >= -135 && angle <= -45) {
+	            result = 1;
+	        } else if (angle > 45 && angle < 135) {
+	            result = 2;
+	        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+	            result = 3;
+	        } else if (angle >= -45 && angle <= 45) {
+	            result = 4;
+	        }
+	 
+	        return result;
+	    }
+	    //手指接触屏幕
+	    var timer = null;
+	    document.addEventListener("touchstart", function(e) {
+	        startx = e.touches[0].pageX;
+	        starty = e.touches[0].pageY;
+	    }, false);
+	    //手指离开屏幕
+	    document.addEventListener("touchend", function(e) {
+	        var endx, endy;
+	        endx = e.changedTouches[0].pageX;
+	        endy = e.changedTouches[0].pageY;
+	        var direction = getDirection(startx, starty, endx, endy);
+	        switch (direction) {
+	            case 1:
+	            	//上滑
+					footerMenu.style.bottom = "2%";
+	                break;
+	            case 2:
+	                //下滑
+					footerMenu.style.bottom = "11%";
+	                break;
+	            default:
+	        }
+	    }, false);
+	    document.addEventListener("touchmove", function(e) {
+	        var endx, endy;
+	        endx = e.changedTouches[0].pageX;
+	        endy = e.changedTouches[0].pageY;
+	        var direction = getDirection(startx, starty, endx, endy);
+	        
+	        switch (direction) {
+	            case 1:
+	            	//上滑
+					footerMenu.style.bottom = "2%";
+	                break;
+	            case 2:
+	                //下滑
+					footerMenu.style.bottom = "11%";
+	                break;
+	            default:
+	        }
+	    }, false);
+	} 	
+	
+		
+</script>
+</if>

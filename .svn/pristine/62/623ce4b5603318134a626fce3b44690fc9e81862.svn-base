@@ -1,0 +1,359 @@
+<?php
+namespace Home\Controller;
+use Common\Api\WxApi;
+use Think\Controller;
+use Common\Api\Wxcomponent\mp;
+/**
+ * 农业银行获取openid
+ */
+class NyyhController extends Controller
+{
+  function __construct()
+  {
+    parent::__construct();
+    if(online_redis_server){
+        $this->redisLog = new \Vendor\Redis\DefaultRedis(C('REDIS_HOST_LOG'),C('REDIS_PORT_LOG'),C('REDIS_AUTH_LOG'));
+        //记录log用的redis实例
+    }
+  }
+   public function index(){
+     $_SESSION['PLATFORM_CODE'] = 'NYYH';
+     $this->platform_config = getPlatformConfig($_SESSION['PLATFORM_CODE']);
+     $this->assign('templet',$this->platform_config['templet']);
+     //mpObj配置初始化
+     if(DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER==true){
+       $token               = 'uatzwmedia2016';
+       $encodingaeskey      = 'oeEg7DvRoFPX0Fkvs5B1WdX0Pbh9WLLetur34qapdbg';
+       $component_appid     = 'wxff5b12d17a591dbc';
+       $component_appsecret = '553d889b293b85b0d6b48d1325a159d0';
+       //$authorizer_appid    = 'wx3cb763d185e92ddf';//乐天邦支付的APPID
+       $authorizer_appid    = 'wx51fdf61c0de4ab0b';//农行的APPID
+       //$authorizer_appid    = 'wxf42302be9b7152f8';//掌握传媒(测试号的APPID)
+     }else{
+       $token               = 'zwmedia2016';
+       $encodingaeskey      = 'rUa1MCkpJpdNwIvOsb5ySnj3BAkuAptsREDm6jNI5gX';
+       $component_appid     = 'wx610eea0551f9065f';
+       $component_appsecret = 'f76293a430a11fe9a51c2ca3dda0d9cd';
+       //可动态获取
+       //$authorizer_appid    = 'wx3cb763d185e92ddf';//乐天邦支付的APPID
+       $authorizer_appid    = 'wx51fdf61c0de4ab0b';//农行的APPID
+       //$authorizer_appid    = I('param.APPID',wx51fdf61c0de4ab0b);
+     }
+     //取redis中的component_verify_ticket
+     if(online_redis_server == true){
+       if ($this->redis == null ){
+           $this->redis = new \vendor\Redis\DefaultRedis();
+       }
+       $this->redis->databaseSelect();
+       $component_verify_ticket = $this->redis->get('component_verify_ticket');
+       if(empty($component_verify_ticket))$component_verify_ticket =  S('component_verify_ticket');
+     }
+     //回调地址
+    $redirect_url = WEB_URL.'index.php/Home/Nyyh/index';
+    $options = array(
+          'token' => $token, //填写第三方的key
+          'encodingaeskey' => $encodingaeskey, //填写第三方加密用的EncodingAESKey
+          'component_appid' => $component_appid, //填写第三方的app id
+          'component_appsecret' => $component_appsecret, //填写第三方的密钥
+          'authorizer_appid' => $authorizer_appid,//根据需要初始化
+          'component_verify_ticket' => $component_verify_ticket,//根据需要初始化
+     );
+     //获取操作
+     $get = I('get.do',null);
+     $mpObj = new Mp($options);
+      switch ($get){
+        //接收微信推送的token
+        case 'accept':
+          //解析微信推送过来的数据
+           $mpObj->valid();
+           //获取数据中的ticket
+           $ticket = $mpObj->getRev()->getRevComponentVerifyTicket();
+           if($ticket){
+             //对ticket进行缓存
+             //S('component_verify_ticket',$ticket,620);
+             $this->redis->set('component_verify_ticket',$ticket);
+             return 'success';
+           }
+          break;
+
+
+        //引导农行工作人员对我们公众号进行授权
+        case 'login':
+            //获取预授权码
+            $pre_auth_code = $mpObj->getPreAuthCode();
+            $url = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid='.$component_appid.'&pre_auth_code='.$pre_auth_code.'&redirect_uri='.$redirect_url.'/do/authorize_token';
+            redirect($url);
+          break;
+
+        //农行工作人员获对我们公众号进行授权以后保存access
+        case 'authorize_token':
+          //获取authorizer_access_token
+          $getAuth = $mpObj->getAuthRefreshToken();
+          $this->redis->set('authorizer_access_token',$getAuth['authorizer_access_token']);
+          $this->redis->set('authorizer_refresh_token',$getAuth['authorizer_refresh_token']);
+          $expire = $getAuth['expires_in'] ? intval($getAuth['expires_in']) - 100 : 3600;
+          $this->redis->expire('authorizer_access_token',$expire);
+          echo 'success';
+          break;
+
+        //接收公众号消息和事件
+        case 'callback':
+            //暂时不需要
+          break;
+
+          //农行用户入口
+        case 'user_entry':
+            //获取code
+            $getcodeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$authorizer_appid.'&redirect_uri='.$redirect_url.'/do/get_access&response_type=code&scope=snsapi_base&state=STATE&component_appid='.$component_appid.'#wechat_redirect';
+            redirect($getcodeurl);
+          break;
+
+        //获取权限
+        case 'get_access':
+          $code = $_GET['code'];
+          $access_token = $this->redis->get('component_access_token'.$authorizer_appid);
+          if(empty($access_token)){
+            //获取component_access_token,并缓存
+            $access_token = $mpObj->checkComponentAuth();
+            $this->redis->set('component_access_token'.$authorizer_appid,$access_token);
+            $this->redis->expire('component_access_token'.$authorizer_appid,7000);
+          }
+
+          //获取openid
+          $time_0 = microtime(true);
+          $getopenidurl = 'https://api.weixin.qq.com/sns/oauth2/component/access_token?appid='.$authorizer_appid.'&code='.$code.'&grant_type=authorization_code&component_appid='.$component_appid.'&component_access_token='.$access_token;
+
+          $res = json_decode(send_curl($getopenidurl),true);
+          $time_openid = microtime(true);
+          //如果提示accesstoken失效或者过期,则重新获取
+          if($res['errcode']==42001||$res['errcode']==40001){
+            $access_token = $mpObj->checkComponentAuth();
+            $this->redis->set('component_access_token'.$authorizer_appid,$access_token);
+            $this->redis->expire('component_access_token'.$authorizer_appid,7000);
+            //存储重新获取accesstoken的次数
+            $num = $this->redis->get('get_access_token_times');
+            if($num)$num++;
+            else $num=1;
+            $num = $this->redis->set('get_access_token_times',$num);
+            
+            $time_checkComponentAuth = microtime(true);
+            $getopenidurl = 'https://api.weixin.qq.com/sns/oauth2/component/access_token?appid='.$authorizer_appid.'&code='.$code.'&grant_type=authorization_code&component_appid='.$component_appid.'&component_access_token='.$access_token;
+            $res = json_decode(send_curl($getopenidurl),true);
+            $time_accesstoken = microtime(true);
+            if ( $time_accesstoken - $time_0 > 0.3){
+            	dolog('NYYH/debug','记录农行取openid时延大于300ms','', 'latency:'. round($time_openid - $time_0, 4) .
+            			', latency 2:'. round($time_checkComponentAuth - $time_openid, 4) .
+            			', latency 3:' . round($time_accesstoken - $time_checkComponentAuth, 4), $this->redisLog);
+            }
+          } else{
+          	if ( $time_openid - $time_0 > 0.3 )
+          		dolog('NYYH/debug','记录农行获取openid时延大于300ms','', 'latency(openid):'. round($time_openid - $time_0, 4) , $this->redisLog);
+          }
+          if($res['openid']){
+            $_SESSION['NYYH']['openid'] = $res['openid'];
+            //$_SESSION['_PROJECT_NAME']  = ROOT_PATH;
+            //验证成功,前往农业银行
+            redirect(U('Home/Index/index',array('platcode'=>'NYYH')));
+          }else{
+          		doLog('NYYH/error','农业银行',' ',"get_access: response=" . json_encode($res) , $this->redisLog);
+               $this->error('您查看网页已过期，请重新打开入口链接', C('WEB_URL') . C('ERROR_PAGE'));
+          }
+        break;
+
+        default:
+          doLog('NYYH/error','农业银行',' ',"default" , $this->redisLog);
+          $this->error('您查看网页已过期，请重新打开入口链接', C('WEB_URL') . C('ERROR_PAGE'));
+          break;
+      }
+
+  }
+  //  /*
+  //   * [NyyhPrize 农行动账入口接口]
+  //   * @shenzihao
+  //   * @param        platcode
+  //   * @param        prizeid
+  //   * @param        openid
+  //   * @param        signature
+  //   * @DateTime 2016-09-22
+  //   * */
+
+  public function NyyhPrize(){
+    //doLog('NYYHD/NyyhPrize','农业银行动帐抽奖入口',' ',"http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'], $this->redisLog);
+    $_SESSION['PLATFORM_CODE'] = 'NYYHD';
+    
+    //判断是否为正确请求
+    $platform_code =  I('param.platcode', '') ;
+    $platform_code = strtoupper( $platform_code );
+    if($platform_code == 'NYYHD'){
+    	//获取平台配置模板信息
+    	$this->platform_config = getPlatformConfig($platform_code);
+    	$this->assign('templet',$this->platform_config['templet']);
+
+        $data['openid']   = I('param.openid');
+        $data['platcode'] = $platform_code ;//I('param.platcode');
+        $data['prizeid']  = I('param.prizeid');
+        $signature        = I('param.signature');
+
+        
+        doLog('NYYHD/NyyhPrize','农业银行动帐抽奖',' ',json_encode($data), $this->redisLog); //记录农业银行传过来的参数
+        //将prizeid存入session返回领奖成功时使用
+        //
+        $_SESSION['NYYHD']['prizeid'] = $data['prizeid'];
+        //农行动账error页面
+        if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE) {
+            $error_url = 'http://card.vfengche.cn/abc-card-act/callback/result.wx';
+        }else{
+            $error_url = 'http://258.vfengche.cn/abc-card-act/callback/result.wx';
+        }
+        //$error_url                  = 'http://card.wehuge.com/abc-card-act/callback/result.wx';
+        $token                        = 'zpvn07tm50kqra5e';
+        $check                        = md5(http_build_query($data).'&token='.$token);
+
+        //拼接校验码
+        if($check == $signature){
+          //$_SESSION['_PROJECT_NAME'] = ROOT_PATH;
+          $_SESSION['NYYHD']['openid'] = $data['openid'];
+          // '访问成功';
+          $post_data['openid']         = $data['openid'];
+          $post_data['prizeid']        = $data['prizeid'];
+          $post_data['signature']      = md5(http_build_query($post_data).'&token='.$token);
+          //提供验证订单真实性的接口
+          //$url = 'http://card.wehuge.com/abc-card-act/callback/validCheck.wx';
+          if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE){
+		       $url = 'http://card.vfengche.cn/abc-card-act/callback/validCheck.wx';
+          }else{
+              $url = 'http://258.vfengche.cn/abc-card-act/callback/validCheck.wx';
+          }
+          //向农行发送确认订单请求
+          //
+		  $time_before = microtime(true);
+          $result_json = send_curl($url,$post_data,'POST');
+          $elapseTime = round(microtime(true) - $time_before, 4);
+          if ($elapseTime > 0.3) {
+              dolog('NYYH/checktime', '农业银行确认订单请求超过300ms', '', 'latency: ' . $elapseTime, $this->redisLog);
+          }
+          
+          $result = json_decode($result_json,TRUE);
+          if($this->checksign($result,$token)){
+            doLog('NYYHD/NyyhPrize','农业银行动帐抽奖验证操作成功',' ',"http://".$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'], $this->redisLog);
+            //重定向到领奖页面
+            redirect(U('Home/Wheel/showProduct/id/'.$result['productid'].'?platcode=NYYHD&NyyhPrize=1'));
+           }else{
+            //订单真实性验证失败
+			doLog('NYYHD/error','农业银行动帐抽奖',' ',"订单真实性验证失败" , $this->redisLog);
+            $this->error('您查看网页已过期，请重新打开入口链接', $error_url);
+          }
+        }else{
+          //签名验证失败
+		  doLog('NYYHD/error','农业银行动帐抽奖',' ',"签名验证失败。 check=" . $check . ", signature=" . $signature , $this->redisLog);
+          $this->error('您查看网页已过期，请重新打开入口链接', $error_url);
+        }
+    }else{
+	  doLog('NYYHD/error','农业银行动帐抽奖',' ',"您查看网页已过期，请重新打开入口链接. platform_code=". $platform_code , $this->redisLog);
+      $this->error('您查看网页已过期，请重新打开入口链接', $error_url);
+    }
+  }
+
+
+/**
+ * [prizeShow 商品展示]
+ * @ckhero
+ * @DateTime 2016-12-22
+ * @return   [type]     [description]
+ */
+  public function prizeShow(){
+
+    $key           = 'zpvn07tm50kqra5e';
+    $platform_code = I('param.platcode');
+    if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE){
+        $error_url     = 'http://card.vfengche.cn/abc-card-act/callback/result.wx';
+    }else{
+        $error_url     = 'http://258.vfengche.cn/abc-card-act/callback/result.wx';
+    }
+    if($platform_code == 'NYYHD'){
+
+       $_SESSION['PLATFORM_CODE'] = 'NYYHD';
+       $this->platform_config     = getPlatformConfig($_SESSION['PLATFORM_CODE']);
+
+       $platform_info = M('platform')->where('code="%s"', $platform_code)->cache(true, 3600)->find();
+
+       if ($platform_info['id']) {
+            $_SESSION[$platform_code]['platform_id']   = $platform_info['id'];
+        } else {
+          doLog('Common/error', '平台不存在','',json_encode($_SERVER['REQUEST_URI']) ,$this->redisLog);
+          $this->error('您查看网页已过期，请重新打开入口链接', $error_url);
+        }
+
+
+       $this->assign('templet',$this->platform_config['templet']);
+       $data = array(
+
+            'platcode' => I('param.platcode',0),
+            'prizeid'  => I('param.prizeid',0),
+            'token'    => $key,
+        );
+       $sign = I('param.signature');
+       $check = md5(http_build_query($data));
+       if($check  == $sign){
+
+        $productid =$data['prizeid'];
+        $product_info =  D('platform_product')->getProductInfo($productid);
+        //$this->assign('platform_id', $_SESSION[$_SESSION['PLATFORM_CODE']]['platform_id']);
+        $product_info['detail_picture'] = RESOURCE_PATH.$product_info['detail_picture'];
+        //解析description中的XML数据
+        $product_info['introduction'] = xmlToStr($product_info['description'],'introduction');
+        $product_info['rules']        = xmlToStr($product_info['description'],'rules') ;
+        $product_info['time']         = xmlToStr($product_info['description'],'time') ;
+        $product_name = $product_info['name'] ? $product_info['name'] : '奖品介绍';
+        $this->assign('info', $product_info);
+        $this->assign('product_name', $product_name);
+        $this->display('Wheel:prizeShow');
+
+       }else{
+        
+        
+        $this->error('您查看网页已过期，请重新打开入口链接', $error_url);
+       }
+    }
+  }
+  //  /*
+  //   * [checksign 验证sign]
+  //   * @shenzihao
+  //   * @param        $array
+  //   * @param        $token
+  //   * @DateTime 2016-09-26
+  //   * */
+  public function checksign($array,$token){
+    $data['token'] = $token;
+    foreach ($array as $k => $v) {
+      if($k!='signature'){
+        $data[$k] = $v;
+      }
+    }
+    ksort($data);
+    $check = md5(http_build_query($data));
+    if($check==$array['signature'])return true;
+    else $this->error('您查看网页已过期，请重新打开入口链接', $error_url);
+  }
+  //  /*
+  //   * [returnResult 返回结果]
+  //   * @shenzihao
+  //   * @DateTime 2016-09-26
+  //   * */
+  public function returnResult(){  //card.vfengche.cn
+    if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE){
+	   $url = 'http://card.vfengche.cn/abc-card-act/callback/result.wx';
+    }else{
+        $url = 'http://258.vfengche.cn/abc-card-act/callback/result.wx';
+    }
+	//$url = 'http://card.wehuge.com/abc-card-act/callback/result.wx';
+    $data['prizeid'] = $_SESSION['NYYHD']['prizeid'];
+    $data['result']  = 1;
+    $token           = 'zpvn07tm50kqra5e';
+    ksort($data);
+    $data['signature'] = md5(http_build_query($data).'&token='.$token);
+    $url_data = http_build_query($data);
+    redirect($url.'?'.$url_data);
+    exit;
+  }
+}

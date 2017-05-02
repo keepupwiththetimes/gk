@@ -1,0 +1,64 @@
+
+
+<div class="container-loginout" id="container-loginout">
+	<!--上部-->
+	<div class="top-loginout" onclick="closeLogout()">
+
+		<div class="change-count-top">
+			<img src="__Home_IMG__/zsh2.0/change-user/cancel.png" />
+		</div>
+
+	</div>
+
+	<!--中间-->
+	<div class="head-logout">
+		<img src="__Home_IMG__/zsh2.0/home/head-{$templet}.png" alt="卡通头像" />
+	</div>
+	<?php if($_SESSION['PLATFORM_CODE']!='MSYHC'){?>
+	<div class="midle-loginout" onclick="Logout()">
+		<div class="change-count-middle" style="position: relative;top: 15px;">
+			<div class="change-count-btn-exchange"
+				style="background-image: url(__Home_IMG__/zsh2.0/change-user/change-user.png)">
+
+				<a><span>是否更改手机号码</span></a>
+
+			</div>
+		</div>
+	</div>
+	<?php }?>
+	<?php if($_SESSION['PLATFORM_CODE']=='MSYHC'){?>
+	<p id="login-phone" style="width: 100%;text-align: center;font-size: 18px;color: white;margin-top: -24%;">
+		<?php
+         echo $_SESSION[$_SESSION['PLATFORM_CODE']]['tel'];
+		?>
+	</p>
+	<?php }?>
+</div>
+
+<script>
+	var mo=function(e){e.preventDefault();}
+	function closeLogout(){
+		$('.container-loginout').hide();
+		$("#container-content").show();
+	}
+  function Logout(){
+    var url='{:U('Home/User/logout')}';
+    $.get(url,function(jsonData){
+    	$('.container-loginout').hide();
+      if(_isCmbc==1){
+         loginForComm(beforeurl,tourl);
+       }else{
+       	document.addEventListener('touchmove',mo,false);
+ 					$(".common-login").removeClass('zoomOut animated');
+				$(".common-login").addClass('zoomIn animated');
+				$('.login-contain').fadeIn(200);;
+       }
+      $("#container-content").show();
+      $('#login').attr('placeholder','请输入新的手机号码');
+    });
+
+  }
+
+
+
+</script>

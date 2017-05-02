@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html class="onecoin-body">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<title>一元购</title>
+		<link rel="stylesheet" type="text/css" href="__Home_CSS__/font-awesome-4.5.0/css/font-awesome.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__Home_CSS__/swiper.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__Home_Bootstrap__/css/bootstrap.min.css" >
+		<link href="__Home_CSS__/zsh2.0/zw-style{$templet}.css" rel="stylesheet" >
+		<style>
+			*{
+				border: 0;
+				margin: 0;
+				padding: 0;
+			}
+			.onecoin-a:link {
+				text-decoration: none;
+				border: 0;
+				/*color: #F08200;*/
+			}
+			.onecoin-a:visited {
+				text-decoration: none;
+				border: 0;
+				/*color: #F08200;*/
+				}
+			.onecoin-a:hover{
+				text-decoration: none;
+				border: 0;
+				/*color: #F08200;*/
+				}
+			.onecoin-a:active {
+				text-decoration: none;
+				border: 0;
+				/*color: #F08200;*/
+			}
+			.swiper-slide a:visited{
+				/*color: #F08200;*/
+				text-decoration: none;
+			}
+			.onecoin-body{
+				width: 100%;
+				/*height: 100%;*/
+				-moz-user-select:none; /*火狐*/
+			    -webkit-user-select:none; /*webkit浏览器*/
+			     ms-user-select:none; /*IE10*/
+			    -khtml-user-select:none; /*早期浏览器*/
+			    user-select:none;
+			    /*background-color: white;*/
+			}
+
+
+						/*登录框问题调整*/
+.login-input-phone input{
+    	line-height: 34px;
+   		width: 88%;
+   		padding-left: 36px;
+    	font-size: 16px;
+   		border-radius: 10px;
+   		/*border: solid 1px orange;*/
+}
+
+
+.login-input-phone input:focus{
+    /*color: black;*/
+    line-height: 34px;
+    width: 88%;
+    font-size: 16px;
+    padding-left: 36px;
+    border-radius: 10px;
+    outline: none;
+}
+
+   .common-login ul{
+	margin-top: -4%;
+	/*opacity: 0.8;*/
+}
+
+/*#hhr{
+	height:1px;
+	border:none;
+	border-top:2px dotted orange;
+	width:100%;
+	position: absolute;
+	/*top: 7px;*/
+/*}*/
+.login-btn-login {
+    margin-bottom: 5%;
+}
+
+
+			.banner{
+				width: 100%;
+				position: relative;
+			}
+			.banner-img{
+				width: 100%;
+			}
+			.banner-logo{
+				width: 15%;
+				position: absolute;
+				right: 2%;
+				bottom: 5%;
+			}
+			.onecoin-nav{
+				width: 100%;
+				height: 60px;
+				/*background-color: #e8e8e8;*/
+				margin-top: -5px;
+			}
+			.count-time{
+				/*line-height: 55px;*/
+				text-align: center;
+				/*color: #f08200;*/
+				position: relative;
+			}
+			#countDown{
+				/*color: #595757;*/
+				font-size: 16px;
+				margin-right: 10px;
+				position: absolute;
+				top: 5px;
+				right: 30px;
+			}
+			.count-time strong{
+				/*color: #F08200;*/
+				/*background-color: rgba(0,0,0,0.7);*/
+				border-radius: 5px;
+				font-size: 28px;
+				font-family: "Trebuchet MS";
+			}
+			.count-time p{
+				position: absolute;
+				right: 20px;
+				top: 14px;
+			}
+			.count-time p span{
+				font-size: 38px;
+			}
+			.active-over{
+				width: 80%;
+				margin-left: 10%;
+				position: relative;
+				display: none;
+			}
+			.active-over p{
+				position: absolute;
+				left: -8%;
+				/*line-height: 60px;*/
+				text-align: left;
+				/*color: #595757;*/
+				width: 55%;
+				margin-top: 12px;
+			}
+			.active-over img{
+				width: 60%;
+				height: 60px;
+				position: absolute;
+				right: -8%;
+			}
+			.active-over div{
+				position: absolute;
+				/*line-height: 60px;*/
+				text-align: center;
+				/*color: white;*/
+				font-size: 18px;
+				width: 53%;
+				right: -1%;
+				top: 5px;
+			}
+			.active-role{
+				width: 100%;
+				/*background-color: white;*/
+				position: relative;
+				margin-bottom: 20px;
+			}
+			.active-role-container{
+				width: 90%;
+				/*border: 1px solid #E8E8E8;*/
+				border-radius: 5px;
+				margin-left: 5%;
+				margin-top: 30px;
+				line-height: 30px;
+				/*color: #595757;*/
+			}
+			.active-role-container p{
+				padding: 0 15px;
+				font-size: 12px;
+			}
+			.role-one{
+				margin-top: 40px;
+				margin-bottom: 10px;
+			}
+			.role-two{
+				margin-bottom: 20px;
+			}
+			.active-role img{
+				position: absolute;
+				height: 40px;
+				width: 30%;
+				top: -20px;
+				left: 0;
+				right: 0;
+				margin: auto;
+			}
+			.role-elaborate{
+				/*color: white;*/
+				position: absolute;
+				height: 40px;
+				width: 30%;
+				text-align: center;
+				left: 34%;
+				top: -20px;
+				line-height: 40px;
+			}
+			.fa-chevron-up,.fa-chevron-down {
+				/*color: #f08200;*/
+				font-size: 20px;
+			}
+			.active-role-container a{
+				position: absolute;
+				bottom: 0%;
+				right: 10%;
+			}
+			.active-role-more{
+				display: none;
+			}
+			.record{
+				/*background-color: white;*/
+				width: 100%;
+				padding-top: 10px;
+				padding-bottom: 1px;
+			}
+			.record-self{
+				/*background-color: white;*/
+				/*width: 42%;
+				margin-left: 29%;*/
+				width: 60%;
+				margin-left: 20%;
+				margin-top: 15px;
+				position: relative;
+				margin-bottom: 30px;
+				border-radius: 2px;
+				/*border: 1px solid #E8E8E8;*/
+				border-radius: 5px;
+			}
+			.record-self img{
+				/*width: 69.8%;*/
+				width: 50.8%;
+				height: 40px;
+				/*margin-left: 15.1%;*/
+				margin-left: 24.1%;
+				margin-top: -10px;
+			}
+			.self-elaborate{
+				/*color: white;*/
+				position: absolute;
+				height: 40px;
+				width: 69%;
+				text-align: center;
+				left: 13%;
+				top: -10px;
+				line-height: 40px;
+			}
+			.record-self p{
+				text-align: center;
+				margin: 0;
+				margin-top: 6px;
+				padding-bottom: 8px;
+				/*color: #595757;*/
+				font-size: 14px;
+			}
+			.luckyNum{
+				color: #F08200;
+			}
+			.record hr{
+				height:1px;
+			    /*background-color:#E8E8E8;*/
+			    border: none;
+			    position: static;
+			    margin: 0;
+			}
+			.record-active{
+				position: relative;
+				/*border-top: 1px solid #E8E8E8;*/
+				width: 100%;
+			}
+			.record-active img{
+				width: 30%;
+				height: 40px;
+				position: absolute;
+				left: 35%;
+				top: -20px;
+			}
+			.active-elaborate{
+				/*color: white;*/
+				position: absolute;
+				height: 40px;
+				width: 30%;
+				text-align: center;
+				left: 34%;
+				top: -20px;
+				line-height: 40px;
+			}
+			.record-note{
+				width: 100%;
+				margin-top: 30px;
+				overflow: hidden;
+				text-align: center;
+			}
+			.record-note div{
+				/*background-color: white;*/
+				width: 46%;
+				margin-top: 10px;
+				/*position: relative;*/
+				margin-left: 1%;
+    			margin-right: 1%;
+				margin-bottom: 15px;
+				display: inline-block;
+				border-radius: 2px;
+				/*border: 1px solid #e8e8e8;*/
+				border-radius: 5px;
+			}
+			/*.record-note div:nth-child(2n-1){
+				float: left;
+				margin-left: 1%;
+			}
+			.record-note div:nth-child(2n){
+				float: right;
+				margin-right: 1%;
+			}*/
+			.record-note p{
+				text-align: center;
+				padding-top: 6px;
+				padding-bottom: 8px;
+				/*color: #595757;*/
+				margin: 0;
+			}
+			.changeSet{
+				width: 60%;
+				margin-left: 20%;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				/*border: 1px solid #F08200;*/
+				/*color: #f08200;*/
+				margin-bottom: 14px;
+				border-radius: 5px;
+			}
+			.buy-list{
+				position: fixed;
+				width: 100%;
+				height: 60px;
+				margin-top: 20px;
+				bottom: 0;
+				/*background-color: white;*/
+				z-index: 100;
+			}
+			.partake{
+				width: 55%;
+				padding-bottom: 20px;
+				height: 60px;
+				position: absolute;
+				left: 0;
+				overflow: hidden;
+				padding-top: 15px;
+				/*border-bottom: 1px solid #E8E8E8;*/
+				/*border-top: 1px solid #E8E8E8;*/
+			}
+			.partake-num{
+				float: left;
+				margin-left: 20px;
+				/*color:#595757;*/
+				line-height: 30px;
+				font-size: 16px;
+				/*margin-left: 15px;*/
+			}
+			.partake-count{
+				float: right;
+				/*border: 1px solid #F08200;*/
+				border-left: hidden;
+				border-right: hidden;
+				font-weight: bold;
+				box-sizing: border-box;
+				margin-right: 15px;
+			}
+			.partake-count span{
+				/*border-left: 1px solid #A5A5A5;*/
+				padding: 10px;
+				line-height: 10px;
+				display: inline-block;
+				text-align: center;
+				/*color: #F08200;*/
+			}
+			/*.partake-count-reduce{
+				border-left: 1px solid #F08200;
+				border-right: 1px solid #F08200;
+			}
+			.partake-count-add{
+				border-left: 1px solid #F08200;
+				border-right: 1px solid #F08200;
+			}*/
+			.buy-now{
+				position: absolute;
+				right: 0;
+				width: 45%;
+				text-align: center;
+				line-height: 60px;
+				/*color: white;*/
+				/*background-color: #F08200;*/
+				letter-spacing: 14px;
+				text-indent: 1em;
+			}
+			.previous{
+				/*color:#595757;*/
+				/*background-color: #F08200;*/
+				text-align: center;
+				margin-top: 10px;
+				letter-spacing: 20px;
+				text-indent: 2em;
+				/*height: 50px;*/
+				/*line-height: 50px;*/
+				/*margin-bottom: 80px;*/
+			}
+			.popUp{
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0,0,0,0.5);
+				position: fixed;
+				top: 0;
+				left: 0;
+				display: none;
+				z-index: 10000;
+			}
+			/*.popUp-container{
+				width: 70%;
+				display: inline-block;
+				background-color: white;
+				border-radius: 5px;
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				display: table;
+			}*/
+			.popUp-container {
+			    width: 70%;
+			    display: inline-block;
+			    /*background-color: white;*/
+			    border-radius: 5px;
+			    position: fixed;
+			    left: 50%;
+			    top: 50%;
+			    margin-left: -35%;
+			    margin-top: -50%;
+			    display: table;
+			}
+
+
+			.popUp-container img{
+				width: 70%;
+    			margin-left: 15%;
+			}
+			.popUp-container p{
+				padding: 2% 5%;
+				text-align: center;
+				/*color: #F08200;*/
+			}
+			/*.popUp-container span{
+				padding: 10px;
+			}*/
+			.popUp-container span {
+			    padding:0 10px;
+			    /*width: 30%;*/
+			    display: inline-block;
+			}
+
+			.empty{
+				width: 100%;
+				height: 65px;
+			}
+			.swiper-container {
+				margin-top: 10px;
+				margin-bottom: 10px;
+		        width: 100%;
+		        height: 50px;
+		        position: relative;
+		    }
+		    .swiper-wrapper{
+                width: 100%;
+                height: 50px;
+		    }
+		    .swiper-slide {
+		        text-align: center;
+		        font-size: 14px;
+		        /*background: #E8E8E8;*/
+		        /* Center slide text vertically */
+		        display: -webkit-box;
+		        display: -ms-flexbox;
+		        display: -webkit-flex;
+		        display: flex;
+		        -webkit-box-pack: center;
+		        -ms-flex-pack: center;
+		        -webkit-justify-content: center;
+		        justify-content: center;
+		        -webkit-box-align: center;
+		        -ms-flex-align: center;
+		        -webkit-align-items: center;
+		        align-items: center;
+		        border-radius: 5px;
+		    }
+		    #swiper-button-next,#swiper-button-prev{
+		    	background: none;
+		    	font-size: 30px;
+		        line-height: 40px;
+		        position: absolute;
+		    }
+		    #swiper-button-next{
+		    	right: -3.5%;
+		    }
+		    #swiper-button-prev{
+		    	left: 0;
+		    }
+
+
+		    .point-container .point-word {
+			    /* padding: 2%; */
+			    height: 50%;
+			    /* overflow-y: scroll; */
+			    margin-left: 5%;
+			    margin-right: 5%;
+			    width: 90%;
+			    text-align: center;
+		    }
+
+		.login-background {
+		    z-index: 100;
+}
+		.common-login {
+    			position: fixed;
+}
+
+		  @media only screen and (min-width: 479px){
+		  	.common-login {
+    			position: fixed;
+    			top: 11%;
+   				left: 6%;
+			    right: 6%;
+			    height: 252px;
+			    /*background: white;*/
+			    z-index: 1000000000;
+			    /*border: 2px solid #F4A445;*/
+			    border-radius: 3px;
+		  }
+
+}
+		    .active-over span{
+	    	    /*color: white;*/
+			    position: absolute;
+			    line-height: 80px;
+			    right: -3%;
+			    font-size: 12px;
+			    width: 53%;
+			    text-align: center;
+		    }
+		    .record-note{
+		    	font-size: 14px;
+		    }
+		    @keyframes hourglass-spin {
+				0% { transform: rotate(180deg) scale(0.4); }
+				10% { transform: rotate(360deg) scale(0.4); }
+				50% { transform: rotate(360deg) scale(0.4); }
+				60% { transform: rotate(540deg) scale(0.4); }
+				100% { transform: rotate(540deg) scale(0.4) }
+			}
+			@keyframes hourglass-sand {
+				0% { background-position: 0 25px; }
+				50% { background-position: 0 0; }
+				100% { background-position: 0 -25px; }
+			}
+			@keyframes hourglass-stream {
+				0% { top: 29px; opacity: 0; }
+				10% { opacity: 1; }
+				49.9% { top: 29px; opacity: 1; }
+				50% { top: 2px; opacity: 0;}
+				60% { opacity: 1;}
+				100% { top: 2px; opacity: 1; }
+			}
+
+			/* WebKit */
+
+			@-webkit-keyframes hourglass-spin {
+				0% { -webkit-transform: rotate(180deg) scale(0.4); }
+				10% { -webkit-transform: rotate(360deg) scale(0.4); }
+				50% { -webkit-transform: rotate(360deg) scale(0.4); }
+				60% { -webkit-transform: rotate(540deg) scale(0.4); }
+				100% { -webkit-transform: rotate(540deg) scale(0.4); }
+			}
+			@-webkit-keyframes hourglass-sand {
+				0% { background-position: 0 25px; }
+				50% { background-position: 0 0; }
+				100% { background-position: 0 -25px; }
+			}
+			@-webkit-keyframes hourglass-stream {
+				0% { top: 29px; opacity: 0; }
+				10% { opacity: 1; }
+				49.9% { top: 29px; opacity: 1; }
+				50% { top: 2px; opacity: 0;}
+				60% { opacity: 1;}
+				100% { top: 2px; opacity: 1; }
+			}
+
+			/* All other browsers */
+
+			.hourglass {
+				position: absolute;
+				width: 28px;
+				height: 56px;
+				animation: hourglass-spin 8s ease-in-out 0s infinite;
+				-webkit-animation: hourglass-spin 8s ease-in-out 0s infinite;
+				display: inline-block;
+				right: 140px;
+				top: 17px;
+			}
+
+			.hourglass::before, .hourglass::after {
+				position: absolute;
+				content: '';
+				left: 0;
+				bottom: 0;
+				width: 24px;
+				height: 25px;
+				/*background: #595757;
+				border: 2px solid #595757;*/
+				border-top-left-radius: 15px 25px;
+				border-top-right-radius: 15px 25px;
+				-webkit-box-sizing: content-box;
+			    -moz-box-sizing: content-box;
+			    box-sizing: content-box;
+			}
+
+			.hourglass::before {
+				top: 0;
+				transform: rotate(180deg);
+				-webkit-transform: rotate(180deg);
+			}
+
+			.hourglass .hourglass-stand::after, .hourglass .hourglass-stand::before {
+				position: absolute;
+				content: '';
+				z-index: 3;
+				left: -4px;
+				bottom: 0;
+				width: 36px;
+				height: 2px;
+				/*background: #595757;*/
+			}
+
+			.hourglass .hourglass-stand::before {
+				top: 0;
+			}
+
+			.hourglass .hourglass-sand::before, .hourglass .hourglass-sand::after {
+				position: absolute;
+				content: '';
+				z-index: 2;
+				left: 2px;
+				bottom: 2px;
+				width: 24px;
+				height: 25px;
+				/*background: linear-gradient(#f08200 0%,#f08200 50%,#fff 50%,#ddd 100%);*/
+				background-size: 30px 50px;
+				border-top-left-radius: 13px 23px;
+				border-top-right-radius: 13px 23px;
+				animation: hourglass-sand 8s ease-in-out 0s infinite;
+				-webkit-animation: hourglass-sand 8s ease-in-out 0s infinite;
+			}
+
+			.hourglass .hourglass-sand::before {
+				top: 2px;
+				transform: rotate(180deg);
+				animation-delay: -4s;
+				-webkit-transform: rotate(180deg);
+				-webkit-animation-delay: -4s;
+			}
+
+			.hourglass .hourglass-stream {
+				position: absolute;
+				z-index: 2;
+				left: 13px;
+				width: 2px;
+				height: 25px;
+				opacity: 0;
+				/*background: #F08200;*/
+				animation: hourglass-stream 8s linear 0.6s infinite;
+				-webkit-animation: hourglass-stream 8s linear 0.6s infinite;
+			}
+			.active-begin .active-begin-p{
+				position: absolute;
+				left: 5%;
+				/*line-height: 60px;*/
+				text-align: left;
+				/*color: #595757;*/
+				width: 48%;
+				top: 12px;
+				/*font-size: 16px;*/
+			}
+			#role-three{
+				width: 100%;
+				/*font-size: 12px;*/
+				position: relative;
+				height: 100px;
+				margin-bottom: 15px;
+			}
+			.role-three-main{
+				width: 100%;
+				font-size: 12px;
+				position: relative;
+			}
+			.role-three-main-left{
+				width: 54%;
+				position: absolute;
+				text-align: center;
+			}
+			.role-three-main-left .role-three-main-left-top{
+				font-size: 12px;
+				/*padding-bottom: 10px;*/
+				/*border-bottom: 1px solid #595757;*/
+			}
+			.role-three-main-left .role-three-main-left-bottom{
+				font-size: 12px;
+			}
+			.role-three-main-left p{
+				margin: 0;
+			}
+			.role-three-main-right{
+				width: 40%;
+				position: absolute;
+				right: 10px;
+				top: 16px;
+				text-align: center;
+			}
+			/*@media only screen and (min-width: 400px) and (max-width: 640px) {
+				.role-three-main{
+					width: 94%;
+					position: absolute;
+					font-size: 12px;
+					top: 282px;
+				}
+			}*/
+			#role-three span{
+				padding-left: 15px;
+				font-size: 12px;
+			}
+			#oneCoin-tele{
+			    font-size: 14px;
+			    /*color: #595757;*/
+			    text-align: center;
+			    width: 100%;
+			    margin-top: 10px;
+			}
+			#oneCoin-tele span{
+				/*color: #F08200;*/
+			}
+		</style>
+
+	</head>
+	<body class="onecoin-body">
+		<div class="containBox">
+			<div id="carousel-example-generic" class="carousel slide banner" data-ride="carousel">
+			    <ol class="carousel-indicators">
+			        <!--<volist name="banner" id="data" key="k">-->
+			            <!--<if condition="($k eq 1)">-->
+			            	<php>if(count($productInfo)==2){</php>
+			            	 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+			            	<li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+			            	<php>}</php>
+
+			                <!--<else/>-->
+			            <!--</if>-->
+			        <!--</volist>-->
+			    </ol>
+			    <!-- Wrapper for slides -->
+			    <div class="carousel-inner" role="listbox">
+			        <volist name="productInfo" id="v" key="k">
+			                <php>if($k==1){</php>
+			                <div class="item active">
+						    	<img src="{$v['home_picture']}" alt="" class="banner-img"/>
+			                    <!--<div class="carousel-caption">{$data.title}</div>-->
+			                </div>
+			                <php>}else{</php>
+			                <div class="item ">
+						    	<img src="{$v['home_picture']}" alt="" class="banner-img"/>
+			                    <!--<div class="carousel-caption">{$data.title}</div>-->
+			                </div>
+			                <php>}</php>
+			        </volist>
+			    </div>
+
+				<!--<img src="__Home_IMG__/onecoin/logo_white.png" alt=""  class="banner-logo"/>-->
+			</div>
+			<div class="onecoin-nav">
+				<div class="count-time active-begin" style="<?php if($end[0]==-1){echo "display:none";}?>">
+					<p class="active-begin-p">{$productInfo[0]['name']}</p>
+					<div class="hourglass">
+						<div class="hourglass-stand"></div>
+						<div class="hourglass-sand"></div>
+						<div class="hourglass-stream"></div>
+					</div>
+					<span id="countDown">揭晓倒计时</span>
+					<p><strong id="hour_show">0</strong><span>:</span><strong id="minute_show">0</strong><span>:</span><strong id="second_show">0</strong></p>
+				</div>
+				<div class="active-over" style="<?php if($end[0]==-1){echo "display:block";}?>">
+					<p class="active-begin-p">{$productInfo[0]['name']}</p>
+					<img src="__Home_IMG__/onecoin/memo.png" alt="" />
+					<div class="winNum">中奖号码:{$result['no']}</div>
+					<span class='winTel'>手机号:{$result['tel']}</span>
+				</div>
+			</div>
+			<div class="active-role">
+				<img src="__Home_IMG__/onecoin/memo.png" alt="" />
+				<div class="role-elaborate">活动规则</div>
+				<div class="active-role-container">
+					<div class="active-role-more">
+						<p class="role-one">
+							只需花一元钱购买优惠券，就能参与抽奖活动，神秘大奖随时从你的手机短信里蹦出来！人人不落空！一元购！Go! Go! Go!
+						</p>
+						<p class="role-two">
+							参与方式：<br />用一元购买优惠券后，即获得一次抽奖机会。 依照参与顺序，获得一个幸运号码；每人可多次参与，总共有{$productInfo[0]['total']}次参与机会；手慢无！
+						</p>
+						<div id="role-three">
+							<span>抽奖方式：</span><br />
+							<div class="role-three-main">
+								<div class="role-three-main-left">
+									<p class="role-three-main-left-top">所有手机号后5位之和</p>
+									<p class="role-three-main-left-bottom">总参与机会： {$productInfo[0]['total']}次</p>
+								</div>
+								<div class="role-three-main-right">
+									 + 10001 = 中奖号码
+								</div>
+							</div>
+						</div>
+						<p class="role-four">
+							领奖方式：<br />
+							中奖用户将收到乐天邦的短信通知，也可自行登录网站查询中奖幸运号码。
+						</p>
+						<a href="javascript:void(0)">
+							<i class="fa fa-chevron-up"></i>
+						</a>
+					</div>
+					<div class="active-role-less">
+						<p class="role-one">
+							仅需一元参与抽奖活动，大礼就会从你的手机短信里蹦出来！心动大礼，一元够吗？一元购！Go! Go! Go!
+						</p>
+						<a href="javascript:void(0)">
+							<i class="fa fa-chevron-down"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="record">
+				<div class="record-self">
+					<img src="__Home_IMG__/onecoin/memo.png" alt="" />
+					<div class="self-elaborate">
+						我的记录
+					</div>
+					<!--我的参与手机号-->
+					<div id="oneCoin-tele">手机：<span id="tele-change">15651833053，修改</span></div>
+					<p>
+						购买了<span>{$selfList|count=###}</span>份
+					</p>
+					<hr />
+					<p class="luckyNum">
+
+						<a href="javascript:void(0)" onclick='luckyNum(this)' class="onecoin-a">幸运号码</a>
+						<i style="display:none">
+                          <php>if(empty($selfList)){</php>
+                          <span>您还没有参加活动！</span>
+                          <php>}else{</php>
+                           <volist name='selfList' id='v'>
+									<span>{$v['joinno']}</span>
+						   </volist>
+                          <php>}</php>
+						</i>
+					</p>
+				</div>
+				<div class="record-active">
+					<img src="__Home_IMG__/onecoin/memo.png" alt=""/>
+					<div class="active-elaborate">
+						参与记录
+					</div>
+					<div class="record-note">
+						<volist name='otherList' id='v'>
+							<div>
+								<p>{$v['tel']}</p>
+								<p>
+									购买了<span>{$v['num']}</span>份
+								</p>
+								<hr />
+								<p class="luckyNum">
+									<a href="javascript:void(0)" onclick='luckyNum(this)' class="onecoin-a">幸运号码</a>
+									<i style="display:none">
+			                           <volist name='v.joinnolist' id='vv'>
+											<span>{$vv}</span>
+										</volist>
+									</i>
+								</p>
+							</div>
+						</volist>
+						<!-- <div>
+							<p>***16133***</p>
+							<p>
+								购买了<span>1</span>份
+							</p>
+							<hr />
+							<p class="luckyNum">
+								<a href="javascript:void(0)">幸运号码</a>
+							</p>
+						</div>
+						<div>
+							<p>***16133***</p>
+							<p>
+								购买了<span>1</span>份
+							</p>
+							<hr />
+							<p class="luckyNum">
+								<a href="javascript:void(0)">幸运号码</a>
+							</p>
+						</div>
+						<div>
+							<p>***16133***</p>
+							<p>
+								购买了<span>1</span>份
+							</p>
+							<hr />
+							<p class="luckyNum">
+								<a href="javascript:void(0)">幸运号码</a>
+							</p>
+						</div>
+						<div>
+							<p>***16133***</p>
+							<p>
+								购买了<span>1</span>份
+							</p>
+							<hr />
+							<p class="luckyNum">
+								<a href="javascript:void(0)">幸运号码</a>
+							</p>
+						</div> -->
+					</div>
+					<div class="changeSet">
+						换一组查看
+					</div>
+				</div>
+			</div>
+
+			<div class="buy-list">
+				<div class="partake">
+					<span class="partake-num">数量</span>
+					<span class="partake-count">
+						<span class="partake-count-reduce">-</span>
+						<span class="partake-count-num">1</span>
+						<span class="partake-count-add">+</span>
+					</span>
+				</div>
+				<a href="javascript:void(0)">
+					<div class="buy-now" onclick="buy()">
+						立刻购买
+					</div>
+				</a>
+
+			</div>
+			<p class="previous">查看往期</p>
+		</div>
+		<div class="swiper-container">
+	        <div class="swiper-wrapper">
+	        	<volist name="stageList" id='v'>
+	        		<div class="swiper-slide"><a href="{:U('OneCoin/index',array('id'=>$v['stage']))}" class="onecoin-a">第{$key+1}期</a></div>
+	        	</volist>
+
+	        </div>
+	        <div class="swiper-button-next" id="swiper-button-next"><i class="fa fa-chevron-right"></i></div>
+        	<div class="swiper-button-prev" id="swiper-button-prev"><i class="fa fa-chevron-left"></i></div>
+		</div>
+		<div class="empty"></div>
+		<div class="popUp">
+			<div class="popUp-container">
+				<img src="__Home_IMG__/onecoin/head.png" alt="" />
+				<p id="no">
+
+				</p>
+			</div>
+		</div>
+	</body>
+	<script src="__Home_JS_STATIC__/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__Home_JS_STATIC__/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__Home_Bootstrap__/js/bootstrap.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function (){
+			//倒计时
+		    function getTime(){
+				var spring = new Date({$end[0]},{$end[1]},{$end[2]},{$end[3]},{$end[4]});
+				var nowDate = new Date();
+
+				var s = (spring.getTime()-nowDate.getTime())/1000;
+				s = parseInt(s);
+				var d = parseInt(s/86400);
+
+				s%=86400;//s = s%86400
+				var h = parseInt(s/3600);
+		//		alert(h);
+				s%=3600;
+				var m = parseInt(s/60);
+		//		alert(m);
+				s%=60;
+		//		alert(s);
+				var timeOver = document.querySelector(".time-item");
+
+				 if (m <= 9 && m>=0) m = '0' + m;
+				 if (s <= 9 && s>=0) s = '0' + s;
+				 if (h <= 9 && h>=0) h = '0' + h;
+//				 if (d <= 9 && d>=0) d = '0' + d;
+				 if (m <0) m = '00';
+				 if (s <0) s = '00';
+				 if (h <0) h = '00';
+//				 if (d <0) d = '00';
+				// timeOver.innerHTML = d+"天"+h+"小时"+m+"分钟"+s+"秒";
+
+//				var day = document.querySelector("#day_show");
+				var hour = document.querySelector("#hour_show");
+				var minute = document.querySelector("#minute_show");
+				var second = document.querySelector("#second_show");
+//				day.innerHTML = d+"天";
+				hour.innerHTML = h;
+				minute.innerHTML = m;
+				second.innerHTML = s;
+			}
+			if({$end[0]}!=-1){
+			getTime();
+			var timer = setInterval(function (){
+				getTime();
+				if (($("#hour_show").html()=="00") && ($("#minute_show").html()=="00" && ($("#second_show").html()=="00"))){
+					clearInterval(timer);
+					var productid = "{$productid}"
+					$.ajax({
+
+						url:"{:U('OneCoinResult/index')}",
+						data :{dosubmit:'dosubmit',productid:productid},
+						success:function(data){
+
+
+							$(".winNum").html(data.info[productid]['no'])
+							$(".winTel").html(data.info[productid]['tel'])
+							$(".active-begin").hide();
+					        $(".active-over").show();
+					// 		var timer1 = setTimeout(function(){
+					// 			$(".active-end").hide();
+					// 	$(".active-after").show(1000);
+					// },2000);
+						}
+					})
+					// $(".active-begin").hide();
+					// $(".active-over").show();
+			    }
+			},1000);
+			}
+
+
+
+			$(".active-role-less a").click(function (){
+				$(".active-role-less").slideUp();
+				$(".active-role-more").slideDown();
+				$(".fa-chevron-down").hide();
+				$(".fa-chevron-up").show();
+			});
+			$(".active-role-more a").click(function (){
+				$(".active-role-more").slideUp();
+				$(".active-role-less").slideDown();
+				$(".fa-chevron-up").hide();
+				$(".fa-chevron-down").show();
+			});
+			//购买份数控制（加减）
+			 $('.partake-count-reduce').click(function(){
+		        var numOBJ = parseInt($('.partake-count-num').html());
+		        if(numOBJ == 1){
+		            $('.partake-count-num').html(1);
+		        }else{
+		            numOBJ = numOBJ -1;
+		            $('.partake-count-num').html(numOBJ);
+		        }
+		    });
+		    $('.partake-count-add').click(function(){
+		        var numOBJ = parseInt($('.partake-count-num').html());
+		        numOBJ= numOBJ + 1;
+		        $('.partake-count-num').html(numOBJ);
+		    });
+		    $(".popUp").click(function (){
+		    	$(".popUp").hide();
+		    });
+		    var popUp = document.querySelector(".popUp");
+		    popUp.addEventListener("touchmove",function (e){
+		    	e.preventDefault();
+		    });
+		    // $(".buy-now").click(function (){
+		    // 	alert("立刻购买");
+		    // });
+
+		    // $(".luckyNum").click(function (){
+		    // 	console.log($(".luckyNum").children('p').html())
+		    // 	$("#no").html($(".luckyNum").children('p').html())
+		    // 	$(".popUp").show();
+		    // });
+
+
+		     var swiper = new Swiper('.swiper-container', {
+		        pagination: '.swiper-pagination',
+		        slidesPerView: 3,
+		        paginationClickable: true,
+		        spaceBetween: 30,
+		        nextButton: '.swiper-button-next',
+       	 		prevButton: '.swiper-button-prev',
+       	 		initialSlide:"{$initialSlide}",
+		    });
+
+
+
+		     //换一组查看参与记录
+	    	var start =10;
+	    	var stage ="{$stage}";
+	    	var click =true ;
+	    	var product_id ={$productInfo[0]['id']};
+	    		$(".changeSet").click(function (){
+	    		//参考首页换一组，每组5个
+	    		if(click){
+
+	    			var url="{:U('OneCoin/get_more')}";
+	    			click = false
+
+		    		$.ajax({
+
+		    			url:url,
+		    			data:{start:start,dosubmit:'dosubmit',product_id:product_id,stage:stage},
+		    			type:'post',
+		    			success:function(data){
+
+		    				if(data['status']==1){
+
+		    					start = start +10;
+		    					var str =""
+		    					$.each(data['list'],function(index,v){
+
+		    						str +='<div><p>'+v['tel']+'</p>'
+		    						str +='<p>购买了'
+		    						str +='<span>'+v['num']+'<span>份</p><hr/>'
+		    						str +='<p class="luckyNum"><a href="javascript:void(0)" onclick="luckyNum(this)" class="onecoin-a">幸运号码</a>'
+		    						str +='<i style="display:none">'
+		    						$.each(v['joinnolist'],function(index,v){
+
+		    							str += '<span>'+v+'</span>'
+		    						})
+		    						str +='</i></p></div>'
+		    					})
+
+		    					$(".record-note").html(str)
+		    				}else{
+
+		    					showMsg('没有更多参与记录');
+		    				}
+
+		    				click = true
+		    			}
+		    		})
+		    	   }
+		    	    });
+		});
+
+       //展示中奖记录
+		function luckyNum(s){
+
+		    	$("#no").html($(s).next().html());
+		    	$(".popUp").show();
+		    }
+
+		 //购买
+		function buy(){
+
+             if({$end[0]}==-1){
+
+             	showMsg('本期活动已结束');
+             	return false
+             }
+        	 var price ={$productInfo[0]['price']};
+			 var product_id ={$productInfo[0]['id']};
+			 var type_id ={$productInfo[0]['type_id']};
+			 var platform_id ={$platform_id};
+			 var url="{:U('Home/Member/doOrder')}";
+	         var quality=$(".partake-count-num").html();
+	         var pay_price=quality*price;
+	         var data={product_id: product_id, platform_id: platform_id, quality: quality, pay_price: pay_price,type_id:type_id};
+	         $.post(url, data, function (jsonData) {
+
+	                if (jsonData.state==2) {
+	                    var url=("{:U('/Home/Order/pay',array('id'=>'suffix_id'))}");
+	                        window.location=url.replace(/suffix_id/g, jsonData.order_id);
+
+	                } else if (jsonData.state==-1) {
+	                	//alert(1)
+	                    //$("#login-dropdown").dropdown('toggle');
+	                    // window.location="{:U('User/login')}"
+	                   $('.login-contain').show();
+
+	                    // $("#container-content").hide();
+
+	                } else {
+	                   showMsg(jsonData.msg);
+	                }
+	            }, "json");
+        }
+
+
+		//轮播图bootstrap
+		    $('.carousel').carousel({
+		         interval: 2000,
+		         wrap:true
+		      });
+
+//		    if ($("#no").children().length == 1){
+//		    	$(".popUp-container span").css({
+//		    		padding:"0 10px",
+//		    		width:"100%",
+//				    display: "inline-block"
+//		    	});
+//		    }
+
+			//我的记录修改号码
+			$("#tele-change").click(function (){
+				$('.login-contain').show();
+			});
+	</script>
+</html>
+<include FILE="User:login"/>
+<include FILE="Public:footer"/>
