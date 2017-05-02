@@ -108,7 +108,7 @@ class ProductController extends CommonController
         //用户点击该商品则商品当前分类分数+1分
         $category_id = $product_info['category_id'];
         //将用户id 和 分类id 和 对应分数转为json字符串
-        $zwcmopenid = $_SESSION[$this->$platform_code]['zwcmopenid'];
+        $zwcmopenid = $_SESSION[$this->platform_code]['zwcmopenid'];
 
         //记录
         log_user_category_score($this->zwid, $category_id, C('CLICK_ACTION'),$this->redisLog);

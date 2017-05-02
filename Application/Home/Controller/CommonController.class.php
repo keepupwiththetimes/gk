@@ -799,7 +799,7 @@ class CommonController extends Controller
             $t_uid_openid = decrypt(base64_decode($t_uid), $this->platform_config['DES_KEY']);
             if (is_tel($t_uid_openid)) {
                 //$_SESSION[$platform_code]['tel'] = $t_uid_openid;
-                $_SESSION[$platform_code]['app_tel'] = $t_uid_openid;
+                $_SESSION[$this->platform_code]['app_tel'] = $t_uid_openid;
             }
 
             if (empty($t_uid_openid)) {

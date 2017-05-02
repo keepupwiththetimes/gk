@@ -1559,6 +1559,7 @@ class WheelController extends CommonController
         //默认redis库
         $this->redis->databaseSelect();
         if (1 == $ifSignSuccess){
+            dolog('Wheel/cmb_sign', '招行签到', '', json_encode('sign_result:' . $ifSignSuccess), $this->redisLog);
             //第一次
             $this->assign('send_url', $send_url);
             $data = $this->userTitle();
@@ -1635,206 +1636,207 @@ class WheelController extends CommonController
      * ***
      * 招行转盘欢迎页面,签到
      * ****
+     * tip:弃用2017.5.2 by jysdhr
      */
-    public function zhWelcomeOld()
-    {
-        // 重新注册分享配置
-        $share = $this->platform_config['SHARE'];
-        $share['link'] = 'http://oauth.cc.cmbchina.com/OauthPortal/wechat/oauth?oauth_id=75cade02&callback_uri=http%3a%2f%2fm.zwmedia.com.cn%2fwxzspfse%2findex.php%2fHome%2fWheel%2fzhWelcome%2fplatcode%2fZHCJ&scope=snsapi_base';
-        $this->assign('SHARE', $share);
-        $send_url = U('Home/Ajax/cmbSendSignMsg', array(
-            'openid' => $_SESSION['ZHCJ']['ZhcjOpenid']
-        ));
-        $this->assign('send_url', '');
-        $dateStr = date('Ymd');
-        // 签到
-//        $ifSignSuccess = doSign($this->redis, $this->redisLog);
-        $sign_controller = A('Sign');
-        $ifSignSuccess = $sign_controller->doSign($this->redis);
-        $this->assign('ifSignSuccess', $ifSignSuccess);
-        //第一次签到成功才记录
-        if (1 == $ifSignSuccess)
-            dolog('Wheel/cmb_sign', '招行签到', '', json_encode('sign_result:' . $ifSignSuccess), $this->redisLog);
-        //dolog('Wheel/delete', '招行签到2', '', 'url='.$_SERVER['REQUEST_URI']. ' nickname:'. json_encode($_GET['nickname']).' picture:'.$_GET['headimgurl'], $this->redisLog); //COPY
-        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
-        $ptid = intval($this->platform_id);
-        if (online_redis_server == true) {
-            if (empty($this->redis)) {
-                $this->redis = new \Vendor\Redis\DefaultRedis(C('REDIS_HOST_DEFAULT'), C('REDIS_PORT_DEFAULT'), C('REDIS_AUTH_DEFAULT'));
-            }
-            $redis = $this->redis;
-            $redis->databaseSelect();
-        }
-        // 签到成功
-        if ($ifSignSuccess == 1) {
-            $this->assign('send_url', $send_url);
-            $sign_day = D('sign_day');
-            $sign_record = D('sign_record');
-            $title = array(
-                '呆萌葵花籽',
-                '懵懂小嫩芽',
-                '机灵小幼苗',
-                '茁壮大花苗',
-                '可爱花骨朵',
-                '淘气小葵花',
-                '阳光向日葵',
-                '金装葵花油'
-            );
-            // 生成数据
-            $sign_total_map['userid'] = $session['id'];
-            $signtotal = $sign_day->where("userid=%d", $sign_total_map['userid'])
-                ->field('signtotal')
-                ->find(); // 累计天数
-            $data['signtotal'] = $signtotal['signtotal'];
-
-            if ((online_redis_server == true) && (strcasecmp($this->platform_code, 'ZHCJ') == 0)) {
-                
-                $data['usertotal'] = $this->getCmbTotalUserNumber($ptid);
-                
-                $redis->databaseSelect();
-                $cmb_luckydraw_today_user_total = $redis->get('cmb_luckydraw_today_user_total' . '_' . $dateStr);
-                if (! $cmb_luckydraw_today_user_total) { // //缓存中不存在从数据库中读取
-                    
-                    $data['usertoday'] = $this->_userToday($sign_record,$ptid,$dateStr);
-                } else {
-                    $data['usertoday'] = $cmb_luckydraw_today_user_total;
-                }
-            } else { // 没有redis服务器的情况，主要是在本机调试。
-                $data['usertotal'] = $this->getCmbTotalUserNumber($ptid); // 历史总人数
-                $data['usertoday'] = $this->_userToday($sign_record,$ptid,$dateStr);
-            }
-
-            $data['signtime'] = date('H:i'); // 签到时间
-                                             // 设置称号
-            if ($data['signtotal'] < 3)
-                $data['title'] = $title[0];
-            else
-                if ($data['signtotal'] >= 3 && $data['signtotal'] < 6)
-                    $data['title'] = $title[1];
-                else
-                    if ($data['signtotal'] >= 6 && $data['signtotal'] < 10)
-                        $data['title'] = $title[2];
-                    else
-                        if ($data['signtotal'] >= 10 && $data['signtotal'] < 30)
-                            $data['title'] = $title[3];
-                        else
-                            if ($data['signtotal'] >= 30 && $data['signtotal'] < 90)
-                                $data['title'] = $title[4];
-                            else
-                                if ($data['signtotal'] >= 90 && $data['signtotal'] < 180)
-                                    $data['title'] = $title[5];
-                                else
-                                    if ($data['signtotal'] >= 180 && $data['signtotal'] < 360)
-                                        $data['title'] = $title[6];
-                                    else
-                                        if ($data['signtotal'] >= 360)
-                                            $data['title'] = $title[7];
-            if (online_redis_server == true) {
-                $redis->databaseSelect('zwid');
-                $redis_res = $redis->hget('openid_platcode:' . $session['openid'] . '_' . $session['platform_id']);
-                $temp_arr = [
-                    'username' => json_decode(preg_replace("/\\\ue[0-9a-f]{3}/",'\u002a',$redis_res['username'])),
-                    'picture' => $redis_res['picture']
-                ];
-                $data = array_merge($data, $temp_arr);
-                //选为默认
-                $redis->databaseSelect();
-                $redis->hset('zh_welcome_userid:' . $session['id'] . $dateStr, $data);
-                $redis->EXPIRE('zh_welcome_userid:' . $session['id'] . $dateStr, 3600 * 24); // 设置24小时后过期
-            }
-            //dolog('Wheel/delete', '招行签到第一次签到2', '', 'nickname:'.$data['username'].' picture:'.$data['picture'], $this->redisLog); //COPY
-            $this->assign('data', $data);
-            $this->display('zhWelcome');
-        }  // 今日已签到
-else if ($ifSignSuccess == - 1) {
-                if (online_redis_server == true) {
-                    $data = $redis->hget('zh_welcome_userid:' . $session['id'] . $dateStr);
-                    if ($data) { // 若redis存在数据
-                        $data['usertotal'] = $this->getCmbTotalUserNumber($ptid);
-                        //dolog('Wheel/delete', '招行签到已签到(redis)2', '', 'nickname:'. json_encode($data['username']).' picture:'.$data['picture'], $this->redisLog);  //COPY
-                        $this->assign('data', $data);
-                        $this->display('zhWelcome');
-                    } else { // 签到过,但redis中没数据
-                        $sign_day = D('sign_day');
-                        $sign_record = D('sign_record');
-                        $title = array(
-                            '呆萌葵花籽',
-                            '懵懂小嫩芽',
-                            '机灵小幼苗',
-                            '茁壮大花苗',
-                            '可爱花骨朵', // ' 可爱花骨朵',
-                            '淘气小葵花', // ' 淘气小葵花',
-                            '阳光向日葵',
-                            '金装葵花油'
-                        ) // ' 金装葵花油'
-;
-                        // 生成数据
-                        $signtotal = $sign_day->where("userid=%d", $session['id'])
-                            ->field('signtotal ')
-                            ->find(); // 累计天数
-                        $data['signtotal'] = $signtotal['signtotal'];
-                        $data['usertotal'] = $this->getCmbTotalUserNumber($ptid);
-                        //计算今日第几个签到
-                        $data['usertoday'] = $this->_userToday($sign_record,$ptid,$dateStr);
-
-                        $sign_time = $sign_record->field('signtime')
-                            ->where("userid=%d and signtime like '%s'", array(
-                            $session['id'],
-                            date('Y-m-d') . '%'
-                        ))
-                            ->find();
-                        $data['signtime'] = date('H:i', strtotime($sign_time['signtime'])); // 签到时间
-
-                        if ($data['signtotal'] < 3)
-                            $data['title'] = $title[0];
-                        else
-                            if ($data['signtotal'] >= 3 && $data['signtotal'] < 7)
-                                $data['title'] = $title[1];
-                            else
-                                if ($data['signtotal'] >= 7 && $data['signtotal'] < 10)
-                                    $data['title'] = $title[2];
-                                else
-                                    if ($data['signtotal'] >= 10 && $data['signtotal'] < 30)
-                                        $data['title'] = $title[3];
-                                    else
-                                        if ($data['signtotal'] >= 30 && $data['signtotal'] < 90)
-                                            $data['title'] = $title[4];
-                                        else
-                                            if ($data['signtotal'] >= 90 && $data['signtotal'] < 180)
-                                                $data['title'] = $title[5];
-                                            else
-                                                if ($data['signtotal'] >= 180 && $data['signtotal'] < 360)
-                                                    $data['title'] = $title[6];
-                                                else
-                                                    if ($data['signtotal'] >= 360)
-                                                        $data['title'] = $title[7];
-                            // 从数据库中查找头像和昵称
-                        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
-                        $pt_user = M('pt_user');
-                        $res = $pt_user->where("openid='%s' AND ptid=%d ", array(
-                            $session['openid'],
-                            $session['platform_id']
-                        ))
-                            ->field('username,picture')
-                            ->find();
-                        $temp_arr = [
-                            'username' => json_decode(preg_replace("/\\\ue[0-9a-f]{3}/",'\u002a',$res['username'])),
-                            'picture' => $res['picture']
-                        ];
-                        $data = array_merge($data, $temp_arr);
-                        $redis->hset('zh_welcome_userid:' . $session['id'] . $dateStr, $data);
-                        $redis->EXPIRE('zh_welcome_userid:' . $session['id'] . $dateStr, 3600 * 24); // 设置24小时后过期
-                        //dolog('Wheel/delete', '招行签到已签到(数据库)2', '', 'nickname:'. json_encode($data['username']).' picture:'.$data['picture'], $this->redisLog);  //COPY
-                        $this->assign('data', $data);
-                        $this->display('zhWelcome');
-                    }
-                }
-            }  // 签到失败
-else
-                if ($ifSignSuccess == 0) {
-                    redirect('Wheel/index');
-                }
-    }
+//    public function zhWelcomeOld()
+//    {
+//        // 重新注册分享配置
+//        $share = $this->platform_config['SHARE'];
+//        $share['link'] = 'http://oauth.cc.cmbchina.com/OauthPortal/wechat/oauth?oauth_id=75cade02&callback_uri=http%3a%2f%2fm.zwmedia.com.cn%2fwxzspfse%2findex.php%2fHome%2fWheel%2fzhWelcome%2fplatcode%2fZHCJ&scope=snsapi_base';
+//        $this->assign('SHARE', $share);
+//        $send_url = U('Home/Ajax/cmbSendSignMsg', array(
+//            'openid' => $_SESSION['ZHCJ']['ZhcjOpenid']
+//        ));
+//        $this->assign('send_url', '');
+//        $dateStr = date('Ymd');
+//        // 签到
+////        $ifSignSuccess = doSign($this->redis, $this->redisLog);
+//        $sign_controller = A('Sign');
+//        $ifSignSuccess = $sign_controller->doSign($this->redis);
+//        $this->assign('ifSignSuccess', $ifSignSuccess);
+//        //第一次签到成功才记录
+//        if (1 == $ifSignSuccess)
+//            dolog('Wheel/cmb_sign', '招行签到', '', json_encode('sign_result:' . $ifSignSuccess), $this->redisLog);
+//        //dolog('Wheel/delete', '招行签到2', '', 'url='.$_SERVER['REQUEST_URI']. ' nickname:'. json_encode($_GET['nickname']).' picture:'.$_GET['headimgurl'], $this->redisLog); //COPY
+//        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+//        $ptid = intval($this->platform_id);
+//        if (online_redis_server == true) {
+//            if (empty($this->redis)) {
+//                $this->redis = new \Vendor\Redis\DefaultRedis(C('REDIS_HOST_DEFAULT'), C('REDIS_PORT_DEFAULT'), C('REDIS_AUTH_DEFAULT'));
+//            }
+//            $redis = $this->redis;
+//            $redis->databaseSelect();
+//        }
+//        // 签到成功
+//        if ($ifSignSuccess == 1) {
+//            $this->assign('send_url', $send_url);
+//            $sign_day = D('sign_day');
+//            $sign_record = D('sign_record');
+//            $title = array(
+//                '呆萌葵花籽',
+//                '懵懂小嫩芽',
+//                '机灵小幼苗',
+//                '茁壮大花苗',
+//                '可爱花骨朵',
+//                '淘气小葵花',
+//                '阳光向日葵',
+//                '金装葵花油'
+//            );
+//            // 生成数据
+//            $sign_total_map['userid'] = $session['id'];
+//            $signtotal = $sign_day->where("userid=%d", $sign_total_map['userid'])
+//                ->field('signtotal')
+//                ->find(); // 累计天数
+//            $data['signtotal'] = $signtotal['signtotal'];
+//
+//            if ((online_redis_server == true) && (strcasecmp($this->platform_code, 'ZHCJ') == 0)) {
+//
+//                $data['usertotal'] = $this->getCmbTotalUserNumber($ptid);
+//
+//                $redis->databaseSelect();
+//                $cmb_luckydraw_today_user_total = $redis->get('cmb_luckydraw_today_user_total' . '_' . $dateStr);
+//                if (! $cmb_luckydraw_today_user_total) { // //缓存中不存在从数据库中读取
+//
+//                    $data['usertoday'] = $this->_userToday($sign_record,$ptid,$dateStr);
+//                } else {
+//                    $data['usertoday'] = $cmb_luckydraw_today_user_total;
+//                }
+//            } else { // 没有redis服务器的情况，主要是在本机调试。
+//                $data['usertotal'] = $this->getCmbTotalUserNumber($ptid); // 历史总人数
+//                $data['usertoday'] = $this->_userToday($sign_record,$ptid,$dateStr);
+//            }
+//
+//            $data['signtime'] = date('H:i'); // 签到时间
+//                                             // 设置称号
+//            if ($data['signtotal'] < 3)
+//                $data['title'] = $title[0];
+//            else
+//                if ($data['signtotal'] >= 3 && $data['signtotal'] < 6)
+//                    $data['title'] = $title[1];
+//                else
+//                    if ($data['signtotal'] >= 6 && $data['signtotal'] < 10)
+//                        $data['title'] = $title[2];
+//                    else
+//                        if ($data['signtotal'] >= 10 && $data['signtotal'] < 30)
+//                            $data['title'] = $title[3];
+//                        else
+//                            if ($data['signtotal'] >= 30 && $data['signtotal'] < 90)
+//                                $data['title'] = $title[4];
+//                            else
+//                                if ($data['signtotal'] >= 90 && $data['signtotal'] < 180)
+//                                    $data['title'] = $title[5];
+//                                else
+//                                    if ($data['signtotal'] >= 180 && $data['signtotal'] < 360)
+//                                        $data['title'] = $title[6];
+//                                    else
+//                                        if ($data['signtotal'] >= 360)
+//                                            $data['title'] = $title[7];
+//            if (online_redis_server == true) {
+//                $redis->databaseSelect('zwid');
+//                $redis_res = $redis->hget('openid_platcode:' . $session['openid'] . '_' . $session['platform_id']);
+//                $temp_arr = [
+//                    'username' => json_decode(preg_replace("/\\\ue[0-9a-f]{3}/",'\u002a',$redis_res['username'])),
+//                    'picture' => $redis_res['picture']
+//                ];
+//                $data = array_merge($data, $temp_arr);
+//                //选为默认
+//                $redis->databaseSelect();
+//                $redis->hset('zh_welcome_userid:' . $session['id'] . $dateStr, $data);
+//                $redis->EXPIRE('zh_welcome_userid:' . $session['id'] . $dateStr, 3600 * 24); // 设置24小时后过期
+//            }
+//            //dolog('Wheel/delete', '招行签到第一次签到2', '', 'nickname:'.$data['username'].' picture:'.$data['picture'], $this->redisLog); //COPY
+//            $this->assign('data', $data);
+//            $this->display('zhWelcome');
+//        }  // 今日已签到
+//else if ($ifSignSuccess == - 1) {
+//                if (online_redis_server == true) {
+//                    $data = $redis->hget('zh_welcome_userid:' . $session['id'] . $dateStr);
+//                    if ($data) { // 若redis存在数据
+//                        $data['usertotal'] = $this->getCmbTotalUserNumber($ptid);
+//                        //dolog('Wheel/delete', '招行签到已签到(redis)2', '', 'nickname:'. json_encode($data['username']).' picture:'.$data['picture'], $this->redisLog);  //COPY
+//                        $this->assign('data', $data);
+//                        $this->display('zhWelcome');
+//                    } else { // 签到过,但redis中没数据
+//                        $sign_day = D('sign_day');
+//                        $sign_record = D('sign_record');
+//                        $title = array(
+//                            '呆萌葵花籽',
+//                            '懵懂小嫩芽',
+//                            '机灵小幼苗',
+//                            '茁壮大花苗',
+//                            '可爱花骨朵', // ' 可爱花骨朵',
+//                            '淘气小葵花', // ' 淘气小葵花',
+//                            '阳光向日葵',
+//                            '金装葵花油'
+//                        ) // ' 金装葵花油'
+//;
+//                        // 生成数据
+//                        $signtotal = $sign_day->where("userid=%d", $session['id'])
+//                            ->field('signtotal ')
+//                            ->find(); // 累计天数
+//                        $data['signtotal'] = $signtotal['signtotal'];
+//                        $data['usertotal'] = $this->getCmbTotalUserNumber($ptid);
+//                        //计算今日第几个签到
+//                        $data['usertoday'] = $this->_userToday($sign_record,$ptid,$dateStr);
+//
+//                        $sign_time = $sign_record->field('signtime')
+//                            ->where("userid=%d and signtime like '%s'", array(
+//                            $session['id'],
+//                            date('Y-m-d') . '%'
+//                        ))
+//                            ->find();
+//                        $data['signtime'] = date('H:i', strtotime($sign_time['signtime'])); // 签到时间
+//
+//                        if ($data['signtotal'] < 3)
+//                            $data['title'] = $title[0];
+//                        else
+//                            if ($data['signtotal'] >= 3 && $data['signtotal'] < 7)
+//                                $data['title'] = $title[1];
+//                            else
+//                                if ($data['signtotal'] >= 7 && $data['signtotal'] < 10)
+//                                    $data['title'] = $title[2];
+//                                else
+//                                    if ($data['signtotal'] >= 10 && $data['signtotal'] < 30)
+//                                        $data['title'] = $title[3];
+//                                    else
+//                                        if ($data['signtotal'] >= 30 && $data['signtotal'] < 90)
+//                                            $data['title'] = $title[4];
+//                                        else
+//                                            if ($data['signtotal'] >= 90 && $data['signtotal'] < 180)
+//                                                $data['title'] = $title[5];
+//                                            else
+//                                                if ($data['signtotal'] >= 180 && $data['signtotal'] < 360)
+//                                                    $data['title'] = $title[6];
+//                                                else
+//                                                    if ($data['signtotal'] >= 360)
+//                                                        $data['title'] = $title[7];
+//                            // 从数据库中查找头像和昵称
+//                        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+//                        $pt_user = M('pt_user');
+//                        $res = $pt_user->where("openid='%s' AND ptid=%d ", array(
+//                            $session['openid'],
+//                            $session['platform_id']
+//                        ))
+//                            ->field('username,picture')
+//                            ->find();
+//                        $temp_arr = [
+//                            'username' => json_decode(preg_replace("/\\\ue[0-9a-f]{3}/",'\u002a',$res['username'])),
+//                            'picture' => $res['picture']
+//                        ];
+//                        $data = array_merge($data, $temp_arr);
+//                        $redis->hset('zh_welcome_userid:' . $session['id'] . $dateStr, $data);
+//                        $redis->EXPIRE('zh_welcome_userid:' . $session['id'] . $dateStr, 3600 * 24); // 设置24小时后过期
+//                        //dolog('Wheel/delete', '招行签到已签到(数据库)2', '', 'nickname:'. json_encode($data['username']).' picture:'.$data['picture'], $this->redisLog);  //COPY
+//                        $this->assign('data', $data);
+//                        $this->display('zhWelcome');
+//                    }
+//                }
+//            }  // 签到失败
+//else
+//                if ($ifSignSuccess == 0) {
+//                    redirect('Wheel/index');
+//                }
+//    }
     //计算用户今日第几个签到的
     private function _userToday($sign_record,$ptid,$dateStr){
         $this->redis->databaseSelect();

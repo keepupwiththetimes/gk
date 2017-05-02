@@ -328,8 +328,10 @@ class MemberController extends CommonController
                 $productallpoint = $this->redisLog->getArr($product_point_key);
                 if ( array_key_exists($product_id, $productallpoint) ){
                     $productallpoint[$product_id] += 1;
-                    $this->redisLog->setArr($product_point_key, $productallpoint);
-                }              
+                }else{
+                    $productallpoint[$product_id] = 1;
+                }  
+                $this->redisLog->setArr($product_point_key, $productallpoint);              
                 
             }
             $product_is_collect_key = "user_product_is_collect" . $this->user_id . intval($this->platform_id);

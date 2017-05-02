@@ -131,10 +131,10 @@ class OrderController extends CommonController
                 } else {
                     // 先查询redis, redis没有再查询数据库
                     $this->redis->databaseSelect('zwid');
-                    $session = $_SESSION[$this->$platform_code];
+                    $session = $_SESSION[$this->platform_code];
                     $thezwopenid = $this->redis->hget('openid_platcode:' . $session['openid'] . '_' . $session['platform_id']);
                     if (empty($thezwopenid['telephone']))
-                    	$thezwopenid = $UserModel->where('id=%d', $_SESSION[$this->$platform_code]['id'])->find();
+                    	$thezwopenid = $UserModel->where('id=%d', $_SESSION[$this->platform_code]['id'])->find();
                     if (empty($thezwopenid['zwcmopenid'])) // 由于某些原因，有些用户的zwcmopenid在数据库里面没有记录。 邵晓凌， 2016-11-17
                                                            // $thezwopenid['zwcmopenid'] = $wxApi->getOpenid();
                         $toRenewZwcmopenid = true;
@@ -156,14 +156,14 @@ class OrderController extends CommonController
                     doLog('Order/getZwcmopenid', '强制取zwcmopenid', '', 'old zwcmopenid=' . $old_zwcmopenid . ', ' . $UserModel->getLastSql(), $this->redisLog);
                 } 
                 $this->redisLog->set($redis_key_purchase, 1, 3 * 60); // 3分钟
-                $_SESSION[$this->$platform_code]['zwcmopenid'] = $thezwopenid['zwcmopenid'];
+                $_SESSION[$this->platform_code]['zwcmopenid'] = $thezwopenid['zwcmopenid'];
                 
                 $this->assign('is_wx', $is_wx);
             }
             //
             // 微信浏览器中获取openid end--
             //
-            $_SESSION[$this->$platform_code]['trade_sn'][$order_detail['detail']['ordenum']] = array( // 将订单的信息存在session里。。getprepareData的时候用到
+            $_SESSION[$this->platform_code]['trade_sn'][$order_detail['detail']['ordenum']] = array( // 将订单的信息存在session里。。getprepareData的时候用到
                 
                 'out_trade_no' => $order_detail['detail']['ordenum'],
                 'title' => $title,
@@ -386,7 +386,7 @@ class OrderController extends CommonController
             ));
         
         $orderNum = $res['ordenum'];
-        $orderDetail = $_SESSION[$this->$platform_code]['trade_sn'][$orderNum]; // c从session 中读取订单信息
+        $orderDetail = $_SESSION[$this->platform_code]['trade_sn'][$orderNum]; // c从session 中读取订单信息
         
         if ($orderNum != $orderDetail['out_trade_no'] || empty($orderDetail))
             $this->ajaxReturn(array(
@@ -630,7 +630,7 @@ class OrderController extends CommonController
                 $detail['url'] = $detail['remark'];
                 
                 if (strpos($detail['url'], '{phone}') !== false) {     //如果商家要求url中传手机号码。
-                	$session = $_SESSION[$this->$platform_code];
+                	$session = $_SESSION[$this->platform_code];
                     $detail['url'] = str_replace('{phone}', urlencode(base64_encode($session['tel'])), $detail['url']);
                 }
 

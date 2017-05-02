@@ -33,7 +33,7 @@ class SignController extends CommonController
         $redis->databaseSelect('Sign');
         //当重入锁存在时 禁止重入
         if ($redis->exists('SignReentrantLock_' . $this->user_id))
-            return;
+            return 0;
         $redis->set('SignReentrantLock_' . $this->user_id, 1 ,3600);
         //如果不存在平台编码  返回0
         if (!$this->platform_config['PLATFORM_CODE']) return $this->ReentrantLock($redis, 0);
