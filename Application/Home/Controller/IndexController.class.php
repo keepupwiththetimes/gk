@@ -1670,7 +1670,7 @@ if ($elapseTime > 0.2) {
         $redisKey = 'Score::PersonScoreZwidPtid:' . $zwid . '_' . $this->platform_id;
         $productList = D('PlatformProduct')->getProductList(1, '', '', $search_key, '', '', $select_type); // 取该平台的所有数据
         $this->setScores($productList, $zwid, $this->platform_id, $redisKey);
-               
+        $end =  count($productList);      
         $data['goods'] = $this->redisLog->zget('Score::PersonScoreZwidPtid:' . $zwid . '_' . $this->platform_id, $start, $end, 'desc'); 
        
         $data = $this->setCollectionDate4User($data); 
