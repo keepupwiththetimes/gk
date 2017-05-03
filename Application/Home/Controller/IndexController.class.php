@@ -161,10 +161,10 @@ class IndexController extends CommonController
                             
                             // 此处以后处理每个商品的LBS等方面的质量得分
                             // $lbsscore = INITIAL_SCORE_PER_CATEGORY;
-//                            $category_model = D('Category');
-//                            $category_score = $category_model->get_score($_SESSION[$this->platform_code]['zwcmopenid'],$val['category_id']);
-//                            $category_score = round(($category_score+255)/255,4);//暂时先注释掉 ，分类分先不计算
-                    $score = $personalscore * $platformscore; //* $category_score; // * $lbsscore; //目前还不计算$lbsscore
+                    $category_model = D('Category');
+                    $category_score = $category_model->get_score($_SESSION[$this->platform_code]['zwcmopenid'],$val['category_id']);
+                    $category_score = round(($category_score+255)/255,4);
+                    $score = $personalscore * $platformscore * $category_score; // * $lbsscore; //目前还不计算$lbsscore
                     if ($score > MAX_SCORE)
                         $score = MAX_SCORE; // 3000000封顶，原因是因为有些渠道如招行规定一些商品需要置顶，那些商品是用sort=3000001来标识的。
                     if ($zwid=2008582)
@@ -232,13 +232,13 @@ class IndexController extends CommonController
      */
     private function getShowList($start = 0, $end = 5, $type = 1)
     {
-$time_0 = microtime(true);
+        $time_0 = microtime(true);
         $redisKey = 'Score::PersonScoreZwidPtid:' . $this->zwid. '_' . $this->platform_id;
         
         $productList = D('PlatformProduct')->getProductList(1, 0, 0); // 取该平台的所有数据
-$time_1 = microtime(true);
+        $time_1 = microtime(true);
 		$this->setScores($productList, $this->zwid, $this->platform_id, $redisKey);
-$time_2 = microtime(true);
+        $time_2 = microtime(true);
         //当所有商品的数量小于等于6的时候，首页的“换一组”隐藏
 		$this->totalProductsNum = $this->redisLog->zCard($redisKey);
                
@@ -251,11 +251,11 @@ $time_2 = microtime(true);
         }*/
         
         $data = $this->setCollectionDate4User($data);
-$time_3 = microtime(true);
-if ($elapseTime > 0.2) {
-	dolog('Index/debug', '给优惠券排序超过200ms', '', 'latency: t1=' . round($time_1- $time_0, 3). ', t2=' . round($time_2- $time_1, 3). ', t3=' . round($time_3- $time_2, 3), $this->redisLog);
-} 
-        
+        $time_3 = microtime(true);
+        if ($time_3 - $time_0 > 0.2) {
+            dolog('Index/debug', '给优惠券排序超过200ms', '', 'latency: t1=' . round($time_1- $time_0, 3). ', t2=' . round($time_2- $time_1, 3). ', t3=' . round($time_3- $time_2, 3), $this->redisLog);
+        }
+
         return $data;
     }
 

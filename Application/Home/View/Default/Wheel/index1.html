@@ -817,7 +817,7 @@ img.pointer {
 	<div class="noPriceHome-container">
 		<!--<p class="information"></p>-->
 		<img src="__Home_IMG__/zsh2.0/home/head-{$templet}.png" alt="" />
-		<p class="point-word" id="msgInfo" style="width: 90%;"></p>
+		<p class="point-word" id="" style="width: 90%;"></p>
 		<a href="http://m.zwmedia.com.cn/wxzspfse/index.php/Home/Nyyh/index?do=user_entry"><span>领取更多优惠券</span></a>
 	</div>
 </div>
@@ -888,10 +888,7 @@ $('.rule-bg').bind("click",function(){
 $('#login').attr('placeholder','输入手机号码参与抽奖');
 
 $('.change-phone').click(function(){
-					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
-//	e.preventDefault();
+	login_window_show();
 });
 
 //$('body').bind('touchmove', function (event) {
@@ -980,7 +977,7 @@ $('.noPriceHomebg').click(function(){
 		$("#wheel_canvas").css("transform","rotate("+s+"deg)");
 
 		setTimeout(function(){
-				state =3;
+
 			  if(state==1){
                    // showMsg("亲，恭喜获得"+ txt.replace("||","") +"(3秒钟之后自动跳转到领奖页面)")
 
@@ -1071,9 +1068,8 @@ $('.noPriceHomebg').click(function(){
 //            		$(document).unbind('touchend');
               		$('body').css('pointer-events','auto');
 
-					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+					login_window_show();
+					
                     turnplate.bRotate = !turnplate.bRotate;
                     return false;
                 }
@@ -1238,9 +1234,9 @@ $("#record").bind("touchstart",function(){
        success:function(data){
 
         if(data.state==11){
-					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+			
+			login_window_show();
+        
         }else if(data.state==1){
 
          var str ="<span class='record-tile'>中奖纪录</span>";

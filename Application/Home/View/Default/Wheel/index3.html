@@ -1131,7 +1131,7 @@ canvas.item {
 			$('.jxcj').hide();
 			$('.llq').hide();
 			//$('.getzp').html('差一点就中啦，点击右上方分享<br>给好友，就可以再抽一次哦~');
-			$('.getzp').html('差一点就中啦，明天再来试试哦~');
+			$('.getzp').html('差一点就中啦，<br>明天再来试试哦~');
 			
 			$('.zprizetip').css('top','48%');
 			$('.yhq').css('top','67%')
@@ -1317,9 +1317,7 @@ $('#login').attr('placeholder','输入手机号码参与抽奖');
 
 $('.change-phone').click(function(){
 	$('.common-login').hide();
-	$(".common-login").removeClass('zoomOut animated');
-	$(".common-login").addClass('zoomIn animated');
-	$('.login-contain').show();
+login_window_show()
 	$('.loginhead img').attr('src','__Home_IMG__/zsh2.0/order/loginheader4.png');
 	setTimeout(function(){
 			$('.common-login').show();
@@ -1350,9 +1348,7 @@ $("#record").bind("click",function(){
 	
 	if ($('#phoneNumber').text() =='') {
 		$('.common-login').hide();
-		$(".common-login").removeClass('zoomOut animated');
-		$(".common-login").addClass('zoomIn animated');
-		$('.login-contain').show();
+login_window_show()
 		$('.loginhead img').attr('src','__Home_IMG__/zsh2.0/order/loginheader4.png');
 		setTimeout(function(){
 				$('.common-login').show();
@@ -1384,9 +1380,7 @@ function getRecord()
 		
         if(data.state==11){
 	$('.common-login').hide();
-	$(".common-login").removeClass('zoomOut animated');
-	$(".common-login").addClass('zoomIn animated');
-	$('.login-contain').show();
+login_window_show()
 	$('.loginhead img').attr('src','__Home_IMG__/zsh2.0/order/loginheader4.png');
 	setTimeout(function(){
 			$('.common-login').show();
@@ -1517,9 +1511,7 @@ $(document).ready(function () {
 		            if(data_json.state==11){
 		              	$('body').css('pointer-events','auto');
 						$('.common-login').hide();
-						$(".common-login").removeClass('zoomOut animated');
-						$(".common-login").addClass('zoomIn animated');
-						$('.login-contain').show();
+						login_window_show()
 						$('.loginhead img').attr('src','__Home_IMG__/zsh2.0/order/loginheader4.png');
 						setTimeout(function(){
 								$('.common-login').show();
@@ -1821,9 +1813,7 @@ function recieveReward(orderid) {
 			} else if (jsonData.state==-1) { //登陆
 						
             $('.common-login').hide();
-			$(".common-login").removeClass('zoomOut animated');
-			$(".common-login").addClass('zoomIn animated');
-			$('.login-contain').show();
+			login_window_show()
 			$('.loginhead img').attr('src','__Home_IMG__/zsh2.0/order/loginheader4.png');
 			setTimeout(function(){
 					$('.common-login').show();

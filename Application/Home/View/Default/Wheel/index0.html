@@ -779,9 +779,7 @@ $('.np-right').bind('touchstart',function(){
 	  if(_isCmbc==1){
 			 loginForComm(beforeurl,tourl);
 		 }else{
-			 					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+			 	login_window_show();
 		 }
 });
 
@@ -789,36 +787,28 @@ $('.np-right font').click(function(){
 	  if(_isCmbc==1){
 			 loginForComm(beforeurl,tourl);
 		 }else{
-			 					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+			login_window_show();
 		 }
 });
 $('.np-right i').click(function(){
 	  if(_isCmbc==1){
 			 loginForComm(beforeurl,tourl);
 		 }else{
-			 					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+			login_window_show();
 		 }
 });
 $('.np-right span').click(function(){
 	  if(_isCmbc==1){
 			 loginForComm(beforeurl,tourl);
 		 }else{
-			 					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+			 	login_window_show();
 		 }
 });
 function changephone(el){
 		  if(_isCmbc==1){
 			 loginForComm(beforeurl,tourl);
 		 }else{
-			 					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+			 	login_window_show();
 		 }
 }
 
@@ -1015,9 +1005,7 @@ function rnd(n, m){
                   if(_isCmbc==1){
                     loginForComm(beforeurl,tourl);
                     }else{
-                    					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+                   login_window_show();
                   }
                   turnplate.bRotate = !turnplate.bRotate;
                   return false;
@@ -1174,9 +1162,7 @@ var noPrizeList = false;
 $("#record").bind("touchstart",function(){
 	
 	if ($('#phoneNumber').text() =='') {
-		            	$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+		         login_window_show();
 	}else{
 		
 		  if(record){
@@ -1227,9 +1213,7 @@ function getRecord()
        success:function(data){
 
         if(data.state==11){
-            	$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+            	login_window_show();
         }else if(data.state==1){
          
          var str ="<span class='record-tile'>中奖纪录</span>";

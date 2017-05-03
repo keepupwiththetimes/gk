@@ -162,6 +162,7 @@ class ProductController extends CommonController
         setcookie($product_info['id'] . 'status', '', time()-3600);
         setcookie($product_info['id'] . 'orderid', '', time()-3600);
         setcookie($product_info['id'] . 'buttonid', '', time()-3600);
+        setcookie('collected' . $product_info['id'] , '', time()-3600);
         if ($ajax == 1) {
             if (empty($product_info['product_exist'])) {
                 echo json_encode(array(

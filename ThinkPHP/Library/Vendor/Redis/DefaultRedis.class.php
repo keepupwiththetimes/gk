@@ -379,7 +379,9 @@ class DefaultRedis
             case "Ip" :
                 $database = 10;
                 break;
-
+            case "Sign":
+                $database = 11;
+                break;
             default:
                 $database = 0;
                 break;

@@ -1025,9 +1025,7 @@ $('.btn-rule').bind("click",function(){
 $('#login').attr('placeholder','输入手机号码参与抽奖');
 
 $('.change-phone').click(function(){
-	$(".common-login").removeClass('zoomOut animated');
-	$(".common-login").addClass('zoomIn animated');
-	$('.login-contain').fadeIn(200);
+login_window_show();
 });
 
 //关闭弹窗
@@ -1054,9 +1052,7 @@ $("#record").bind("click",function(){
 	document.removeEventListener("touchmove",mo,false);
 	
 	if ($('#phoneNumber').text() =='') {
-		$(".common-login").removeClass('zoomOut animated');
-		$(".common-login").addClass('zoomIn animated');
-		$('.login-contain').fadeIn(200);
+login_window_show();
 	}else if(isrg){
 		$('.recordlist ul').html('');
 		getRecord();
@@ -1124,9 +1120,7 @@ function getRecord()
        success:function(data){
 
         if(data.state==11){
-				$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+login_window_show();
         }else if(data.state==1){
 
          var str ="";
@@ -1310,9 +1304,7 @@ function tuk(orderid){
 //            		$(document).unbind('touchend');
               		$('body').css('pointer-events','auto');
 
-					$(".common-login").removeClass('zoomOut animated');
-				$(".common-login").addClass('zoomIn animated');
-				$('.login-contain').fadeIn(200);
+login_window_show();
                     turnplate.bRotate = !turnplate.bRotate;
                     return false;
                 }
@@ -1477,7 +1469,7 @@ function recieveReward(orderid) {
 		 		},10);
 			} else if (jsonData.state==-1) { //登陆
 						
-             $('.login-contain').show();
+             login_window_show();
 						
 			} else {  
 					showMsg(jsonData.msg);

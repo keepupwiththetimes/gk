@@ -76,16 +76,19 @@ class LogAnalysisController extends Controller
             file_put_contents("debug.log", "检查LogAnalysis执行时间超过10分钟" . $elapseTime . "\n", FILE_APPEND);
             // //dolog('Index/debug','检查平台优惠券是否发完超过0.5秒','', 'latency(checkProductAvailability): '. $elapseTime, $this->redisLog );
         }
-        
+
         if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE)
             $this->calculateYesterdayActiveUserNew();
 
         if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE)
             //分析给招行平台没有发出的签到记录，统一发出并记录返回值
             $this->reissureZHsignRecord();
-        if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE)
+//        if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE)
+        if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE){
             //每15分钟处理一次分类分数
             $this->get_user_category_score_by_redis_to_addall();
+        }
+
         $this->redisLog->del('wait'); // 释放wait和waiting 允许后面的程序 进来；
     }
 
@@ -981,7 +984,7 @@ class LogAnalysisController extends Controller
         //实例化分类模型
         if (is_array($user_category_score_arr)){
             foreach ($user_category_score_arr as $k => $v){
-                usleep(1000);//休息1ms
+                usleep(10000);//休息1ms
                 foreach ($v as $kk => $vv)
                     $this->update_or_insert_records($vv);
             }

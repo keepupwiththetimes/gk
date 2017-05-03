@@ -427,8 +427,7 @@ a:active {
   padding-left: 10px;
   font-size: 15px;
   opacity: 0.7;
-  width: 90%;
-  /*   white-space: nowrap;
+  width: 90%;/*   white-space: nowrap;
     overflow: hidden;*/
 }
 .correct-shop-cell-left .correct-shop-location a {
@@ -512,8 +511,7 @@ a:active {
   display: block;
   height: 60px;
   line-height: 60px;
-  font-size: 16px;
-  /*opacity: 0.5;*/
+  font-size: 16px;/*opacity: 0.5;*/
 }
 .buy-right-select .buy-reduce {
   border-right: 0;
@@ -638,8 +636,7 @@ a:active {
 }
 .pay-money-goods-inforrmation-right span {
   display: table-cell;
-  text-align: left;
-  /*width: 99%;
+  text-align: left;/*width: 99%;
     /*height: 100%;
     line-height: 100%;
     vertical-align: middle;
@@ -654,8 +651,7 @@ a:active {
 .pay-money-goods-inforrmation-right .pay-money-text-bottom {
   color: #c81623;
   font-size: 12px;
-  display: table;
-  /*margin-top: 3px;*/
+  display: table;/*margin-top: 3px;*/
 }
 /*.pay-money-text-bottom .new-price{
     font-size: 16px;
@@ -686,8 +682,7 @@ a:active {
 .pay-money-navbar-header {
   height: 30px;
   background: #c81623;
-  background-size: cover;
-  /*margin-bottom: 8px;*/
+  background-size: cover;/*margin-bottom: 8px;*/
 }
 .pay-money-navbar-header a {
   display: block;
@@ -742,8 +737,7 @@ a:active {
   text-align: center;
   width: 100%;
   height: 100px;
-  border-top: 1px solid #dedede;
-  /*margin-top: 5%;*/
+  border-top: 1px solid #dedede;/*margin-top: 5%;*/
 }
 .pay-money-pay-sure button {
   width: 40%;
@@ -911,8 +905,7 @@ a:active {
    }*/
 .footer-main-footer {
   text-align: center;
-  font-size: 0.9em;
-  /*margin-bottom: 3em;*/
+  font-size: 0.9em;/*margin-bottom: 3em;*/
 }
 .footer-main-footer a {
   color: dodgerblue;
@@ -1087,8 +1080,7 @@ a:active {
   text-align: center;
   color: #c81623;
   font-size: 14px;
-  width: 100%;
-  /*display: table-cell;
+  width: 100%;/*display: table-cell;
         vertical-align: middle;*/
 }
 .alertButton {
@@ -1146,8 +1138,7 @@ a:active {
   text-align: center;
   color: #c81623;
   font-size: 14px;
-  width: 100%;
-  /*display: table-cell;
+  width: 100%;/*display: table-cell;
         vertical-align: middle;*/
 }
 .point-container .information {
@@ -1313,8 +1304,7 @@ a:active {
   display: block;
   width: 50%;
   height: auto;
-  margin: 0 auto;
-  /*margin-right: 15.5%;*/
+  margin: 0 auto;/*margin-right: 15.5%;*/
 }
 /*logout背景色*/
 .container-loginout {
@@ -1354,8 +1344,7 @@ hr {
   height: 30px;
   position: relative;
   top: 30%;
-  left: 1%;
-  /* display: none; */
+  left: 1%;/* display: none; */
 }
 .loading-container1 > div,
 .loading-container2 > div,
@@ -1404,8 +1393,8 @@ hr {
   animation-delay: -1.1s;
 }
 .loading-container3 .loading-circle1 {
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
 }
 .loading-container1 .loading-circle2 {
   -webkit-animation-delay: -0.9s;
@@ -1447,22 +1436,22 @@ hr {
   0%,
   100%,
   80% {
-    -webkit-transform: scale(0);
+    -webkit-transform: scale(0.0);
   }
   40% {
-    -webkit-transform: scale(1);
+    -webkit-transform: scale(1.0);
   }
 }
 @keyframes bouncedelay {
   0%,
   100%,
   80% {
-    transform: scale(0);
-    -webkit-transform: scale(0);
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
   }
   40% {
-    transform: scale(1);
-    -webkit-transform: scale(1);
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
   }
 }
 .index-container1 > div,
@@ -1512,8 +1501,8 @@ hr {
   animation-delay: -1.1s;
 }
 .index-container3 .index-circle1 {
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
 }
 .index-container1 .index-circle2 {
   -webkit-animation-delay: -0.9s;
@@ -3145,11 +3134,7 @@ body.stop-scrolling {
 .mall-logo {
   border: 4px solid rgba(76, 129, 98, 0.5);
 }
-.gobuy,
-.goget {
-  background-color: #c81623;
-}
-.pricetext font {
+.pricetext {
   color: #c81623;
 }
 .goodsgroupname p {
@@ -3171,3 +3156,13 @@ body.stop-scrolling {
 .shoppingcart {
   color: #c81623;
 }
+.gobuy,
+.goget {
+  color: #c81623;
+  border: 1px solid #c81623;
+}
+.gocheck {
+  color: #c81623 !important;
+  border: 1px solid #c81623 !important;
+}
+/*# sourceMappingURL=zw-style4.css.map */

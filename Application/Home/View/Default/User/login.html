@@ -72,22 +72,20 @@ var mo=function(e){e.preventDefault();}
 //显示弹窗
 	  function login(type){
 	
-		var url = "{:U('Home/Ajax/popupLoginWindow')}";
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) { }
-		};
-		xhttp.open("GET", url, true);
-		xhttp.send();
+//		var url = "{:U('Home/Ajax/popupLoginWindow')}";
+//		var xhttp = new XMLHttpRequest();
+//		xhttp.onreadystatechange = function() {
+//			if (this.readyState == 4 && this.status == 200) { }
+//		};
+//		xhttp.open("GET", url, true);
+//		xhttp.send();
 			  
 			  
 	    if(_isCmbc==1){
 	       loginForComm(beforeurl,tourl);
 	    }else{
 	     	document.addEventListener('touchmove',mo,false);
-			$(".common-login").removeClass('zoomOut animated');
-			$(".common-login").addClass('zoomIn animated');
-			$('.login-contain').fadeIn(200);
+			login_window_show();
 	       	$("#doAfterLogin").val(type);
 //	       $('.login-contain').show();
 	     }
@@ -122,6 +120,8 @@ var mo=function(e){e.preventDefault();}
 
 		},100);
 	} 
+		
+		
 		
 		$('.getyzm').click(function(){
 			
@@ -258,5 +258,6 @@ var isNeedCheckTel = "{$isTel}";
 
     }
   }
+
 
 </script>

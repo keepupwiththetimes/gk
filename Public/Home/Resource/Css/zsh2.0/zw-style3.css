@@ -3152,11 +3152,7 @@ body.stop-scrolling {
 .mall-logo {
   border: 4px solid rgba(6, 176, 147, 0.5);
 }
-.gobuy,
-.goget {
-  background-color: #06b093;
-}
-.pricetext font {
+.pricetext {
   color: #06b093;
 }
 .goodsgroupname p {
@@ -3177,4 +3173,16 @@ body.stop-scrolling {
 }
 .shoppingcart {
   color: #06b093;
+}
+.gobuy,
+.goget {
+  color: #06b093;
+  border: 1px solid #06b093;
+}
+.gocheck {
+  color: #06b093 !important;
+  border: 1px solid #06b093 !important;
+}
+.noPriceHome-container a {
+  background-color: #06b093;
 }

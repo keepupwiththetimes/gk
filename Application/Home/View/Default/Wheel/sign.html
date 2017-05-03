@@ -203,6 +203,8 @@
         display: inline-block;
         width: 40px;
         text-align: center;
+         position: relative;
+    	top: -4px;
     }
 
      .music i, .chistory i ,.backhistory i{
@@ -228,6 +230,7 @@
         display: block;
         color: #737270;
         font-family: arial;
+        margin-top: 1px;
         font-size: 0.5rem;
     }
 	.fa-home{
@@ -484,12 +487,16 @@
                 <span class="calendarg">历史签</span>
             </div>
 
-            <div class="music" id="music">
+            <div class="music" id="music" style="display: none;">
                 <i class="fa fa-volume-up"></i>
                 <span class="p-volice">播放</span>
                 <audio id="m-play" onended="changeState(this);" preload="auto">
                     <source src="{$musicurl}"></source>
                 </audio>
+            </div>
+            <div class="backhistory">
+            	<i class="fa fa-home"></i>
+            	<span class="b-back">首页</span>
             </div>
             <else />
             <div class="chistory">
@@ -505,7 +512,7 @@
             </div>
             <div class="backhistory">
             	<i class="fa fa-home"></i>
-            	<span class="b-back">签到</span>
+            	<span class="b-back">首页</span>
             </div>
         </if>
 

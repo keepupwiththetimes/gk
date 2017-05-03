@@ -586,7 +586,7 @@ window.eType = document.hasOwnProperty("ontouchstart") || window.hasOwnProperty(
 							// $('#receive').off('click');
 					} else if (jsonData.state==-1) {
 									//$('#container-content').hide();
-                  $('.login-contain').show();
+                  login_window_show();
 									// $('.common-login').show();
 					} else {
 							showMsg(jsonData.msg);
@@ -618,7 +618,7 @@ function showCheck(msg){
 		$('.check-sure-bg').show();
 	}else{
 
-		$('.login-contain').show();
+		login_window_show()
 	}
 	
 }
@@ -626,7 +626,7 @@ function showCheck(msg){
 
 $('.change-phone').click(function(){
 	$('.check-sure-bg').hide();
-	$('.login-contain').show();
+	login_window_show()
 });
 
 $('.sure-phone').click(function(){
@@ -647,7 +647,7 @@ $('.sure-phone').click(function(){
 		 		},3000);
 			} else if (jsonData.state==-1) {
 						
-          $('.login-contain').show();
+          login_window_show()
 						
 			} else {
 					showMsg(jsonData.msg);

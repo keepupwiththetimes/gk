@@ -507,7 +507,7 @@ a {
 
 						   <div class="receive-lingqu" id="{$buttonInfo['id']}"
 							data-orderId="{$checkInfo['orderId']}" data-product_id="{$info.id}" data-platform_id="{$platform_id}">
-								<div class="receive-lingqu-text">
+								<div class="receive-lingqu-text" >
 									<span class="receive-buttton"
 										style="font-size: 20px; font-weight: bold;">{$buttonInfo['name']}</span>
 								</div>
@@ -529,6 +529,20 @@ a {
 			$("#receive").attr('data-orderid',getCookie("{$info.id}orderid"));
 			$(".receive-lingqu").attr('id',getCookie("{$info.id}buttonid"));
 			//alert($(".receive-lingqu").attr('id'));
+		}
+		var collected = getCookie("collected{$info.id}");
+		if(collected != ""){
+			if(collected == "yes"){
+				$('.receive-collect-img').children('span').children('i').removeClass('fa-heart-o');
+				$('.receive-collect-img').children('span').children('i').addClass('fa-heart');
+				$('.receive-collect-img').children('span').children('i').children("span").removeClass("hide1 fa-heart-o");
+				$('.receive-collect-img').children('span').children('i').children("span").addClass(' inline fa-heart');
+			}else{
+				$('.receive-collect-img').children('span').children('i').removeClass('fa-heart');
+				$('.receive-collect-img').children('span').children('i').addClass('fa-heart-o');
+				$('.receive-collect-img').children('span').children('i').children("span").removeClass("fa-heart inline fly");
+				$('.receive-collect-img').children('span').children('i').children("span").addClass('fa-heart-o hide1');
+			}
 		}
 		function getCookie(cname)
 		{
@@ -647,7 +661,7 @@ a {
 		//优惠活动链
 	</script>
 	<script>
-window.eType = document.hasOwnProperty("ontouchstart") || window.hasOwnProperty("ontouchstart") ? "touchend" : "click";
+		window.eType = document.hasOwnProperty("ontouchstart") || window.hasOwnProperty("ontouchstart") ? "touchend" : "click";
 
     $(function () {
 			// showMsg(1);
@@ -729,6 +743,25 @@ function showCheck(msg){
 	$('.check-sure-bg').show();
 }
 
+$('.receive-lingqu').click(function(){
+	var state_product = $(this).attr('id');
+	
+	var is_ready_product = 'collect'+$(this).attr('data-product_id')+"{$platform_code}";
+
+	
+//	var product_sell_state = [];
+//	if (window.localStorage.getItem('product_sell_state')) {
+//		product_sell_state = JSON.parse(window.localStorage.getItem('product_sell_state'));
+//	}
+	
+	if (state_product=="receive"){
+
+		window.localStorage.setItem(is_ready_product,'ready');
+		window.localStorage.setItem('product_sell_id',is_ready_product);
+		
+	}
+
+});
 
 $('.change-phone').click(function(){
 	$('.check-sure-bg').hide();
@@ -790,8 +823,8 @@ function postPhone () {
 					}else{
 						window.localStorage.ty = 'no';
 					}
-//					resetCollectList('shoucang');
-					
+					resetCollectList('shoucang');
+					document.cookie="collected" + i + "=yes";
 					
 					
 	          }else if (data.state==0){
@@ -811,10 +844,10 @@ function postPhone () {
 					}else{
 						window.localStorage.ty = 'no';
 					}
-					
+					document.cookie="collected" + i + "=no";
 					
                     //更新个人中心收藏
-//					resetCollectList('quxiao');
+					resetCollectList('quxiao');
 	          }else if(jsonData.state==4){
                   
                   login()
@@ -836,22 +869,6 @@ function postPhone () {
 	  }
 
 	
-//	function resetCollectList(type) {
-//
-//		var amosStr2 = window.sessionStorage.getItem("test2");
-//			if(amosStr2) {
-//				console.log(amosStr2)
-//				var amosArr2 = JSON.parse(amosStr2);
-//				
-//				var pId ={$info['id']};
-//				if(amosArr2[pId+'s'][1] ){
-//
-//					amosArr2[pId+'s'][1] = type
-//					//alert(0)
-//				}
-//			}
-//			window.sessionStorage.setItem("test2", JSON.stringify(amosArr2));
-//	}
 	
 	window.onload = function () {
 		postPhone();
@@ -942,6 +959,24 @@ function remarkDoUrl(url)
 		do_url(url);
 	},1000);
 }
+
+function resetCollectList(type) {
+
+		var amosStr2 = window.sessionStorage.getItem("test2");
+			if(amosStr2) {
+				// console.log(amosStr2)
+				var amosArr2 = JSON.parse(amosStr2);
+				
+				var pId ={$info['id']};
+				if(amosArr2[pId+'s'][1] ){
+
+					amosArr2[pId+'s'][1] = type;
+					
+				}
+				window.sessionStorage.setItem("test2", JSON.stringify(amosArr2));
+			}
+			
+	}
 </script>
 
 	<include FILE="Public:footer" />

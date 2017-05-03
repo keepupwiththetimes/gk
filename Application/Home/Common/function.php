@@ -571,155 +571,157 @@ function isSign()
  * 1签到成功
  * -1已签到
  * 0签到失败
+ * tip:弃用2017.5.2 by jysdhr
  */
-function doSign($redis, $redisLog)
-{
-    if ($_SESSION['PLATFORM_CODE']) { // modified by shao xiaoling
-                                      // if ($_SESSION['_USER']) {
-        $SignRecord = D('sign_record');
-        $where = array();
-        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
-        // $where['userid'] = $session['id'] ;//$_SESSION['_USER']['id'];
-        // $where['ptid'] = $session['platform_id']; //$_SESSION['_USER']['platform_id'];
-        // $where['_string'] = "signtime between '" . date('Y-m-d H:i:s', strtotime(date('Y-m-d'))) . "' and '" . date('Y-m-d H:i:s', (strtotime(date('Y-m-d')) + 24 * 3600)) . "'";
-        // $sign_record_data = $SignRecord->where($where)->find(); //不加数据库查询的缓存
-        $sign_record_data = $SignRecord->where("userid=%d and ptid=%d and (signtime between '%s' and '%s') ", array(
-            $session['id'],
-            $session['platform_id'],
-            date('Y-m-d H:i:s', strtotime(date('Y-m-d'))),
-            date('Y-m-d H:i:s', (strtotime(date('Y-m-d')) + 24 * 3600))
-        ))->find(); // 不加数据库查询的缓存
-        if (empty($sign_record_data)) {
-            
-            $data = array();
-            $data['userid'] = $session['id']; // $_SESSION['_USER']['id'];
-            $data['channelid'] = $session['customer_id']; // $_SESSION['_USER']['customer_id'];
-            $data['ptid'] = $session['platform_id']; // $_SESSION['_USER']['platform_id'];
-//            $data['ptname'] = $session['platform_name']; // $_SESSION['_USER']['platform_name'];
-            $data['signtime'] = date('Y-m-d H:i:s');
-//            var_dump($data);die;
-            if ($SignRecord->add($data)) {
-                // ///////////以下语句是为招行抽奖平台设计的：当用户当天没有签到过的话，当天签到用户数加1.
-                if ((online_redis_server == true) && ($_SESSION['PLATFORM_CODE'] == 'ZHCJ')) {
-                    if (empty($redis))
-                        $redis = new \Vendor\Redis\DefaultRedis();
-                    $redis->databaseSelect();
-                    $dateStr = date('Ymd');
-                    $cmb_luckydraw_today_user_total = $redis->get('cmb_luckydraw_today_user_total' . '_' . $dateStr);
-                    if ($cmb_luckydraw_today_user_total) {
-                        $redis->set('cmb_luckydraw_today_user_total' . '_' . $dateStr, $cmb_luckydraw_today_user_total + 1, 24 * 60 * 60);
-                    }
-                    
-                    // /////同步招行签到记录
-                    $checkInTime = date('Y-m-d%20H:i:s', strtotime($data['signtime']));
-                    $checkInTimeEncoded = urlencode(base64_encode($checkInTime));
-                    $openidEncoded = urlencode(base64_encode($_SESSION['ZHCJ']['ZhcjOpenid']));
-                    if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE) {
-                        $url = 'https://pointbonus.cmbchina.com/IMSPActivities/checkIn/index?openid=' . $openidEncoded . '&checkInTime=' . $checkInTimeEncoded;
-                    } else {
-                        $url = 'http://pointbonustest.dev.cmbchina.com/IMSPActivities/checkIn/index?openid=' . $openidEncoded . '&checkInTime=' . $checkInTimeEncoded;
-                    }
-                    if ($_SESSION['ZHCJ']['ZhcjOpenid']) {
-                        $redis->set('cmd_send_url:' . $_SESSION['ZHCJ']['ZhcjOpenid'], $url, 24 * 60 * 60);
-                    }
-                }
-                // ///////////end 招行抽奖平台语句
-                $SignDay = M('sign_day');
-                $map = array();
-                $map['userid'] = $session['id']; // $_SESSION['_USER']['id'];
-                $map['ptid'] = $session['platform_id']; // $_SESSION['_USER']['platform_id'];
-                                                        // $info = $SignDay->where($map)->find(); //不加数据库查询的缓存
-                $info = $SignDay->where("userid=%d and ptid=%d", array(
-                    $map['userid'],
-                    $map['ptid']
-                ))->find(); // 不加数据库查询的缓存
-                if ($info) {
-                    // $SignDay->where("userid=%d and ptid=%d", array($map['userid'], $map['ptid']))->setInc('signtotal', 1);
-                    $SignDay->where("userid=%d and ptid=%d", array(
-                        $map['userid'],
-                        $map['ptid']
-                    ))->save(array(
-                        'signtotal' => $info['signtotal'] + 1,
-                        'updatetime' => date('Y-m-d H:i:s')
-                    )); // 更新updatetime： 2016-12-20
-                    //连续签到
-                    if (isContinueSign()) {
-                        $Platform = D('platform');
-                        // $platform_data = $Platform->where(array('id' => $session['platform_id']))->cache(true, 3600)->find();
-                        $platform_data = $Platform->where("id=%d", $session['platform_id'])
-                            ->cache(true, 3600)
-                            ->find();
-                        if ($platform_data['checkcycle'] > 0) {
-
-                            //连续签到时间小于签到时间上限
-                            if ($info['signday'] < $platform_data['checkcycle']) {
-                                // $SignDay->where($map)->setInc('signday', 1);
-                                $SignDay->where("userid=%d and ptid=%d", array(
-                                    $map['userid'],
-                                    $map['ptid']
-                                ))->setInc('signday', 1);
-                            } else {
-                                // $SignDay->where($map)->save(array('signday' => 1));
-                                $SignDay->where("userid=%d and ptid=%d", array(
-                                    $map['userid'],
-                                    $map['ptid']
-                                ))->save(array(
-                                    'signday' => 1
-                                ));
-                            }
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    //非连续签到
-                    } else {
-                        // $SignDay->where($map)->save(array('signday' => 1));
-                        $SignDay->where("userid=%d and ptid=%d", array(
-                            $map['userid'],
-                            $map['ptid']
-                        ))->save(array(
-                            'signday' => 1
-                        ));
-                        return 1;
-                    }
-                } else {
-                    $sign_day_data = array();
-                    $sign_day_data['userid'] = $session['id']; // $_SESSION['_USER']['id'];
-                    $sign_day_data['channelid'] = $session['customer_id']; // $_SESSION['_USER']['customer_id'];
-                    $sign_day_data['ptid'] = $session['platform_id']; // $_SESSION['_USER']['platform_id'];
-                    $sign_day_data['signtotal'] = 1;
-                    $sign_day_data['signday'] = 1;
-                    $sign_day_data['createtime'] = date('Y-m-d H:i:s');
-                    $sign_day_data['updatetime'] = date('Y-m-d H:i:s');
-                    $SignDay->add($sign_day_data);
-                    // ///////////以下语句是为招行抽奖平台设计的：当用户从来没有签到过的话，历史用户数加1.
-                    if ((online_redis_server == true) && ($_SESSION['PLATFORM_CODE'] == 'ZHCJ')) {
-                        // $dateStr = date('Ymd');
-                        if (empty($redis))
-                            $redis = new \Vendor\Redis\DefaultRedis();
-                        $redis->databaseSelect();
-                        $cmb_luckydraw_user_total = $redis->get('cmb_luckydraw_user_total'); // 'cmb_luckydraw_user_total' . '_' .$dateStr
-                        if ($cmb_luckydraw_user_total) {
-                            $redis->set('cmb_luckydraw_user_total', $cmb_luckydraw_user_total + 1);
-                        } // else {
-                              // $redis->set('cmb_luckydraw_user_total' . '_' .$dateStr, 1);
-                              // }
-                    }
-                    return 1;
-                }
-            } else {
-                // 签到失败
-                return 0;
-            }
-        } else {
-            // 今日已签到
-            return - 1;
-        }
-    } else {
-        // 不存在平台code
-        return 0;
-    }
-}
+//function doSign($redis, $redisLog)
+//{
+//
+//    if ($_SESSION['PLATFORM_CODE']) { // modified by shao xiaoling
+//                                      // if ($_SESSION['_USER']) {
+//        $SignRecord = D('sign_record');
+//        $where = array();
+//        $session = $_SESSION[$_SESSION['PLATFORM_CODE']];
+//        // $where['userid'] = $session['id'] ;//$_SESSION['_USER']['id'];
+//        // $where['ptid'] = $session['platform_id']; //$_SESSION['_USER']['platform_id'];
+//        // $where['_string'] = "signtime between '" . date('Y-m-d H:i:s', strtotime(date('Y-m-d'))) . "' and '" . date('Y-m-d H:i:s', (strtotime(date('Y-m-d')) + 24 * 3600)) . "'";
+//        // $sign_record_data = $SignRecord->where($where)->find(); //不加数据库查询的缓存
+//        $sign_record_data = $SignRecord->where("userid=%d and ptid=%d and (signtime between '%s' and '%s') ", array(
+//            $session['id'],
+//            $session['platform_id'],
+//            date('Y-m-d H:i:s', strtotime(date('Y-m-d'))),
+//            date('Y-m-d H:i:s', (strtotime(date('Y-m-d')) + 24 * 3600))
+//        ))->find(); // 不加数据库查询的缓存
+//        if (empty($sign_record_data)) {
+//
+//            $data = array();
+//            $data['userid'] = $session['id']; // $_SESSION['_USER']['id'];
+//            $data['channelid'] = $session['customer_id']; // $_SESSION['_USER']['customer_id'];
+//            $data['ptid'] = $session['platform_id']; // $_SESSION['_USER']['platform_id'];
+////            $data['ptname'] = $session['platform_name']; // $_SESSION['_USER']['platform_name'];
+//            $data['signtime'] = date('Y-m-d H:i:s');
+////            var_dump($data);die;
+//            if ($SignRecord->add($data)) {
+//                // ///////////以下语句是为招行抽奖平台设计的：当用户当天没有签到过的话，当天签到用户数加1.
+//                if ((online_redis_server == true) && ($_SESSION['PLATFORM_CODE'] == 'ZHCJ')) {
+//                    if (empty($redis))
+//                        $redis = new \Vendor\Redis\DefaultRedis();
+//                    $redis->databaseSelect();
+//                    $dateStr = date('Ymd');
+//                    $cmb_luckydraw_today_user_total = $redis->get('cmb_luckydraw_today_user_total' . '_' . $dateStr);
+//                    if ($cmb_luckydraw_today_user_total) {
+//                        $redis->set('cmb_luckydraw_today_user_total' . '_' . $dateStr, $cmb_luckydraw_today_user_total + 1, 24 * 60 * 60);
+//                    }
+//
+//                    // /////同步招行签到记录
+//                    $checkInTime = date('Y-m-d%20H:i:s', strtotime($data['signtime']));
+//                    $checkInTimeEncoded = urlencode(base64_encode($checkInTime));
+//                    $openidEncoded = urlencode(base64_encode($_SESSION['ZHCJ']['ZhcjOpenid']));
+//                    if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE) {
+//                        $url = 'https://pointbonus.cmbchina.com/IMSPActivities/checkIn/index?openid=' . $openidEncoded . '&checkInTime=' . $checkInTimeEncoded;
+//                    } else {
+//                        $url = 'http://pointbonustest.dev.cmbchina.com/IMSPActivities/checkIn/index?openid=' . $openidEncoded . '&checkInTime=' . $checkInTimeEncoded;
+//                    }
+//                    if ($_SESSION['ZHCJ']['ZhcjOpenid']) {
+//                        $redis->set('cmd_send_url:' . $_SESSION['ZHCJ']['ZhcjOpenid'], $url, 24 * 60 * 60);
+//                    }
+//                }
+//                // ///////////end 招行抽奖平台语句
+//                $SignDay = M('sign_day');
+//                $map = array();
+//                $map['userid'] = $session['id']; // $_SESSION['_USER']['id'];
+//                $map['ptid'] = $session['platform_id']; // $_SESSION['_USER']['platform_id'];
+//                                                        // $info = $SignDay->where($map)->find(); //不加数据库查询的缓存
+//                $info = $SignDay->where("userid=%d and ptid=%d", array(
+//                    $map['userid'],
+//                    $map['ptid']
+//                ))->find(); // 不加数据库查询的缓存
+//                if ($info) {
+//                    // $SignDay->where("userid=%d and ptid=%d", array($map['userid'], $map['ptid']))->setInc('signtotal', 1);
+//                    $SignDay->where("userid=%d and ptid=%d", array(
+//                        $map['userid'],
+//                        $map['ptid']
+//                    ))->save(array(
+//                        'signtotal' => $info['signtotal'] + 1,
+//                        'updatetime' => date('Y-m-d H:i:s')
+//                    )); // 更新updatetime： 2016-12-20
+//                    //连续签到
+//                    if (isContinueSign()) {
+//                        $Platform = D('platform');
+//                        // $platform_data = $Platform->where(array('id' => $session['platform_id']))->cache(true, 3600)->find();
+//                        $platform_data = $Platform->where("id=%d", $session['platform_id'])
+//                            ->cache(true, 3600)
+//                            ->find();
+//                        if ($platform_data['checkcycle'] > 0) {
+//
+//                            //连续签到时间小于签到时间上限
+//                            if ($info['signday'] < $platform_data['checkcycle']) {
+//                                // $SignDay->where($map)->setInc('signday', 1);
+//                                $SignDay->where("userid=%d and ptid=%d", array(
+//                                    $map['userid'],
+//                                    $map['ptid']
+//                                ))->setInc('signday', 1);
+//                            } else {
+//                                // $SignDay->where($map)->save(array('signday' => 1));
+//                                $SignDay->where("userid=%d and ptid=%d", array(
+//                                    $map['userid'],
+//                                    $map['ptid']
+//                                ))->save(array(
+//                                    'signday' => 1
+//                                ));
+//                            }
+//                            return 1;
+//                        } else {
+//                            return 0;
+//                        }
+//                    //非连续签到
+//                    } else {
+//                        // $SignDay->where($map)->save(array('signday' => 1));
+//                        $SignDay->where("userid=%d and ptid=%d", array(
+//                            $map['userid'],
+//                            $map['ptid']
+//                        ))->save(array(
+//                            'signday' => 1
+//                        ));
+//                        return 1;
+//                    }
+//                } else {
+//                    $sign_day_data = array();
+//                    $sign_day_data['userid'] = $session['id']; // $_SESSION['_USER']['id'];
+//                    $sign_day_data['channelid'] = $session['customer_id']; // $_SESSION['_USER']['customer_id'];
+//                    $sign_day_data['ptid'] = $session['platform_id']; // $_SESSION['_USER']['platform_id'];
+//                    $sign_day_data['signtotal'] = 1;
+//                    $sign_day_data['signday'] = 1;
+//                    $sign_day_data['createtime'] = date('Y-m-d H:i:s');
+//                    $sign_day_data['updatetime'] = date('Y-m-d H:i:s');
+//                    $SignDay->add($sign_day_data);
+//                    // ///////////以下语句是为招行抽奖平台设计的：当用户从来没有签到过的话，历史用户数加1.
+//                    if ((online_redis_server == true) && ($_SESSION['PLATFORM_CODE'] == 'ZHCJ')) {
+//                        // $dateStr = date('Ymd');
+//                        if (empty($redis))
+//                            $redis = new \Vendor\Redis\DefaultRedis();
+//                        $redis->databaseSelect();
+//                        $cmb_luckydraw_user_total = $redis->get('cmb_luckydraw_user_total'); // 'cmb_luckydraw_user_total' . '_' .$dateStr
+//                        if ($cmb_luckydraw_user_total) {
+//                            $redis->set('cmb_luckydraw_user_total', $cmb_luckydraw_user_total + 1);
+//                        } // else {
+//                              // $redis->set('cmb_luckydraw_user_total' . '_' .$dateStr, 1);
+//                              // }
+//                    }
+//                    return 1;
+//                }
+//            } else {
+//                // 签到失败
+//                return 0;
+//            }
+//        } else {
+//            // 今日已签到
+//            return - 1;
+//        }
+//    } else {
+//        // 不存在平台code
+//        return 0;
+//    }
+//}
 
 // 招行代码结束
 
