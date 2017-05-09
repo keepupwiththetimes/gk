@@ -191,9 +191,9 @@ function encrypt($key, $data)
 }
 
 // 检测关系
-function is_bind($data, $is_bind_url = '')
+function is_bind($platform_code, $data, $is_bind_url = '')
 {
-    $platform_code = $_SESSION['PLATFORM_CODE'];
+    //$platform_code = $_SESSION['PLATFORM_CODE'];
     $post_data['merchantId'] = strval($data['merchantId']);
     $post_data['nonce'] = strval($data['nonce']);
     $post_data['timestamp'] = strval($data['timestamp']);

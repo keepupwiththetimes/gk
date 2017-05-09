@@ -95,7 +95,8 @@ if (DEBUG_ON_LOCALHOST_OR_201TESTINGSERVER == FALSE) { // 在正式服务器上�
         'WEB_NAME' => '乐天邦微信版',
         // 数据库配置项
         'DB_TYPE' => 'mysql',
-        'DB_HOST' => '127.0.0.1',
+        'DB_HOST' => '139.224.0.198',
+        // 'DB_HOST' => '127.0.0.1',
         // 'DB_HOST' => 'rm-uf685d499m5uvq1o6.mysql.rds.aliyuncs.com',
         'DB_NAME' => 'uatzsmp',
         'DB_USER' => 'zwcm',
