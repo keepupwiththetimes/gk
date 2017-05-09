@@ -1,0 +1,1489 @@
+<include FILE="Public:header" />
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	-webkit-tap-highlight-color: transparent;
+}
+/*阻止被选中*/
+html, body {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+body {
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #333;
+	font-size: 12px;
+	font-family: "Microsoft YaHei";
+	background: url(__Home_IMG__/wheel2/ltb/bg.png) no-repeat;
+	background-size: cover;
+	overflow: hidden;
+}
+
+.header {
+	width: 100%;
+	text-align: center;
+}
+
+.header img {
+	width: 86%;
+}
+
+/* 大转盘样式 */
+.banner {
+	display: block;
+	padding: 24px;
+	padding-bottom: 0;
+	margin: 0 auto;
+	position: absolute;
+	top: 29%;
+}
+
+.banner .turnplate {
+	display: block;
+	width: 100%;
+	position: relative;
+	/*background-image: url(__Home_IMG__/wheel2/ltb/turnplate-bg.png);
+	background-size: 100% 100%;*/
+}
+
+.banner .turnplate canvas.item {
+	width: 100%;
+}
+
+.banner .turnplate img.pointer {
+	position: absolute;
+	width: 22.5%;
+	height: 28.5%;
+	left: 38.55%;
+	top: 32.2%;
+}
+
+canvas.item {
+	width: 100%;
+}
+
+img.pointer {
+	position: absolute;
+	width: 27%;
+	height: 35%;
+	left: 36.48%;
+	top: 28%;
+}
+
+.right-top-cloud {
+	display: block;
+	width: 15%;
+	float: right;
+	height: auto;
+	margin-right: 3%;
+}
+
+.left-top {
+	/*display: none;*/
+	width: 15%;
+	float: left;
+}
+
+.left-bottom-cloud {
+	display: block;
+	width: 9%;
+	height: auto;
+	position: absolute;
+	margin-left: 9%;
+	bottom: 35%;
+}
+
+.rule-activity {
+	width: 100%;
+	position: absolute;
+	/*bottom: 1.5%;*/
+	bottom: 5%;
+	height: 7%;
+	display: none;
+}
+
+.rule-activity a {
+	text-decoration: none;
+	display: block;
+	width: 72%;
+	margin: auto;
+	font-size: 12px;
+	margin-left: 20%;
+	color: white;
+}
+
+.luckdraw-bottom {
+	width: 100%;
+	position: absolute;
+	bottom: 12%;
+	/*bottom: 40px;*/
+	height: 7%;
+}
+
+.luckdraw-bottom-left {
+	display: inline-table;
+	width: 58%;
+	height: 10px;
+	float: left;
+}
+
+.bg-color {
+	display: block;
+	width: 75%;
+	height: 9px;
+	float: left;
+	font-size: 16px;
+	background-color: white;
+	margin-top: 10px;
+	margin-left: 13.8%;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.step-box {
+	display: inline-block;
+	float: left;
+	width: 33.33%;
+	position: relative;
+}
+
+
+.luckdraw-bottom-left p {
+	display: block;
+	width: 75%;
+	font-size: 12px;
+	color: white;
+	float: left;
+	margin-left: 13.8%;
+	margin-top: 13px;
+}
+
+.fa-check-circle {
+	display: inline-block;
+	float: right;
+	margin-top: -4px;
+	font-size: 18px;
+	color: white;
+	position: absolute;
+	right: 0%;
+}
+
+.bottom-message {
+	width: 87%;
+	/* float: right; */
+	position: absolute;
+	right: 2%;
+	bottom: 2%;
+}
+
+.login-input-phone input {
+	line-height: 34px;
+	width: 75%;
+	padding-left: 36px;
+	font-size: 16px;
+	border-radius: 10px;
+}
+
+.login-input-phone input:focus {
+	color: black;
+	line-height: 34px;
+	width: 75%;
+	font-size: 16px;
+	padding-left: 36px;
+	border-radius: 10px;
+	outline: none;
+}
+
+.common-login ul {
+	margin-top: -4%;
+	opacity: 0.8;
+	font-size: 0.7rem;
+	padding-bottom: 5%;
+}
+
+.point-container .point-word {
+	padding: 2%;
+	height: 50%;
+	/*overflow-y: scroll;*/
+	padding-left: 5%;
+	padding-right: 5%;
+	width: 90%;
+}
+
+.bg-line hr {
+	height: 1px;
+	border: none;
+	width: 98%;
+	position: absolute;
+	/* margin: auto; */
+	top: 7px;
+	overflow: hidden;
+}
+
+@media only screen and (min-width: 479px) {
+	.banner {
+		display: block;
+		width: 70%;
+		padding: 20px;
+		margin: 0 auto;
+		position: absolute;
+		top: 65%;
+		left: 12%;
+	}
+	.luckdraw-bottom {
+		width: 100%;
+		position: relative;
+		bottom: -140%;
+		height: 0%;
+	}
+	.rule-activity {
+		width: 100%;
+		position: relative;
+		bottom: -102.5%;
+		height: 7%;
+		display: none;
+	}
+	.bottom-message {
+		width: 87%;
+		position: absolute;
+		right: 2%;
+		bottom: -900%;
+	}
+	.point-container {
+		display: table;
+		width: 50%;
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 9%;
+		margin: auto;
+		background-color: white;
+		border-radius: 5px;
+		z-index: 10000000;
+	}
+}
+
+#hhr {
+	height: 1px;
+	width: 100%;
+	position: absolute;
+	top: 7px;
+}
+
+.record-test {
+	color: white;
+	position: absolute;
+	bottom: 15px;
+	width: 30%;
+	text-align: center;
+	left: 35%;
+	background-color: transparent;
+}
+
+.record-mask {
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.2);
+	position: fixed;
+	top: 0px;
+	display: none
+}
+
+.record-list {
+	top: 21%;
+	left: 6%;
+	right: 6%;
+	height: 252px;
+	position: absolute;
+	background: white;
+	display: none;
+	padding: 20px;
+	overflow: auto;
+	z-index: 10;
+}
+
+.record-tile {
+	height: 30px;
+	line-height: 30px;
+	width: 100px;
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	border-bottom: 1px solid #EEEEEE;
+	font-size: 14px;
+	color: rgb(236, 66, 66);
+	font-weight: bold;
+}
+
+.record-item {
+	padding: 10px;
+	border-bottom: 1px solid #EEEEEE;
+	position: relative;
+}
+
+.record-item img{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+}
+
+.record-name {
+	width: 100%;
+	float: left;
+}
+
+.record-time {
+	color: #999999;
+}
+
+.record-xiangqing {
+	float: right;
+	color: #999999;
+}
+
+.record2 {
+	display: inline-block;
+	text-align: center;
+	padding-left: 4%;
+	font-size: 0.7rem;
+}
+
+.btn-rule {
+	display: inline-block;
+	text-align: center;
+	float: right;
+	padding-right: 4%;
+}
+
+
+.change-phone {
+	color: #beaa38;
+	/*margin-top: -11%;*/
+	text-align: center;
+	font-size: 1rem;
+	width: 56%;
+	position: absolute;
+	left: 22%;
+}
+
+.color-font {
+    color: white;
+    margin-left: 4%;
+    background-color: #beaa38;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px;
+}
+
+.user-count {
+	position: absolute;
+	width: 100%;
+	margin-top: 1%;
+	height: 30px;
+	z-index: 1;
+}
+
+.fa-user {
+	font-size: 1.1rem;
+	color: #beaa38;
+}
+
+@media all and (orientation : landscape) {
+	.record-test {
+		bottom: -180%;
+		padding-bottom: 10px;
+	}
+	.banner {
+		top: 95%;
+	}
+}
+
+
+@media screen and (max-device-height: 480px) /* 兼容iphone4/4s */ {
+	body {
+		background-size: 100% 100%;
+	}
+	.header img {
+		width: 51%;
+	}
+	.change-phone {
+		margin-top: -16%;
+	}
+	.record2 {
+		bottom: -64%;
+	}
+}
+.gray{
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+.fa-stack{
+	display: block;
+	margin: auto;
+	font-size: 1.5rem;
+	background: red;
+}
+
+.ltb-home{
+	position: absolute;
+	bottom: 0%;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+}
+.fa-home{
+	display: inline-block;
+	margin: auto;
+	font-size: 2.6rem;	
+}
+
+.fa-th-large{
+	padding-top: 1.4px;
+}
+.luckdraw-bottom span,.fa-home{
+	color: rgb(230,128,18);
+}
+.fa-stack{
+	color: rgba(230,128,18,0) !important;
+}
+.ltb-home span{
+	color: rgb(230,128,18);
+	font-size: 0.72rem;
+}
+.rzname img{
+	margin-top: 8px;
+    width: 93%;
+}
+.rulehead,.recordhead{
+	position: absolute;
+    min-height: 19%;
+    top: 17%;
+    left: 36%;
+    width: 32%;
+    background: white;
+    border-radius: 50%;
+    z-index: 10;
+}
+.rulehead img,.recordhead img{
+	margin: auto;
+    display: block;
+    width: 60%;
+    margin-top: 11%;
+}
+.ruleclose,.recordclose,.pzclose{
+	width: 30px;
+    position: absolute;
+    top: 17%;
+    right: 8%;
+    z-index: 10;
+}
+
+.rule-bg ,.recordbg,.pzbg{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 10;
+}
+.luck-rule ,.recordlist{
+    position: absolute;
+    height: 45%;
+    max-height: 55%;
+    top: 32%;
+    left: 8%;
+    width: 84%;
+    background: white;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    /*overflow-y: scroll;*/
+    -webkit-overflow-scrolling: touch;
+    z-index: 10;
+}
+
+.pzlist{
+    position: absolute;
+    min-height: 35%;
+    max-height: 55%;
+    top: 32%;
+    left: 8%;
+    width: 84%;
+    background: white;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 10;	
+}
+
+.luck-rule p{
+	width: 85%;
+	text-align: left;
+	margin-left: 7%;
+	color: gray;
+	margin-bottom: 2%;
+}
+.recordlist{
+	border-bottom: 15px solid white;
+}
+.recordlist ul{
+	margin: auto;
+	width: 86%;
+	margin-top: 108px;
+	margin-bottom: 18px;
+}
+.pztiphead{
+	width: 56%;
+    position: absolute;
+    top: 7%;
+    z-index: 20;
+    left: 22%;
+}
+
+.pznamed{
+	display: block;
+	font-size: 1rem;
+    line-height: 20px;
+    position: relative;
+    top: -47px;
+    color: white;
+}
+.gzname img{
+	margin-top: 8px;
+    width: 92%;
+}
+.pzlist button{
+	display: block;
+    margin: auto;
+    width: 60%;
+    height: 36px;
+    line-height: 30px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bolder;
+    margin-bottom: 4%;
+}
+.recordlist ul li span{
+	float: right;
+	color: gray;
+}
+.recordlist ul li font{
+	color: gray;
+}
+.fa-chevron-right{
+	padding-left: 4px;
+}
+.usel{
+	display: inline-block;
+	color: transparent !important;
+	background: url(__Home_IMG__/wheel2/ltb/sx.png);
+	background-size: 100% 100%;
+	font-size: 1.3rem;
+	position: relative;
+	top: -10px;
+	
+}
+.luck-rule{
+	border-bottom: 15px solid white;
+}
+.recordlist ul li{
+	color: rgb(230,128,18);
+    font-size: 0.75rem;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #dedede;
+}
+.recordlist p{
+	display: block;
+    width: 85%;
+    text-align: center;
+    margin: auto;
+    color: rgb(230,128,18);
+    font-size: 1rem;
+    margin-bottom: 4%;
+}
+.golq{
+	color: rgb(230,128,18) !important;
+}
+.pzlist p{
+	display: block;
+    width: 85%;
+    text-align: center;
+    margin: auto;
+    color: rgb(230,128,18);
+    font-size: 1rem;
+    margin-bottom: 4%;
+}
+.tdz{
+    display: block;
+    width: 56%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.llq{
+    display: block;
+    width: 56%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.zcy{
+    display: block;
+    width: 56%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.yhq{
+    display: block;
+    width: 56%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.bhxm{
+
+}
+.gzname,.rzname{
+    position: absolute;
+    width: 84%;
+    height: 70px;
+    left: 8%;
+    top: 30%;
+    text-align: center;
+    background-color: white;
+    z-index: 5555555;
+    border-radius: 5px;
+}
+
+.ktt,.jzd{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.jzd{
+	z-index: 8;
+}
+.fa-chevron-right{
+	-webkit-text-stroke: 1px;
+	-webkit-text-stroke-color: white;
+}
+.pzlist{
+	min-height: 35%;
+	text-align: center;
+}
+
+.pzlist button{
+	margin-top: 20px;
+}
+
+.login-background{
+	z-index: 10;
+}
+.bhxn{
+    display: block;
+    width: 56%;
+    margin: auto;
+    margin-bottom: 10px;	
+}
+.nopzp{
+	width: 80%;
+    margin: auto;
+    margin-left: 10%;
+    margin-top: 133px;
+}
+.checkyzm{
+	width: 39%;
+}
+.getyzm{
+	width: 39%;
+}
+</style>
+
+
+
+</head>
+<body>
+	<div class="header">
+		<img src="__Home_IMG__/wheel2/ltb/title.png">
+	</div>
+	<div>
+		<php>if($mode['LEFT_SIGN']['state']){</php>
+
+		<img
+			src="__Home_IMG__/wheel2{$image_path}/{$mode['LEFT_SIGN']['img_name']}"
+			class="left-top">
+		<php>}</php>
+		<php>if($mode['RIGHT_SIGN']['state']){</php>
+		<img
+			src="__Home_IMG__/wheel2{$image_path}/{$mode['RIGHT_SIGN']['img_name']}"
+			class="right-top-cloud">
+		<php>}</php>
+	</div>
+	<div class="user-count">
+		<span class="change-phone"><i class="fa fa-user"></i>&nbsp; <php>if($_SESSION[$_SESSION['PLATFORM_CODE']]['tel']){</php>
+			<span id="phoneNumber">{$masked_phone_number}</span><font
+			class="color-font">修改</font> <php>}else{</php> 未登录 <php>}</php> </span>
+	</div>
+	<div class="banner">
+		<div class="turnplate">
+			<canvas class="item" id="wheel_canvas" width="410px" height="410px"
+				style="display: block;"></canvas>
+			<img class="pointer" id="signPointer"
+				src="__Home_IMG__/wheel2/ltb/turnplate-pointer.png">
+		</div>
+	</div>
+	<div class="luckdraw-bottom" style="display: block">
+		<div class="record2" id="record">
+			<span class="fa-stack fa-lg" style="background: url(__Home_IMG__/wheel2/ltb/pz.png);background-size: cover;">
+			  <i class="fa fa-circle-o fa-stack-2x"></i>
+			  <i class="fa fa-gift fa-stack-1x"></i>
+			</span>
+			<span>中奖记录</span>
+		</div>
+		<div class="btn-rule">
+			<span class="fa-stack fa-lg"style="background: url(__Home_IMG__/wheel2/ltb/gz.png);background-size: cover;">
+			  <i class="fa fa-circle-o fa-stack-2x"></i>
+			  <i class="fa fa-th-large fa-stack-1x"></i>
+			</span>
+			<span>活动规则</span> 
+		</div>
+	</div>
+	<div class="ltb-home">
+			<a href="<?php if($platformUrl) {echo $platformUrl;} else {echo 'javascript:void(0)';}?>"><span><i class="fa fa-home"></i><br>首页</span> </a>
+	</div>
+	
+	<div class="record-mask"></div>
+	<div class="record-list"></div>
+	<div class="rule-bg">
+		<div class="ktt">
+		<div class="jzd"></div>
+		<img class="ruleclose closebg" src="__Home_IMG__/zsh2.0/order/close.png"/>
+		<div class="rulehead"><img src="__Home_IMG__/wheel2/ltb/pht.png"></div>
+		<div class="gzname"><img src ="__Home_IMG__/wheel2/ltb/hdgz.png"></div>
+		<div class="luck-rule">
+			<p class="scroll1" style="overflow-y:scroll; -webkit-overflow-scrolling: touch; height: 70%;margin-top: 80px;">
+				<strong>活动时间</strong>：即日起至2017年12月31日<br />
+				<br /> <strong>活动规则</strong>：凡光临乐天邦的用户，每天获得一次抽奖机会，当转盘停止转动时，指针指向的物品就是中奖奖品。抽奖页面显示的手机号码为用户默认参与抽奖和接收中奖短信的号码，请用户在抽奖之前确认或修改。<br />
+				<br /> <strong>参与方式</strong>：每天签到，即可获得一次参与幸运大转盘活动的资格。<br />
+				<br /> <strong>奖品发送</strong>：每一轮转盘抽奖结束，点击立即领奖即可，并可在中奖纪录查看自己的奖品。实体奖品请填写收货地址后点击领奖。<br />
+				<br /> <strong>领奖期限</strong>：中奖后5个工作日内领取，否则视为主动放弃。<br/>
+				<br /><strong>免责声明</strong>：本活动平台由乐天邦提供。平台所提供商品、赠品及其广告、商品、赠品之包装，均无违反《消费者权益保护法》及其它相关法律法规。<br/>
+				<br />用户所输入的个人资料如手机号码完全基于用户自愿的条件下，仅用于抽奖及领取优惠券、优惠商户核销，除此以外不对用户数据进行任何形式的第三方收集及传输、不用于其他商业用途。<br/>
+				<br />用户如对活动奖品、服务有疑问，可联系乐天邦客服热线：021-62457922。
+			</p>
+		</div>
+			<!--<p><span>活动时间:</span></p>
+			<p><span>领奖期限:</span></p>-->
+		</div>
+	</div>
+	<div class="recordbg">
+		<div class="ktt">
+		<div class="jzd"></div>
+		<img class="recordclose closebg" src="__Home_IMG__/zsh2.0/order/close.png"/>
+		<div class="recordhead"><img src="__Home_IMG__/wheel2/ltb/ph.png"></div>
+		<div class="rzname"><img src="__Home_IMG__/wheel2/ltb/wdjp.png"></div>
+		<div class="recordlist">
+			<img class="nopzp" src="__Home_IMG__/wheel2/ltb/kjl.png" alt="还没有中过奖,快去试试手气吧~" style="display: none;">
+			<ul class="scroll" style="overflow-y:scroll; -webkit-overflow-scrolling: touch; height: 66%;">
+				<!--<li>优惠券<span class="usel">已过期</span></li>
+				<li>优惠券<span class="usef">详情<i class="fa fa-chevron-right"></i></span></li>-->
+			</ul>
+
+		</div>
+		</div>
+	</div>
+	<div class="pzbg">
+		<div class="ktt">
+		<img class="pzclose closebg" src="__Home_IMG__/zsh2.0/order/close.png"/>
+		<img class="pztiphead" src="__Home_IMG__/wheel2/ltb/failed.png">
+		<div class="pzlist">
+			<img class="myzjmtzl" alt=""><span class="pznamed"></span>
+			<img class="bhxn" src="__Home_IMG__/wheel2/ltb/bhxn.png" alt="别灰心,你还可以" style="display: none;">
+			<img class="tdz"  src="__Home_IMG__/wheel2/ltb/dzs.png" alt="填写地址" style="display: none;">
+			<img class="bhxm" src="__Home_IMG__/wheel2/ltb/bhx.png" alt="别灰心,明天再来" style="display: none;">
+			<img class="llq" src="__Home_IMG__/wheel2/ltb/lq.png" alt="立即领取" style="display: none;" data-orderid=''>
+			<img class="zcy" src="__Home_IMG__/wheel2/ltb/zcy.png" alt="再抽一次" style="display: none;">
+			<if condition = "$platformUrl">
+				<img class="yhq" src="__Home_IMG__/wheel2/ltb/lqgd.png" alt="领取更多优惠券" style="display: none;">
+			</if>
+		</div>
+		</div>
+	</div>
+	<script>
+wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{$sign_package.appId}', // 必填，公众号的唯一标识
+    timestamp: '{$sign_package.timestamp}', // 必填，生成签名的时间戳
+    nonceStr: '{$sign_package.nonceStr}', // 必填，生成签名的随机串
+    signature: '{$sign_package.signature}',// 必填，签名，见附录1
+    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','hideMenuItems','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','onOpenAddress']// 必填，需要使用的JS接口列表
+});
+
+      wx.ready(function () {
+          wx.onMenuShareTimeline({
+              title: '{$SHARE["title"]}', // 分享标题
+              link: '{$SHARE["link"]}', // 分享链接
+              imgUrl: '{$SHARE["imgUrl"]}', // 分享图标
+              success: function () {
+                  // 用户确认分享后执行的回调函数
+                  var url  = "{:U('Home/Ajax/shareLog/type/1')}";
+                  var data = '{$SHARE["product_id"]}';
+                  $.post(url,{product_id:data});
+
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+              }
+          });
+
+          wx.onMenuShareAppMessage({
+              title: '{$SHARE["title"]}', // 分享标题
+              desc: '{$SHARE["desc"]}', // 分享描述
+              link: '{$SHARE["link"]}', // 分享链接
+              imgUrl: '{$SHARE["imgUrl"]}', // 分享图标
+              type: '', // 分享类型,music、video或link，不填默认为link
+              dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+              success: function () {
+                  // 用户确认分享后执行的回调函数
+                  var url  = "{:U('Home/Ajax/shareLog/type/2')}"; 
+                  var data = "{$SHARE['product_id']}";
+                  $.post(url,{product_id:data});
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+              }
+          });
+      });
+     </script>
+	<script src="__Home_JS__/zsh2.0/loading.js" type="text/javascript" charset="utf-8"></script>
+	<include FILE="User:login" />
+	<script type="text/javascript">
+	var mo=function(e){e.preventDefault();}//禁止页面滑动
+	    var isclickyet = true;
+	//弹窗
+	function showTips (state,txt) {
+//		document.addEventListener('touchmove',mo,false);
+		switch (state){
+			case 0://没有中奖,再抽一次
+			$('.myzjmtzl').attr('src','__Home_IMG__/wheel2/ltb/mzj.png');		
+//			$('.pzlist h3').css('background','url(__Home_IMG__/wheel2/ltb/passerd.png)');
+			$('.myzjmtzl').css('width','90%');
+			$('.myzjmtzl').css('margin-top','10px');
+			$('.pztiphead').css('top','8%');
+			$('.bhxn').show();
+			$('.zcy').show();
+			$('.ktt').css('top','0%');
+			$('.pzlist').css('min-height','35%');
+			$(".ktt").removeClass('zoomOut animated');
+			$(".ktt").addClass('zoomIn animated');
+			$('.pzbg').show();
+				break;
+			case 1://中奖
+//			$('.pts').html('中奖啦!');
+			$('.myzjmtzl').attr('src','__Home_IMG__/wheel2/ltb/zjl.png');
+			$('.pznamed').html(txt);
+			$('.pztiphead').attr('src','__Home_IMG__/wheel2/ltb/success.png');
+			$('.pztiphead').css({'width':'60%','left':'20%','top':'12%'});
+			$('.myzjmtzl').css('width','90%');
+			$('.myzjmtzl').css('margin-top','10px');
+			$('.llq').css('margin-top','20px');
+			$('.llq').show();
+			$('.ktt').css('top','0%');
+			$('.pzlist').css('min-height','35%');
+			$(".ktt").removeClass('zoomOut animated');
+			$(".ktt").addClass('zoomIn animated');			
+			$('.pzbg').show();
+				break;
+			case 2://没有中奖,明天再来
+			$('.myzjmtzl').attr('src','__Home_IMG__/wheel2/ltb/mzj.png');
+			$('.myzjmtzl').css('width','90%');
+			$('.myzjmtzl').css('margin-top','10px');
+			$('.pznamed').hide();
+			$('.pzhead').attr('src','__Home_IMG__/wheel2/ltb/failed.png');
+			$('.pztiphead').css('top','8%');
+			$(".ktt").removeClass('zoomOut animated');
+			$(".ktt").addClass('zoomIn animated');
+			var getticker = document.getElementsByClassName('yhq')[0];
+			if (!getticker) {
+				$('.ktt').css('top','10%');
+				$('.pzlist').css('min-height','0%');
+				$('.myzjmtzl').css('margin-top','6%');
+			}
+			$('.yhq').css('margin-top','20px');
+			$('.yhq').show();			
+			$('.pzbg').show();
+				break;
+			case 3://当天已抽过,明天再来
+//			$('.pts').html('你今天已经抽过奖了');
+			$('.myzjmtzl').attr('src','__Home_IMG__/wheel2/ltb/mtzl.png');
+//			$('.pzlist p').html();
+			$('.pznamed').hide();
+			$('.llq').hide();
+//			$('.pzlist h3').css('background','url(__Home_IMG__/wheel2/ltb/passerd.png)');
+			$('.myzjmtzl').css('margin-top','10px');
+			$('.myzjmtzl').css('width','90%');
+//			$('.pzlist p').show();
+			$('.yhq').css('margin-top','20px');
+			$('.yhq').show();
+			var getticker = document.getElementsByClassName('yhq')[0];
+			if (!getticker) {
+				$('.ktt').css('top','10%');
+				$('.myzjmtzl').css('margin-top','6%');
+				$('.pzlist').css('min-height','0%')
+			}
+			$('.pztiphead').attr('src','__Home_IMG__/wheel2/ltb/camed.png');
+			$('.pztiphead').css({'width':'40%','left':'30%','top':'7%'});
+			$(".ktt").removeClass('zoomOut animated');
+			$(".ktt").addClass('zoomIn animated');
+			$('.pzbg').show();
+				break;
+			default:
+				break;
+		}
+	}
+function rnd(n, m){
+	var random = Math.floor(Math.random()*(m-n+1)+n);
+	return random;
+	
+}
+//$('.ltb-home').html('<img src = "__Home_IMG__/wheel2/ltb/home.png" style = "width:10%">');
+if ($('.ltb-home a').attr('href').length<30) {
+	$('.ltb-home').html('<img src = "__Home_IMG__/wheel2/ltb/home.png" style = "width:18%;position:relative;top:20px;">');
+}
+  
+//解决遮盖层与底层滑动问题
+var overscroll = function(el) {
+  el.addEventListener('touchstart', function() {
+    var top = el.scrollTop
+      , totalScroll = el.scrollHeight
+      , currentScroll = top + el.offsetHeight;
+    if(top === 0) {
+      el.scrollTop = 1;
+    } else if(currentScroll === totalScroll) {
+      el.scrollTop = top - 1;
+    }
+  });
+  el.addEventListener('touchmove', function(evt) {
+    if(el.offsetHeight < el.scrollHeight)
+      evt._isScroller = true;
+  });
+}
+overscroll(document.querySelector('.scroll'));
+overscroll(document.querySelector('.scroll1'));
+document.body.addEventListener('touchmove', function(evt) {
+  if(!evt._isScroller) {
+    evt.preventDefault();
+  }
+});
+  
+//判断优惠券
+$('.yhq').click(function(){
+	var url  = "{:U('Home/Ajax/fromLuckydraw2LetianbangLog/location/luckdrawbutton')}";
+	$.get(url,function(res){
+    });
+	if ('{$platformUrl}'!='') {
+		window.location.href = '{$platformUrl}';
+	}
+});
+$('.fa-home').click(function(){
+	var url  = "{:U('Home/Ajax/fromLuckydraw2LetianbangLog/location/home')}";
+	$.get(url,function(res){
+    });
+});
+$('.btn-rule').bind("click",function(){
+	document.getElementsByClassName('jzd')[0].addEventListener("touchmove",mo,false);   //解除禁止滑动事
+	document.removeEventListener("touchmove",mo,false);
+	$('.ktt').css('top','0%');
+	$(".ktt").removeClass('zoomOut animated');
+	$(".ktt").addClass('zoomIn animated');
+	$('.rule-bg').show();
+});
+//setInterval(function(){
+//	document.body.scrollTop = '0';
+//},10);
+
+$('#login').attr('placeholder','输入手机号码参与抽奖');
+
+$('.change-phone').click(function(){
+login_window_show();
+});
+
+//关闭弹窗
+$('.closebg').click(function(){
+//	document.getElementsByClassName('ktt')[0].removeEventListener("touchmove",mo,false);   //解除禁止滑动事件
+//	document.addEventListener("touchmove",mo,false);
+	$(this).parent().removeClass('zoomIn animated');
+	$(this).parent().addClass('zoomOut animated');
+	$(this).parent().parent().hide();
+});
+
+
+//中奖纪录
+
+var record = false;
+var isFirstGetRecord = true;
+var isPrized = false;
+var noPrizeList = false;
+var isrg = false;
+$("#record").bind("click",function(){
+
+//	document.getElementsByClassName('ktt')[0].addEventListener('touchmove',mo,false);
+	document.getElementsByClassName('jzd')[0].addEventListener("touchmove",mo,false);   //解除禁止滑动事件
+	document.removeEventListener("touchmove",mo,false);
+	
+	if ($('#phoneNumber').text() =='') {
+login_window_show();
+	}else if(isrg){
+		$('.recordlist ul').html('');
+		getRecord();
+		$('.ktt').css('top','0%');
+		$('.recordbg').show();
+		isrg = true;
+		return;
+	}
+	else {
+		if(record){
+//      showMsg('正在获取中奖纪录')
+
+        return false;
+    }
+    //没有中奖记录而且没抽中奖
+    if(noPrizeList && !isPrized) {
+
+//  	showMsg('您暂无中奖纪录！');
+		$(".ktt").removeClass('zoomOut animated');
+		$(".ktt").addClass('zoomIn animated');
+		$('.nopzp').show();
+		$('.ktt').css('top','0%');
+		$('.recordbg').show();
+        return false;
+    } 
+
+    //第一次查看或者抽到奖品
+    if(isFirstGetRecord || isPrized) {
+
+    	getRecord();
+    	isPrized = false;
+    	//不是第一次抽奖了
+        isFirstGetRecord = false;
+    	return false;
+    }
+//      if (isPrized) {
+//  	    	getRecord();
+//  	    	$('.recordbg').show();
+//  }
+    //有中奖纪录并且已经获取过了
+    if(!noPrizeList) {
+//  	$(".record-mask").show();
+//      $(".record-list").show();
+		$('.recordlist ul').html('');
+		getRecord();
+		$('.ktt').css('top','0%');
+		$(".ktt").removeClass('zoomOut animated');
+		$(".ktt").addClass('zoomIn animated');
+        $('.recordbg').show();
+        return false;
+    }
+	}
+	
+
+});
+
+//获取中奖纪录
+function getRecord() 
+{
+    var url = "{:U('Wheel/getRecord')}";
+    $.ajax({
+
+       url:url,
+       data:{dosubmit:'dosubmit'},
+       success:function(data){
+
+        if(data.state==11){
+login_window_show();
+        }else if(data.state==1){
+
+         var str ="";
+         
+         $.each(data.list,function(index,v){
+				if (v['status'] == 1){
+		            str +='<a href="'+v['url']+'">';
+		            str += "<li>";
+		            //str += "<span class='record-name'>"+v['productname']+"</span>"
+		            str += v['productname']+"<br><font>"+ v['updatetime']+"</font><span class='usef'>详情"+"<i class='fa fa-chevron-right'></i></span></li></a>"
+		       }else if(v['status'] == 2){
+					str +='<a href="javascript:void(0)">';
+		            str += "<li onclick = tuk("+v['id']+")>";
+		            //str += "<span class='record-name'>"+v['productname']+"</span>"
+		            str += v['productname']+"<br><font>" +v['updatetime'] +"</font><span class ='golq' id='golq"+v['id']+"'>领取"+"<i class='fa fa-chevron-right'></i></span></li></a>"
+	            }else if(v['status'] == 0){
+			       	str +='<a href="javascript:void(0)">';
+		            str += "<li>"
+		            str +=v['productname']+'<br><font>' + v['updatetime']+"</font><span class='usel'>已过期</span></li></a>"
+	            }
+	         })
+		$('.nopzp').hide();
+         $(".recordlist ul").html(str)
+         $('.ktt').css('top','0%');
+		$(".ktt").removeClass('zoomOut animated');
+		$(".ktt").addClass('zoomIn animated');		
+		$('.recordbg').show();
+        }else{
+		$('.nopzp').show();
+		$('.ktt').css('top','0%');
+		$(".ktt").removeClass('zoomOut animated');
+		$(".ktt").addClass('zoomIn animated');
+         $('.recordbg').show();
+        }
+       }
+    })
+}
+
+function tuk(orderid){
+	if ($('#golq'+orderid).text()=="领取") {
+		$('#golq'+orderid).html("领取中...");
+		recieveReward(orderid);
+	}
+}
+
+</script>
+
+	<script type="text/javascript">
+    var p = false;
+
+    var is_play = 0;
+    var first="{$first}";
+      checkCycle = {$sign_info['sign_cycle']};
+    var turnplate = {
+        restaraunts: [],                //大转盘奖品名称
+        colors: [],                 //大转盘奖品区块对应背景颜色
+        outsideRadius: 180,         //大转盘外圆的半径,大转盘195,小转盘168
+        textRadius: 95,                //大转盘奖品位置距离圆心的距离
+        insideRadius: 10,           //大转盘内圆的半径,小转盘60,大转盘50
+        startAngle: -Math.PI/2,              //开始角度
+        counted:0,
+        bRotate: false              //false:停止;ture:旋转
+    };
+	var arrImg = [{$prize_logo_list}];
+    loadingFn({
+		imgArr:arrImg,
+		loadingOver: function (){
+		   
+		   $(document).ready(function () {
+
+		        //动态添加大转盘的奖品与奖品区域背景颜色
+                turnplate.restaraunts = [{$prize_str}];
+//              turnplate.restaraunts = ['谢谢参与','谢谢参与'];
+                turnplate.colors = [{$prize_bg}];
+                turnplate.imgs = [{$prize_logo_list}];
+		        
+		        //旋转转盘 item:奖品位置; txt：提示语;
+		function rotatens(item,txt,state, product_name, orderid){
+		//计算圆弧
+		is_play = 1;
+		var s = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length*2));
+			var sjs = rnd(-(360*0.7 /(turnplate.restaraunts.length*2)),(360*0.7 /(turnplate.restaraunts.length*2)));
+		s = s - 90 + sjs;
+		if(s<270){
+			s = 270 - s;
+		}else{
+			s = 360 - s + 270;
+		}
+
+		s = 1800*turnplate.counted+s;
+
+		$("#wheel_canvas").css("transition-duration","6s");
+		$("#wheel_canvas").css("transform","rotate("+s+"deg)");
+		s = s- sjs;
+		setTimeout(function(){
+
+			  if(state==1){
+//                  showMsg("亲，恭喜您中奖了, 3 秒钟之后自动跳转到领奖页面!")
+//                  setTimeout(function(){
+//                      location.href = '{:U("Home/Wheel/prize")}';
+//                  },3000)
+                $(".llq").attr('data-orderid',orderid);
+                isPrized = true;
+				showTips(1, product_name);
+                 }else{
+
+                     if(checkCycle> 1){
+
+                            msg = "别灰心哦，再接再厉！累积签到"+checkCycle+"天即获得一次抽奖机会";
+                             showTips(2);
+                        }else{
+							showTips(2);
+                            msg = "别灰心哦，再接再厉！每天都有一次抽奖机会，记得明天再来哦";
+                        }
+//                             setTimeout(function(){
+//			                   	  showMsg(msg);
+//			                   },300);
+
+                        if("{$_SESSION['PLATFORM_CODE']}" == "ZHCJ"){
+                            setTimeout("location.href='{:U('Wheel/signPicture')}';",3000);
+                        }
+                  }
+
+                $('body').css('pointer-events','auto');
+                    turnplate.bRotate = !turnplate.bRotate;
+		},6000);
+
+	}
+
+
+		$('#signPointer').click(function () {
+			isrg = false;
+            document.addEventListener("touchmove",mo,false);//禁止滑动事件
+        	$('body').css('pointer-events','none');
+        	if(turnplate.bRotate){
+			$('body').css('pointer-events','auto');
+			if(checkCycle> 1 ){
+                msg = "亲爱的客户，累积签到"+checkCycle+"天即获得一次抽奖机会";
+                 showTips(3);
+            }else{
+			 showTips(3);
+                msg = "亲，每天都有一次抽奖机会，记得明天再来哦";
+            }
+
+//          showMsg(msg)
+            return
+
+		}
+
+//
+         if(is_play!=0){
+//       	$(document).unbind('touchend');
+         	$('body').css('pointer-events','auto');
+
+            if(checkCycle> 1){
+//          	$('body').css('pointer-events','auto');
+                msg = "亲爱的客户，累积签到"+checkCycle+"天即获得一次抽奖机会";
+                showTips(3);
+            }else{
+
+                msg = "亲，每天都有一次抽奖机会，记得明天再来哦";
+                showTips(3);
+            }
+//           showMsg(msg)
+             return false;
+         }
+         turnplate.bRotate = !turnplate.bRotate;
+            //获取随机数(奖品个数范围内)
+            var url = '{:U("Home/Wheel/prize")}';
+            var data = {ajax: 1};
+            $.post(url, data, function (data_json) {
+//          	$(document).unbind('touchend');
+//			$('body').css('pointer-events','auto');
+			if (!isclickyet) {
+			$('body').css('pointer-events','auto');	
+				showTips(3);
+				return;
+			}
+
+            if(data_json.state==11){
+//            		$(document).unbind('touchend');
+              		$('body').css('pointer-events','auto');
+
+login_window_show();
+                    turnplate.bRotate = !turnplate.bRotate;
+                    return false;
+                }
+             if(!data_json.msg){
+
+                 if(checkCycle> 1){
+
+                    if(first){
+
+                        data_json.msg = "亲爱的客户，第一次签到即可获得一次抽奖机会";
+                    }else{
+
+                        data_json.msg = "亲爱的客户，累积签到"+checkCycle+"天即获得一次抽奖机会3";
+                    }
+                }else{
+
+                    data_json.msg = "亲，每天都有一次抽奖机会，记得明天再来哦";
+                }
+             }
+             if (data_json.state == 0) {
+             	isclickyet = false;
+             	 $('body').css('pointer-events','auto');
+//                  showMsg(data_json.msg)
+				showTips(3);
+                    turnplate.bRotate = !turnplate.bRotate
+             }else
+                {
+                	isclickyet = false;
+                	turnplate.counted++;
+                	//处理数组越界
+                	if (data_json.item  > turnplate.restaraunts.length || data_json.item  < 1) {
+
+                	for (var i = 0; i<turnplate.restaraunts.length;i++) {
+
+                			if (turnplate.restaraunts[i] == "谢谢参与") {
+
+                				data_json.item = i+1;
+                				data_json.state = 2;
+                			}
+                	}
+
+
+                	 rotatens(data_json.item, turnplate.restaraunts[data_json.item - 1],data_json.state, data_json.product_name, data_json.orderid);
+
+                	} else{
+
+                		    rotatens(data_json.item, turnplate.restaraunts[data_json.item - 1],data_json.state, data_json.product_name, data_json.orderid);
+                	}
+
+                }
+            }, 'json')
+
+        });
+    });
+		    //页面所有元素加载完毕后执行drawRouletteWheel()方法对转盘进行渲染
+		    window.onload = function () {
+		        drawRouletteWheel();
+		        /*background-image: url(__Home_IMG__/wheel2/ltb/turnplate-bg.png);
+				background-size: 100% 100%;*/
+				$('.turnplate').css('background-image','url(__Home_IMG__/wheel2/ltb/turnplate-bg.png)');
+				$('.turnplate').css('background-size','100% 100%');
+		    };
+
+		    function drawRouletteWheel() {
+		        var canvas = document.getElementById("wheel_canvas");
+		        if (canvas.getContext) {
+		            //根据奖品个数计算圆周角度
+		            var arc = Math.PI / (turnplate.restaraunts.length / 2);
+		            var ctx = canvas.getContext("2d");
+		            //在给定矩形内清空一个矩形
+		            ctx.clearRect(0, 0, 422, 422);
+		            //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
+		            ctx.strokeStyle = "#a44126";
+		            //font 属性设置或返回画布上文本内容的当前字体属性
+		            ctx.lineWidth=0.3;
+		            ctx.font = '14px Microsoft YaHei';
+		            for (var i = 0; i < turnplate.restaraunts.length; i++) {
+		                var angle = turnplate.startAngle + i * arc;
+		                ctx.fillStyle = turnplate.colors[i];
+		                ctx.beginPath();
+		                //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
+		                ctx.arc(205, 205, turnplate.outsideRadius, angle, angle + arc, false);
+		                ctx.arc(205, 205, turnplate.insideRadius, angle + arc, angle, true);
+		                ctx.stroke();
+		                ctx.fill();
+		                //锁画布(为了保存之前的画布状态)
+		                ctx.save();
+
+		                //----绘制奖品开始----
+		                ctx.fillStyle = "{$font_color}";
+		                var text = turnplate.restaraunts[i];
+		                var line_height = 17;
+		                //translate方法重新映射画布上的 (0,0) 位置
+		                ctx.translate(205 + Math.cos(angle + arc / 2) * turnplate.textRadius, 205 + Math.sin(angle + arc / 2) * turnplate.textRadius);
+
+		                //rotate方法旋转当前的绘图
+		                ctx.rotate(angle + arc / 2 + Math.PI / 2);
+
+		                /** 下面代码根据奖品类型、奖品名称长度渲染不同效果，如字体、颜色、图片效果。(具体根据实际情况改变) **/
+		                if (text.indexOf("||") > 0) {
+		                    var texts = text.split("||");
+		                    for (var j = 0; j < texts.length; j++) {
+		                        ctx.font = j == 0 ? ' Microsoft YaHei' : '16px Microsoft YaHei';
+		                        if (j == 0) {
+		                            ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+		                        } else {
+		                            ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+		                        }
+		                    }
+		                } else if (text.indexOf("||") == -1 && text.length > 6) {
+		                    text = text.substring(0, 6) + "||" + text.substring(6);
+		                    var texts = text.split("||");
+		                    for (var j = 0; j < texts.length; j++) {
+		                        ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
+		                    }
+		                } else {
+		                    //在画布上绘制填色的文本。文本的默认颜色是黑色
+		                    //measureText()方法返回包含一个对象，该对象包含以像素计的指定字体宽度
+		                    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+		                }
+
+		                //添加对应图标
+							  var img= new Image();
+							  img.src = turnplate.imgs[i];
+							  img.onload=function(){
+								  ctx.drawImage(img,-35,-80,80,65);
+							  };
+							  ctx.drawImage(img,-35,-80,80,65);
+
+				  //把当前画布返回（调整）到上一个save()状态之前
+		                ctx.restore();
+		                //----绘制奖品结束----
+		            }
+		        }
+		    }
+
+	   }
+	});
+
+$(".llq").click(function(){
+	var lqzt = document.getElementById('lqz');
+	if (!lqzt) {
+		$(this).after('<p id = "lqz">领取中....</p>');	
+	}
+	recieveReward($(".llq").attr('data-orderid'))
+})
+//领取奖品
+function recieveReward(orderid) {
+
+	var url="{:U('Home/Wheel/updateOrder')}";
+	var data={orderid:orderid};
+	$.post(url, data, function (jsonData) {
+			$(".loaders").hide();
+			if (jsonData.state==1) { //领取成功
+
+//			   showMsg("领取成功~<br>进入订单详情中...");
+               setTimeout(function(){
+               	$('#lqz').remove();
+               		$('.pzbg').hide();
+               		$('.recordbg').hide();
+		 			do_url("{:U('Home/Order/orderDetail/id/','','')}/"+jsonData.orderid);
+		 		},10);
+			} else if (jsonData.state==-1) { //登陆
+						
+             login_window_show();
+						
+			} else {  
+					showMsg(jsonData.msg);
+			}
+	}, 'json');
+}
+
+function do_url(url) {
+	if (url) {
+			location.href=url;
+	} else {
+			location.reload();
+	}
+}
+</script>
+
+	<include file="Public:footer" />

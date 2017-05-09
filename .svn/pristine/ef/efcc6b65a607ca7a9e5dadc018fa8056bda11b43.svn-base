@@ -1,0 +1,1054 @@
+<include FILE="Public:header" />
+<style>
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+a {
+	color: black;
+}
+
+.container {
+	width: 100%;
+	height: 100%;
+}
+
+.banner-row {
+	height: 26%;
+	/*width: 100%;*/
+}
+
+.receive-banner-top {
+	width: 100%;
+	height: 100%;
+	clear: both;
+}
+
+.receive-show-picture {
+	display: inline-block;
+	width: 65%;
+	height: 100%;
+	float: left;
+}
+
+.receive-show-picture img {
+	width: 100%;
+	height: 100%;
+}
+
+.receive-select-menu {
+	display: inline-block;
+	width: 35%;
+	height: 100%;
+	text-align: center;
+	float: right;
+}
+
+.receive-select-top {
+	width: 100%;
+	height: 50%;
+	display: block;
+}
+
+.receive-collect-bg {
+	display: inline-block;
+	width: 50%;
+	height: 100%;
+	/*background: url(__Home_IMG__/zsh2.0/get-things/collect-bg.png);*/
+	background-size: cover;
+	float: left;
+}
+
+.fa-heart {
+	display: block;
+	margin: auto;
+	margin-top: 30%;
+	font-size: 200%;
+	/*color: #E68012;*/
+}
+
+.fa-heart-o {
+	display: block;
+	margin: auto;
+	margin-top: 30%;
+	font-size: 200%;
+	/*color: #E68012;*/
+}
+
+.receive-share-bg {
+	display: inline-block;
+	width: 50%;
+	height: 100%;
+	/*background: url(__Home_IMG__/zsh2.0/get-things/share.png);*/
+	background-size: cover;
+	float: right;
+}
+
+#fa-phone2 {
+	display: block;
+	margin: auto;
+	margin-top: 30%;
+	font-size: 200%;
+	/*color: #E68012;*/
+}
+
+.receive-lingqu {
+	position: relative;
+	width: 100%;
+	height: 50%;
+	display: block;
+	/*background: url(__Home_IMG__/zsh2.0/get-things/lingqu.png);*/
+	background-size: cover;
+}
+
+.receive-introduce-color a {
+	display: block;
+	margin-top: 10px;
+	/*background: url(__Home_IMG__/zsh2.0/get-things/name-youhuiquan.png) no-repeat;*/
+	background-size: 86px 100%;
+	padding-left: 3px;
+	line-height: 20px;
+	font-size: 12px;
+	color: white;
+}
+
+.receive-content {
+	/*margin-top: 20px;*/
+	width: 100%;
+	background: none;
+	/*border: 1px solid #f08200;*/
+	border-radius: 4px;
+	margin-left: 0;
+	overflow: hidden;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+.receive-introduce {
+	padding-left: 5%;
+	padding-right: 5%;
+	/*padding-bottom: 5%;*/
+}
+
+.receive-name-group {
+	background: none;
+}
+
+.receive-name-group a {
+	/*color: white;
+			background-color: #f08200;*/
+	border-radius: 4px;
+	display: inline-block;
+	margin: 2px 5px;
+	padding: 0 5px;
+}
+
+.receive-introduce-one {
+	margin-top: -2%;
+}
+
+.receive-location a {
+	display: block;
+	/*border-top: 1px dotted #E68012;*/
+	height: 30px;
+	line-height: 30px;
+	padding-left: 12%;
+}
+
+.receive-location {
+	/*margin-bottom: 20px;*/
+	padding-bottom: 20px;
+	position: relative;
+}
+
+.receive-lingqu-text {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+.receive-buttton {
+	font-size: 20px;
+	font-weight: bold;
+	/*position: absolute;*/
+	display: table-cell;
+	width: 100%;
+	/*top: 36%;*/
+	text-align: center;
+	vertical-align: middle;
+	letter-spacing: 5px;
+	/*color: white;*/
+}
+
+#shareSend {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+	padding: 5px;
+	overflow: hidden;
+}
+
+#shareSend img {
+	position: absolute;
+	left: 63%;
+	width: 33%;
+	top: 4%;
+}
+
+#shareSend span {
+	/*color: white;*/
+	font-size: 20px;
+	display: inline-block;
+	width: 75%;
+	position: absolute;
+	left: 0;
+	top: 5%;
+	text-align: center;
+}
+
+.space {
+	height: 2%;
+	width: 100%;
+}
+
+.fa-link {
+	font-size: 20px;
+    /* color: #E68012; */
+    position: absolute;
+    /* top: 0%; */
+    bottom: 12px;
+    left: 8%;
+}
+
+
+@media only screen and (min-width: 479px) {
+	.receive-banner-top {
+		width: 100%;
+		height: 220%;
+		clear: both;
+	}
+}
+
+
+@media only screen and (-webkit-min-device-pixel-ratio : 1.5) , only
+	screen and (min-device-pixel-ratio : 1.5) /* 兼容iphone4/4s */ {
+	html, body {
+		font-size: 100%;
+	}
+	.receive-select-menu {
+		font-size: 0.75rem;
+	}
+}
+
+.check-sure-bg {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: none;
+	z-index: 9999999999;
+}
+
+.check-sure {
+	display: table;
+	width: 70%;
+	height: 150px;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 30%;
+	margin: auto;
+	background-color: #fff;
+	border-radius: 5px;
+	/* border: 1px solid #f08000; */
+	z-index: 10000000;
+}
+
+.top-check {
+	width: 100%;
+	height: 50%;
+}
+
+.top-check p {
+	width: 100%;
+	padding-top: 2px;
+	text-align: center;
+}
+
+.bottom-check {
+	width: 100%;
+	height: 50%;
+}
+
+.bottom-check button {
+	display: inline-block;
+	width: 28%;
+	margin-top: 25px;
+	/*margin-bottom: 5px;*/
+	height: 36%;
+	border: none;
+	color: white;
+	border-radius: 8px;
+}
+
+.phone-number {
+	font-size: 18px;
+}
+
+.top-check p:nth-child(1) {
+	padding-top: 10%;
+}
+
+.change-phone {
+	float: left;
+	margin-left: 11%;
+}
+
+.sure-phone {
+	float: right;
+	margin-right: 11%;
+}
+
+.common-login ul {
+	font-size: 0.7rem;
+}
+
+#receive-buttton-a:visited {
+	text-decoration: none;
+	color: #fff;
+}
+
+#receive-buttton-a:link {
+	text-decoration: none;
+	color: #fff;
+}
+
+#receive-buttton-a {
+	color: #fff;
+}
+
+#fa-phone1 {
+	color: #333;
+}
+
+.sweet-alert {
+	width: 70%;
+	margin-left: 0;
+	margin-right: 0;
+	left: 15%;
+	right: 15%;
+	top: 46%;
+}
+
+.sweet-overlay {
+	background-color: transparent;
+}
+
+.hide1 {
+	display: none;
+}
+
+.inline {
+	display: inline;
+}
+
+#qrcode{
+
+	    width: 60%;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin-left: -30%;
+    display: none
+}
+#ewma-box{
+	width: 100%;
+	height: 100%;
+	/*background-color: rgba(0,0,0,0.7);*/
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 50;
+	display: none;
+}
+.ewma-shadow{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7);
+	position: fixed;
+	left: 0;
+	top: 0;
+}
+.ewma-content{
+	width: 88%;
+	height: 60%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.ewma{
+	width: 100%;
+}
+.ma{
+	width: 34%;
+	position: absolute;
+	left: 34%;
+	top:48.3%;
+}
+@media screen and (min-width: 330px){
+	.ma{
+		width: 34%;
+		position: absolute;
+		left: 34%;
+		top: 47%;
+	}
+}
+@media only screen and (min-device-width : 320px) and (max-device-height : 480px){
+	.ma{
+		width: 34%;
+		position: absolute;
+		left: 34%;
+		top: 52%;
+	}
+}
+.point-container {
+    display: block; 
+    width: 70%;
+    /* height: 15%; */
+    position: fixed;
+    left: 15%;
+    top: 30%;
+    background-color: #fff;
+    border-radius: 5px;
+    /* border: 1px solid #f08000; */
+    z-index: 10000000;
+}
+.point-container .point-word {
+    padding: 2% 0;
+    height: 50%;
+    /* overflow-y: scroll; */
+    padding-left: 10%;
+    /*padding-right: 5%;*/
+    width: 100%;
+    word-wrap: break-word;
+}
+#fa-phone{
+	top: 5%;
+}
+</style>
+</head>
+<body>
+	<div class="container" id="container-content">
+		<div class="row banner-row">
+			<div class="receive-banner-top">
+				<div class="receive-show-picture">
+					<img src="{$info.detail_picture}" alt="{$info.name}" onerror="javascript:this.src='__Home_IMG__/zsh2.0/home/wait.png';">
+				</div>
+				<div class="receive-select-menu">
+					<div class="receive-select-top">
+						<div class="receive-collect-bg">
+							<if condition="($is_collect)"> <!-- 已收藏 -->
+							<div class="receive-collect-img" onclick="collect({$info.id})"
+								id="collect{$info.id}">
+								<span> 
+									<i class='fa fa-heart' style="position: relative;"> <span
+										class="fa fa-heart animated hide1"
+										style="position: absolute; top: 0; left: 30%; margin-top: 0; font-size: 100%;"></span>
+								</i>收藏
+								</span>
+							</div>
+							<else /> <!-- 未收藏 -->
+							<div class="receive-collect-img" onclick="collect({$info.id})"
+								id="collect{$info.id}" data-product_id="{$info.id}"
+								data-platform_id="{$platform_id}">
+								<span> 
+									<i class="fa fa-heart-o" id="collect-img"
+									style="position: relative;"> <span
+										class="fa fa-heart-o animated hide1"
+										style="position: absolute; top: 0; left: 30%; margin-top: 0; font-size: 100%;"></span>
+								</i>收藏
+								</span>
+							</div>
+							</if>
+
+						</div>
+						<div class="receive-share-bg" id="share">
+							<div class="receive-share-img">
+								<span> 
+									<a href="tel:{$cutomer_service_tel}" id="fa-phone1"><i
+										class="fa fa-phone" id="fa-phone2"></i>客服</a>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<if condition="isset($isFakeBuy)">
+						<div class="receive-lingqu" data-product_id="{$info.id}"
+							data-platform_id="{$platform_id}">
+							<div class="receive-lingqu-text">
+								<span class="receive-buttton"
+									style="font-size: 20px; font-weight: bold;"> <a
+									id="receive-buttton-a" style="vertical-align: middle;"
+									href="{:U('Home/Product/view/id/'.$info['id'].'/page/2')}">前往官网<br>购买
+								</a></span>
+							</div>
+						</div>
+						<else />
+
+						   <div class="receive-lingqu" id="{$buttonInfo['id']}"
+							data-orderId="{$checkInfo['orderId']}" data-product_id="{$info.id}" data-platform_id="{$platform_id}">
+								<div class="receive-lingqu-text" >
+									<span class="receive-buttton"
+										style="font-size: 20px; font-weight: bold;">{$buttonInfo['name']}</span>
+								</div>
+							</div>
+						</if>
+
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		/*
+		*write by gaokai 2017/3/27
+		*产品详情页面点击领取后从订单页面点击返回改变产品的状态
+		*检查点击领取是存入的产品状态cookie值
+		*/
+		
+		if(getCookie("{$info.id}status") != ""){
+			$(".receive-buttton").html(decodeURIComponent(getCookie("{$info.id}status")));
+			$("#receive").attr('data-orderid',getCookie("{$info.id}orderid"));
+			$(".receive-lingqu").attr('id',getCookie("{$info.id}buttonid"));
+			//alert($(".receive-lingqu").attr('id'));
+		}
+		var collected = getCookie("collected{$info.id}");
+		if(collected != ""){
+			if(collected == "yes"){
+				$('.receive-collect-img').children('span').children('i').removeClass('fa-heart-o');
+				$('.receive-collect-img').children('span').children('i').addClass('fa-heart');
+				$('.receive-collect-img').children('span').children('i').children("span").removeClass("hide1 fa-heart-o");
+				$('.receive-collect-img').children('span').children('i').children("span").addClass(' inline fa-heart');
+			}else{
+				$('.receive-collect-img').children('span').children('i').removeClass('fa-heart');
+				$('.receive-collect-img').children('span').children('i').addClass('fa-heart-o');
+				$('.receive-collect-img').children('span').children('i').children("span").removeClass("fa-heart inline fly");
+				$('.receive-collect-img').children('span').children('i').children("span").addClass('fa-heart-o hide1');
+			}
+		}
+		function getCookie(cname)
+		{
+		  var name = cname + "=";
+		  var ca = document.cookie.split(';');
+		  for(var i=0; i<ca.length; i++) 
+		  {
+		    var c = ca[i].trim();
+		    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+		  }
+		  return "";
+		}	
+
+		var btl = $('.receive-buttton').text();
+		if (btl == "已结束") {			
+			$('.receive-lingqu').css('background','url(/wxzspfse/Public/Home/Default/Image/zsh2.0/get-things/lingqul.png)');
+			$('.receive-lingqu').css('background-size','cover');
+		}
+		if (btl == "已售完") {
+			$('.receive-lingqu').css('background','url(/wxzspfse/Public/Home/Default/Image/zsh2.0/get-things/lingqul.png)');
+			$('.receive-lingqu').css('background-size','cover');
+		}
+		</script>
+		
+		<!--介绍-->
+		<div class="receive-content">
+			<div class="row receive-introduce receive-introduce-one">
+				<div class="receive-introduce-color" style="padding-top: 5px;">
+					<a>产品介绍</a>
+				</div>
+				<div class="receive-introduce-use">
+					<!-- <a>{$info.name}</a> -->
+					<span>{$info.introduction}</span>
+				</div>
+			</div>
+			<div class="row receive-introduce">
+				<div class="receive-introduce-color">
+					<a>使用规则</a>
+				</div>
+				<div class="receive-introduce-use">
+					<span>{$info.rules}</span>
+				</div>
+			</div>
+			<div class="row receive-introduce">
+				<div class="receive-introduce-color">
+					<a>有效期限</a>
+				</div>
+				<div class="receive-introduce-use" style="padding-bottom: 10px;">
+					<span>{$info.time}</span>
+				</div>
+			</div>
+
+			<div class="row receive-introduce receive-location">
+				<if condition="$info.ifstore eq 1"> <!--<a href="{:U('Home/Map/lists/product_id/'.$info['id'])}"><img src="__Home_IMG__/zsh2.0/get-things/location.png" alt="" />点击查看所有适用门店！</a>-->
+				<a href="{:U('Home/Map/lists/product_id/'.$info['id'])}" style="padding-left: 3%;">
+				<i class="fa fa-map-marker" style="font-size: 20px;"></i>点击查看所有适用门店</a> 
+					<else />
+					<if condition="!empty($shopList[0]['remark'])">
+                      <i class="fa fa-link"></i>
+                     {$shopList[0]['remark']}
+					</if>
+					<!-- <a href="{:U('Home/Map/lists2/product_id/'.$info['id'])}"><i
+					clss="fa fa-map-marker"></i>点击查看所有适用门店</a> --> <!-- 	<a href="{:U('Home/Map/lists/product_id/'.$info['id'])}"><i class="fa fa-map-marker"></i>点击查看所有适用门店</a> -->
+				</if>
+			</div>
+		</div>
+		<div class="space"></div>
+	</div>
+	<div id="shareSend">
+		<img src="__Home_IMG__/zsh2.0/get-things/share_weixin_guide.png" /> <span>
+			分享请点右上角<br /> 然后点击【分享到朋友圈】<br /> 或者【分享给好友】
+		</span>
+
+	</div>
+	<!--<div id="iframe-wrap"
+		style="position: fixed; left: 0; bottom: 0; display: none; width: 100%; height: 100%;-webkit-overflow-scrolling:touch;overflow-y:scroll;overflow-x: hidden;">
+		<iframe id="iframe" src="" frameborder="0" width="100%" height="100%">
+		</iframe>
+	</div>-->
+	<div class="login-contain"></div>
+	<include FILE="User:login" />
+	<!--领取时的提示框-->
+	<div class="check-sure-bg">
+		<div class="check-sure">
+			<div class="top-check">
+				<p>您参与抽奖的手机号码是</p>
+				<p class="phone-number">18010855751</p>
+			</div>
+			<div class="bottom-check">
+				<button class="change-phone">修改</button>
+				<button class="sure-phone">确认</button>
+			</div>
+		</div>
+	</div>
+	<div id="ewma-box">
+		<div class="ewma-shadow"></div>
+		<div class="ewma-content">
+			<img src="__Home_IMG__/zsh2.0/home/ewma.png" class="ewma"/>
+		</div>
+		<img src="__Home_IMG__/zsh2.0/home/11.jpg" class="ma"/>
+	</div>
+   <!--二维码-->
+   <input type="hidden" name="remark" id="remark-val" value="{$info['remark']}">
+
+   <img src="" id='qrcode'>
+	<script src="__Home_JS__/zsh2.0/zw-script.min.js"
+		type="text/javascript"></script>
+	<script src="__Home_JS__/zsh2.0/sweetalert.min.js"
+		type="text/javascript" charset="utf-8"></script>
+	<script src="__Home_JS_STATIC__/jquery-1.9.1.min.js"
+		type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		var remark = $("#remark-val").val();
+		//优惠活动链
+	</script>
+	<script>
+		window.eType = document.hasOwnProperty("ontouchstart") || window.hasOwnProperty("ontouchstart") ? "touchend" : "click";
+
+    $(function () {
+			// showMsg(1);
+			//分享
+//			$("#share").click(function (){
+//				$("#shareSend").show();
+//			});
+//			$("#shareSend").click(function (){
+//				$("#shareSend").hide();
+//			});
+			var shareSend = document.getElementById("shareSend");
+			shareSend.addEventListener("touchmove",function (e){
+				e.preventDefault();
+			},false);
+			
+			
+		//领取
+		$('#receive').click(function(){
+			var url="{:U('Home/Member/doOrder')}";
+			var product_id=$(this).attr('data-product_id');
+			var platform_id=$(this).attr('data-platform_id');
+			var data={product_id: product_id, platform_id: platform_id};
+			var elm = $(this);
+			$.post(url, data, function (jsonData) {
+					var orderid = jsonData.orderId;
+					$(".loaders").hide();
+					if (jsonData.state==1 || jsonData.state==2) {
+						
+						showMsg("领取成功~<br>进入订单详情中...");
+				 		setTimeout(function(){
+				 			var backurl = "{:U('Home/Product/checkProductStatus')}"; 
+							var backdata = {
+								id:"{$info.id}",
+								click_num:"{$info.click_num}",
+							}
+							$.post(backurl,backdata,function(response){
+								var response = $.parseJSON(response);
+
+								document.cookie="{$info.id}status="+encodeURIComponent(response.name);
+								document.cookie="{$info.id}orderid="+orderid;
+								document.cookie="{$info.id}buttonid="+response.id;
+								$(".receive-buttton").html(response.name);
+								elm.attr("data-orderid",orderid);
+								$(".receive-lingqu").attr("id",response.id);
+								$("#point").hide();
+				 				do_url("{:U('Home/Order/orderDetail/id/','','')}/"+jsonData.orderId);
+							});
+				 		},1000);
+					} else if (jsonData.state==-1) {
+						login('receive')
+					} else {
+							showMsg(jsonData.msg);
+					}
+			}, 'json');
+		});
+	});
+	
+	$(".ewma-shadow").click(function (){
+		$("#ewma-box").hide();
+	});
+//跳转页面
+
+
+function do_url(url) {
+	if (url) {
+			location.href=url;
+	} else {
+			location.reload();
+	}
+}
+
+function showMsg(msg){
+	$('#point').show();
+	$('#msgInfo').html(msg);
+}
+
+//已登录,点击领取弹窗
+function showCheck(msg){
+	$('.check-sure-bg').show();
+}
+
+		
+	if (!window.localStorage.getItem('first_state')) {
+		var first_state = $('.receive-collect-img').children('span').children('i').attr('class');		
+		window.localStorage.setItem('first_state',first_state);
+	}
+		
+		
+		
+window.onpageshow = function(){
+		
+		var first_state = window.localStorage.getItem('first_state');
+		var second_state = window.localStorage.getItem('second_state');	
+	
+	if (window.localStorage.getItem('second_state')) {
+					
+					if (first_state == second_state) {
+						window.localStorage.ty = 'no';
+					}else{
+						
+						if (first_state=='fa fa-heart-o') {
+							window.localStorage.ty = 'sc';
+						} else{
+							window.localStorage.ty = 'qx';
+						}
+
+						
+					}
+					
+				} else{
+				
+				window.localStorage.ty = 'no';
+				window.localStorage.coll = 'collect';				
+				}
+				
+				window.localStorage.removeItem('second_state');
+			
+//			alert(first_state);alert(second_state);alert(window.localStorage.ty);
+			
+}
+
+
+$('.receive-lingqu').click(function(){
+	var state_product = $(this).attr('id');
+	
+	var is_ready_product = 'collect'+$(this).attr('data-product_id')+"{$platform_code}";
+
+	
+//	var product_sell_state = [];
+//	if (window.localStorage.getItem('product_sell_state')) {
+//		product_sell_state = JSON.parse(window.localStorage.getItem('product_sell_state'));
+//	}
+	
+	if (state_product=="receive"){
+
+		window.localStorage.setItem(is_ready_product,'ready');
+		window.localStorage.setItem('product_sell_id',is_ready_product);
+		
+	}
+	var second_state = $('.receive-collect-img').children('span').children('i').attr('class');
+	window.localStorage.setItem('second_state',second_state);
+	window.localStorage.coll = 'collect'+$(this).attr('data-product_id');
+
+});
+
+$('.change-phone').click(function(){
+	$('.check-sure-bg').hide();
+	if(_isCmbc==1){
+		 loginForComm(beforeurl,tourl);
+	 }else{
+		$(".common-login").removeClass('zoomOut animated');
+		$(".common-login").addClass('zoomIn animated');
+		$('.login-contain').fadeIn(200);
+	 }
+});
+
+$('.sure-phone').click(function(){
+	$('.check-sure-bg').hide();
+});
+
+function postPhone () {
+	var tel = "{$_SESSION[$_SESSION['PLATFORM_CODE']]['tel']}";
+	var platcode = "{$_SESSION['PLATFORM_CODE']}";
+	if (tel && (platcode == 'ZHWZ' || platcode == 'ZHCJ' || platcode == 'ZHSQ' || platcode == 'ZHSQCJ')) { 		
+		var url  = "{:U('Home/Ajax/sendTelToZH')}";
+		$.get(url,function(res){
+    
+		});
+	}
+	
+} 
+		if (window.sessionStorage.getItem("isCollect")){
+			var ckarr =JSON.parse(window.sessionStorage.getItem("isCollect")) ;
+//			console.log(ckarr);
+		}else{
+			var  ckarr={};
+		}
+		var total_click_times = 0;
+
+
+	
+	if ($(".receive-collect-img span i").className == "fa fa-heart"){
+		var isCollectZkk = true;
+	}else{
+		var isCollectZkk = false;
+	}
+	function collect(i){
+	     // var url="{:U('Home/Member/doCollect',array('platcode'=>$platformCode))}";
+	      var url="{:U('Home/Member/doCollect')}";
+	      var data={product_id: i};
+	      //var platform_id= "{$mode['id']}";  //TBD check this!
+    	// var data={product_id: i, platform_id: platform_id};
+    	var e=$('#collect'+i);
+    	$(e).on('click');
+    	if ($(e).children('span').children('i')[0].className == "fa fa-heart-o"){
+    			var isCollectZkk = false;  //点击之前的状态为未收藏状态
+    			$(e).children('span').children('i').removeClass('fa-heart-o');
+	            $(e).children('span').children('i').addClass('fa-heart');
+	            $(e).children('span').children('i').children("span").removeClass("hide1 fa-heart-o");
+	            $(e).children('span').children('i').children("span").addClass('fly inline fa-heart');
+	           
+    	}else{
+    		var isCollectZkk = true;  //点击之前的状态为收藏状态
+    		$(e).children('span').children('i').removeClass('fa-heart');
+            $(e).children('span').children('i').addClass('fa-heart-o');
+            $(e).children('span').children('i').children("span").removeClass("fa-heart inline fly");
+            $(e).children('span').children('i').children("span").addClass('fa-heart-o hide1');
+           
+    	}
+    	
+		  window.localStorage.coll = 'collect'+i;
+		  total_click_times += 1;
+	      $.post(url, data, function (jsonData) {
+	          var data = eval(jsonData);
+	          $(e).off('click');
+	          if (data.state==1) {
+	              
+	              // $(e).children('span').children('i').removeClass('fa-heart-o');
+	              // $(e).children('span').children('i').addClass('fa-heart');
+	              // $(e).children('span').children('i').children("span").removeClass("hide1 fa-heart-o");
+	              // $(e).children('span').children('i').children("span").addClass('fly inline fa-heart');
+	              
+					ckarr['#collect'+i] = 'shoucang';
+					if (total_click_times % 2 == 1) {
+						window.localStorage.ty = 'sc';
+					}else{
+						window.localStorage.ty = 'no';
+					}
+					resetCollectList('shoucang');
+					document.cookie="collected" + i + "=yes";
+					
+					
+	          }else if (data.state==0){
+//	          
+	          }else if(data.state==2){
+//	          	
+	          }else if(data.state==3){
+	          	
+// 	          	$(e).children('span').children('i').removeClass('fa-heart');
+// 	              $(e).children('span').children('i').addClass('fa-heart-o');
+// 	              $(e).children('span').children('i').children("span").removeClass("fa-heart inline fly");
+// 	              $(e).children('span').children('i').children("span").addClass('fa-heart-o hide1');
+// //	          	
+					ckarr['#collect'+i] = 'quxiao';
+					if (total_click_times % 2 == 1) {
+						window.localStorage.ty = 'qx';
+					}else{
+						window.localStorage.ty = 'no';
+					}
+					document.cookie="collected" + i + "=no";
+					
+                 //更新个人中心收藏
+					 resetCollectList('quxiao');
+	          }else if(jsonData.state==4){
+               
+               login()
+	          }
+	          else if (jsonData.state==-1) {
+	              var url = "{:U('Home/User/login')}";
+	              location.href=url;
+	          }
+	          window.sessionStorage.setItem('isCollect', JSON.stringify(ckarr));
+	      }, 'json').error(function(){
+	      		if(isCollectZkk){
+	      			$(e).children('span').children('i').attr("class","fa fa-heart");
+	      			
+	      		}else{
+					$(e).children('span').children('i').attr("class","fa fa-heart-o");
+					
+	      		}
+			    showMsg('您的手速太快,请稍后再试');
+		     	setTimeout(function(){
+		     		$('.point').hide();
+		     	},2000);
+	      });
+//	    window.sessionStorage.removeItem("test2");
+	  }
+
+	window
+	
+	window.onload = function () {
+		postPhone();
+	}
+	
+
+	//绑定电话点击事件
+	$("#share").click(function(){
+		var url  = "{:U('Home/Ajax/logCallCustomerService')}";
+		var product_id ={$info['id']};
+		$.get(url,{triggerpage:'productdetail',productid:product_id}, function(res){
+		});
+	});
+	
+//查看
+
+$(function(){
+
+	$("#check").click(function(){
+        var orderId = $("#check").attr('data-orderId');
+        window.location.href="{:U('Home/Order/orderDetail/id', '', '')}/"+orderId 
+    })
+	$(document).on('click','#check',function(){ 
+        var orderId = $("#check").attr('data-orderId');
+        window.location.href="{:U('Home/Order/orderDetail/id', '', '')}/"+orderId 
+        return false;
+		var showType = "{$checkInfo['showType']}";
+
+		var extersysdock = "{$info.extersysdock}";
+		
+		if(showType == 4) {  //二维码
+
+			$('.ma').attr('src',"{$info.qrcode_url}")
+			$("#ewma-box").show();
+		}else if(showType == 1) { //券码
+            
+            var orderId = $("#check").attr('data-orderId')
+           // var smstpl = "{$checkInfo['smstpl']}";
+			$.ajax({
+
+				url : "{:U('Product/queryOrderDetail')}",
+				data : {orderId : orderId },
+				success:function(data){
+
+					if(data.status == 1){
+                        
+						if(remark){
+
+							showMsg(data.data+",优惠活动链接为："+remark+"(3秒后跳转)！")
+							remarkDoUrl(remark)
+						}else{
+
+							showMsg(data.data)
+						}
+					}else{
+
+						showMsg(data.msg)
+					}
+				}
+			})
+		}else if(showType == 2){
+            
+            if(extersysdock == 2){
+                
+                var interfaceaddr = "{$info['interfaceaddr']}";
+            	showMsg('优惠活动链接为：'+interfaceaddr+"(3秒后跳转)！");
+				remarkDoUrl("{$info['interfaceaddr']}")
+            }
+			
+		}else if(showType == 3) {  //核销3
+
+			showMsg("{$checkInfo['msg']}")
+			if(remark){   //跳转
+
+				remarkDoUrl(remark)
+			}
+		}
+	})
+})	
+
+function remarkDoUrl(url)
+{
+
+	$(".point").click(function () {
+		 do_url(url);
+	 });
+	setTimeout(function(){
+		do_url(url);
+	},1000);
+}
+
+function resetCollectList(type) {
+
+		var amosStr2 = window.sessionStorage.getItem("test2");
+			if(amosStr2) {
+				// console.log(amosStr2)
+				var amosArr2 = JSON.parse(amosStr2);
+				
+				var pId ={$info['id']};
+				if(amosArr2[pId+'s'][1] ){
+
+					amosArr2[pId+'s'][1] = type;
+					
+				}
+				window.sessionStorage.setItem("test2", JSON.stringify(amosArr2));
+			}
+			
+	}
+</script>
+
+	<include FILE="Public:footer" />
